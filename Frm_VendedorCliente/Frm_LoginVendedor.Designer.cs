@@ -1,6 +1,6 @@
 ﻿namespace Frm_VendedorCliente
 {
-    partial class Frm_Login
+    partial class Frm_LoginVendedor
     {
         /// <summary>
         /// Required designer variable.
@@ -31,6 +31,7 @@
             textBox1 = new TextBox();
             textBox2 = new TextBox();
             label2 = new Label();
+            btnIngresar = new Button();
             SuspendLayout();
             // 
             // textBox1
@@ -61,11 +62,22 @@
             label2.TabIndex = 3;
             label2.Text = "Inicio sesión";
             // 
+            // btnIngresar
+            // 
+            btnIngresar.Location = new Point(112, 253);
+            btnIngresar.Name = "btnIngresar";
+            btnIngresar.Size = new Size(75, 23);
+            btnIngresar.TabIndex = 4;
+            btnIngresar.Text = "Ingresar";
+            btnIngresar.UseVisualStyleBackColor = true;
+            btnIngresar.Click += btnIngresar_Click;
+            // 
             // Frm_Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(339, 366);
+            ClientSize = new Size(320, 366);
+            Controls.Add(btnIngresar);
             Controls.Add(label2);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -80,5 +92,6 @@
         private TextBox textBox1;
         private TextBox textBox2;
         private Label label2;
+        private Button btnIngresar;
     }
 }

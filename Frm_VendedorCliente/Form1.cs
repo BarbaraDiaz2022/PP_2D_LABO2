@@ -9,13 +9,13 @@ namespace Frm_VendedorCliente
 
         private void botonVendedor_Click(object sender, EventArgs e)
         {
-            Frm_Login formLogin = new Frm_Login();
+            Frm_LoginVendedor formLogin = new Frm_LoginVendedor();
             formLogin.Show();
         }
 
         private void botonCliente_Click(object sender, EventArgs e)
         {
-            Frm_Login formLogin = new Frm_Login();
+            Frm_LoginVendedor formLogin = new Frm_LoginVendedor();
             formLogin.Show();
         }
     }
