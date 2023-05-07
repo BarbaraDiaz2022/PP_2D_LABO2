@@ -7,16 +7,23 @@ namespace Frm_VendedorCliente
             InitializeComponent();
         }
 
-        private void botonVendedor_Click(object sender, EventArgs e)
+        private void btnVendedor_Click(object sender, EventArgs e)
         {
             Frm_LoginVendedor formLogin = new Frm_LoginVendedor();
             formLogin.Show();
+            this.Hide();
         }
 
-        private void botonCliente_Click(object sender, EventArgs e)
+        private void btnCliente_Click(object sender, EventArgs e)
         {
-            Frm_LoginVendedor formLogin = new Frm_LoginVendedor();
+            Frm_LoginCliente formLogin = new Frm_LoginCliente();
             formLogin.Show();
+            this.Hide();
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -15,29 +15,52 @@ namespace Frm_VendedorCliente
         //hardcodeo el ingreso del vendedor
         private const string usuarioVendedorReal = "vendedor@gmail.com";
         private const string passwordVendedorReal = "vendedor123";
-//        private const string ususarioClienteReal = "cliente@gmail.com";
-//       private const string passwordClienteReal = "cliente123";
         public Frm_LoginVendedor()
         {
-            //cargo en los textbox los valores hardcodeados
             InitializeComponent();
-            textBox1.Text = usuarioVendedorReal;
-            textBox2.Text = passwordVendedorReal;
         }
-
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            string usuario = this.textBox1.Text;
-            string password = this.textBox2.Text;
+            string usuario = this.txtMail.Text;
+            string password = this.txtPassword.Text;
+
+            this.Hide();
 
             if (usuario == usuarioVendedorReal && password == passwordVendedorReal)
             {
-                MessageBox.Show("entro el vendedor");
+                Frm_SelecVendedor frmSeleccionarOpcion = new Frm_SelecVendedor();
+                frmSeleccionarOpcion.Show();
             }
             else
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("El correo o la contraseña no son correctos. Por favor, inténtelo de nuevo.", "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Frm_LoginVendedor frm = new Frm_LoginVendedor();
+                frm.Show();
+                if (rdbAcceder.Checked)
+                {
+                    txtMail.Text = usuarioVendedorReal;
+                    txtPassword.Text = passwordVendedorReal;
+                }
+                else
+                {
+                    txtMail.Text = "";
+                    txtPassword.Text = "";
+                }
+                txtMail.Focus();
             }
+        }
+        private void btnRetornar_Click(object sender, EventArgs e)
+        {
+            Form1 form = new Form1();
+            form.Show();
+            this.Close();
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            //cargo en los textbox los valores hardcodeados
+            txtMail.Text = usuarioVendedorReal;
+            txtPassword.Text = passwordVendedorReal;
         }
     }
 

@@ -28,70 +28,123 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            label2 = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_LoginVendedor));
+            txtMail = new TextBox();
+            txtPassword = new TextBox();
             btnIngresar = new Button();
+            btnRetornar = new Button();
+            lblVendedor = new Label();
+            rdbAcceder = new RadioButton();
+            pbIconVendedor = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pbIconVendedor).BeginInit();
             SuspendLayout();
             // 
-            // textBox1
+            // txtMail
             // 
-            textBox1.Font = new Font("Segoe UI Emoji", 9F, FontStyle.Italic, GraphicsUnit.Point);
-            textBox1.Location = new Point(74, 122);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Ingrese mail";
-            textBox1.Size = new Size(139, 23);
-            textBox1.TabIndex = 0;
+            txtMail.Font = new Font("Segoe UI Emoji", 9F, FontStyle.Italic, GraphicsUnit.Point);
+            txtMail.ForeColor = SystemColors.WindowFrame;
+            txtMail.Location = new Point(36, 114);
+            txtMail.Name = "txtMail";
+            txtMail.PlaceholderText = "Ingrese mail";
+            txtMail.Size = new Size(225, 23);
+            txtMail.TabIndex = 0;
             // 
-            // textBox2
+            // txtPassword
             // 
-            textBox2.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point);
-            textBox2.Location = new Point(74, 174);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Ingrese contraseña";
-            textBox2.Size = new Size(139, 23);
-            textBox2.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Stencil", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(74, 73);
-            label2.Name = "label2";
-            label2.Size = new Size(154, 22);
-            label2.TabIndex = 3;
-            label2.Text = "Inicio sesión";
+            txtPassword.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point);
+            txtPassword.ForeColor = SystemColors.WindowFrame;
+            txtPassword.Location = new Point(36, 158);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PlaceholderText = "Ingrese contraseña";
+            txtPassword.Size = new Size(225, 23);
+            txtPassword.TabIndex = 1;
             // 
             // btnIngresar
             // 
-            btnIngresar.Location = new Point(112, 253);
+            btnIngresar.BackColor = SystemColors.MenuHighlight;
+            btnIngresar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnIngresar.Location = new Point(198, 277);
             btnIngresar.Name = "btnIngresar";
-            btnIngresar.Size = new Size(75, 23);
+            btnIngresar.Size = new Size(93, 32);
             btnIngresar.TabIndex = 4;
             btnIngresar.Text = "Ingresar";
-            btnIngresar.UseVisualStyleBackColor = true;
+            btnIngresar.UseVisualStyleBackColor = false;
             btnIngresar.Click += btnIngresar_Click;
             // 
-            // Frm_Login
+            // btnRetornar
+            // 
+            btnRetornar.BackColor = SystemColors.MenuHighlight;
+            btnRetornar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnRetornar.Location = new Point(12, 277);
+            btnRetornar.Name = "btnRetornar";
+            btnRetornar.Size = new Size(93, 32);
+            btnRetornar.TabIndex = 5;
+            btnRetornar.Text = "Volver";
+            btnRetornar.UseVisualStyleBackColor = false;
+            btnRetornar.Click += btnRetornar_Click;
+            // 
+            // lblVendedor
+            // 
+            lblVendedor.AutoSize = true;
+            lblVendedor.Font = new Font("Snap ITC", 27.75F, FontStyle.Underline, GraphicsUnit.Point);
+            lblVendedor.Location = new Point(78, 9);
+            lblVendedor.Name = "lblVendedor";
+            lblVendedor.Size = new Size(208, 48);
+            lblVendedor.TabIndex = 6;
+            lblVendedor.Text = "Vendedor";
+            // 
+            // rdbAcceder
+            // 
+            rdbAcceder.AutoSize = true;
+            rdbAcceder.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            rdbAcceder.Location = new Point(58, 220);
+            rdbAcceder.Name = "rdbAcceder";
+            rdbAcceder.Size = new Size(172, 21);
+            rdbAcceder.TabIndex = 7;
+            rdbAcceder.TabStop = true;
+            rdbAcceder.Text = "Autocompletar usuario";
+            rdbAcceder.UseVisualStyleBackColor = true;
+            rdbAcceder.CheckedChanged += radioButton1_CheckedChanged;
+            // 
+            // pbIconVendedor
+            // 
+            pbIconVendedor.Image = (Image)resources.GetObject("pbIconVendedor.Image");
+            pbIconVendedor.Location = new Point(3, 9);
+            pbIconVendedor.Name = "pbIconVendedor";
+            pbIconVendedor.Size = new Size(69, 62);
+            pbIconVendedor.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbIconVendedor.TabIndex = 8;
+            pbIconVendedor.TabStop = false;
+            // 
+            // Frm_LoginVendedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(320, 366);
+            BackColor = Color.Linen;
+            ClientSize = new Size(303, 321);
+            Controls.Add(pbIconVendedor);
+            Controls.Add(rdbAcceder);
+            Controls.Add(lblVendedor);
+            Controls.Add(btnRetornar);
             Controls.Add(btnIngresar);
-            Controls.Add(label2);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Name = "Frm_Login";
-            Text = "Frm_Login";
+            Controls.Add(txtPassword);
+            Controls.Add(txtMail);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "Frm_LoginVendedor";
+            Text = "Inicio sesión";
+            ((System.ComponentModel.ISupportInitialize)pbIconVendedor).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private Label label2;
+        private TextBox txtMail;
+        private TextBox txtPassword;
         private Button btnIngresar;
+        private Button btnRetornar;
+        private Label lblVendedor;
+        private RadioButton rdbAcceder;
+        private PictureBox pbIconVendedor;
     }
 }
