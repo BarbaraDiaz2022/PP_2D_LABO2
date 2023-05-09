@@ -13,7 +13,6 @@ namespace BibliotecaDeClases
         private static List<Producto> listaDeProductos;
         private static List<Venta> listaVentas;
         private static List<Cliente> listaCliente;
-        //creo una lista de clientes y hardcodeo unas pares 
         //constructor
         static Negocio()
         {
@@ -26,12 +25,13 @@ namespace BibliotecaDeClases
         public static void CargarDgv() 
         {
             //nombre stock precioxkilo detalle tipodecorte
-            listaDeProductos.Add(new Producto("Milanesas",15,2500,"Milanesas de carne vacuna","Peceto",0));
-            listaDeProductos.Add(new Producto("Milanesas", 15, 1800, "Milanesas de carne avicola", "Pechuga",0));
-            listaDeProductos.Add(new Producto("Milanesas", 12, 1900, "Milanesas de carne porcina", "Bondiola",0));
-            listaDeProductos.Add(new Producto("Milanesas", 15, 2000, "Milanesas de carne vacuna", "Bola de lomo",0));
-            listaDeProductos.Add(new Producto("Hamburguesas", 20, 1500, "Hamburguesas de carne avicola", "Pechuga",0));
-            listaDeProductos.Add(new Producto("Hamburguesas", 25, 1850, "Hamburguesas de carne vacuna", "Peceto",0));
+            listaDeProductos.Add(new Producto("Milanesas.01",15,2500,"Milanesas de carne vacuna","Peceto",0));
+            listaDeProductos.Add(new Producto("Milanesas.02", 15, 1800, "Milanesas de carne avicola", "Pechuga",0));
+            listaDeProductos.Add(new Producto("Milanesas.03", 12, 1900, "Milanesas de carne porcina", "Bondiola",0));
+            listaDeProductos.Add(new Producto("Milanesas.04", 15, 2000, "Milanesas de carne vacuna", "Bola de lomo",0));
+            listaDeProductos.Add(new Producto("Hamburguesas.01", 20, 1500, "Hamburguesas de carne avicola", "Pechuga",0));
+            listaDeProductos.Add(new Producto("Bife",25,2800,"Bifes de carne vacuna","Bife de chorizo",0));
+            listaDeProductos.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto",0));
         }
         public static List<Producto> RetornarProductos()
         {
@@ -41,12 +41,10 @@ namespace BibliotecaDeClases
         {
             listaDeProductos.Add(new Producto(nombre,stock,precio,detalle,tipoDeCorte,cantidadComprada));
         }
-        ///REVISAR
-        public static void CargarProducto(string nombre,float stock,float precio,string detalle,string tipoDeCorte)
+        public static void CargarProducto(float stock,float precio,string tipoDeCorte)
         {
-            listaDeProductos.Add(new Producto(nombre, stock, precio, detalle, tipoDeCorte));
+            listaDeProductos.Add(new Producto(stock, precio,tipoDeCorte));
         }
-        ///
         public static void CargarVentas(Venta venta)
         {
             listaVentas.Add(venta);

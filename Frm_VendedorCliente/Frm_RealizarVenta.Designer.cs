@@ -41,6 +41,8 @@
             btnVender = new Button();
             btnVolver = new Button();
             lblTitulo = new Label();
+            lblInfoMonto = new Label();
+            txtInfoMonto = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -67,31 +69,36 @@
             // 
             stock.HeaderText = "Stock";
             stock.Name = "stock";
+            stock.Width = 70;
             // 
             // precio
             // 
             precio.HeaderText = "Precio x kilo";
             precio.Name = "precio";
+            precio.Width = 70;
             // 
             // detalle
             // 
             detalle.HeaderText = "Detalle";
             detalle.Name = "detalle";
+            detalle.Width = 220;
             // 
             // tipoCorte
             // 
             tipoCorte.HeaderText = "Tipo de corte";
             tipoCorte.Name = "tipoCorte";
+            tipoCorte.Width = 80;
             // 
             // cantidadComprada
             // 
-            cantidadComprada.HeaderText = "Cantidad a vender";
+            cantidadComprada.HeaderText = "Cant. a vender";
             cantidadComprada.Name = "cantidadComprada";
+            cantidadComprada.Width = 60;
             // 
             // cbClientes
             // 
             cbClientes.FormattingEnabled = true;
-            cbClientes.Location = new Point(12, 418);
+            cbClientes.Location = new Point(212, 412);
             cbClientes.Name = "cbClientes";
             cbClientes.Size = new Size(147, 23);
             cbClientes.TabIndex = 18;
@@ -101,19 +108,19 @@
             // 
             lblSeleccion.AutoSize = true;
             lblSeleccion.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblSeleccion.Location = new Point(12, 397);
+            lblSeleccion.Location = new Point(7, 417);
             lblSeleccion.Name = "lblSeleccion";
-            lblSeleccion.Size = new Size(199, 18);
+            lblSeleccion.Size = new Size(203, 18);
             lblSeleccion.TabIndex = 19;
-            lblSeleccion.Text = "Seleccione cliente a vender";
+            lblSeleccion.Text = "Seleccione cliente a vender:";
             // 
             // btnVender
             // 
             btnVender.BackColor = SystemColors.MenuHighlight;
             btnVender.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnVender.Location = new Point(12, 447);
+            btnVender.Location = new Point(524, 409);
             btnVender.Name = "btnVender";
-            btnVender.Size = new Size(121, 31);
+            btnVender.Size = new Size(126, 28);
             btnVender.TabIndex = 20;
             btnVender.Text = "Vender";
             btnVender.UseVisualStyleBackColor = false;
@@ -122,10 +129,10 @@
             // btnVolver
             // 
             btnVolver.BackColor = SystemColors.MenuHighlight;
-            btnVolver.Font = new Font("Stencil", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            btnVolver.Location = new Point(541, 422);
+            btnVolver.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnVolver.Location = new Point(524, 443);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(109, 46);
+            btnVolver.Size = new Size(126, 28);
             btnVolver.TabIndex = 21;
             btnVolver.Text = "Volver";
             btnVolver.UseVisualStyleBackColor = false;
@@ -141,12 +148,32 @@
             lblTitulo.TabIndex = 22;
             lblTitulo.Text = "Productos disponibles para vender";
             // 
+            // lblInfoMonto
+            // 
+            lblInfoMonto.AutoSize = true;
+            lblInfoMonto.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblInfoMonto.Location = new Point(7, 453);
+            lblInfoMonto.Name = "lblInfoMonto";
+            lblInfoMonto.Size = new Size(174, 18);
+            lblInfoMonto.TabIndex = 23;
+            lblInfoMonto.Text = "Monto actual del cliente:";
+            // 
+            // txtInfoMonto
+            // 
+            txtInfoMonto.Location = new Point(212, 453);
+            txtInfoMonto.Name = "txtInfoMonto";
+            txtInfoMonto.ReadOnly = true;
+            txtInfoMonto.Size = new Size(147, 23);
+            txtInfoMonto.TabIndex = 24;
+            // 
             // Frm_RealizarVenta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Linen;
-            ClientSize = new Size(662, 480);
+            BackColor = Color.Thistle;
+            ClientSize = new Size(658, 480);
+            Controls.Add(txtInfoMonto);
+            Controls.Add(lblInfoMonto);
             Controls.Add(lblTitulo);
             Controls.Add(btnVolver);
             Controls.Add(btnVender);
@@ -165,16 +192,18 @@
         #endregion
 
         private DataGridView dgv;
+        private ComboBox cbClientes;
+        private Label lblSeleccion;
+        private Button btnVender;
+        private Button btnVolver;
+        private Label lblTitulo;
+        private Label lblInfoMonto;
+        private TextBox txtInfoMonto;
         private DataGridViewTextBoxColumn nombre;
         private DataGridViewTextBoxColumn stock;
         private DataGridViewTextBoxColumn precio;
         private DataGridViewTextBoxColumn detalle;
         private DataGridViewTextBoxColumn tipoCorte;
         private DataGridViewTextBoxColumn cantidadComprada;
-        private ComboBox cbClientes;
-        private Label lblSeleccion;
-        private Button btnVender;
-        private Button btnVolver;
-        private Label lblTitulo;
     }
 }

@@ -9,26 +9,27 @@ namespace BibliotecaDeClases
     public class Vendedor : Usuario
     {
         //atributos 
-        private List<Producto> productos;
-        private Queue<Cliente> clientes;
-        private float dineroMax;
+        int codigoVendedor;
         //constructor
-        public Vendedor(string mail, string password, List<Producto> productos, Queue<Cliente> clientes, float dineroMax)
+        public Vendedor(string mail, string password,int codigoVendedor)
         : base(mail, password)
         {
-            this.productos = productos;
-            this.clientes = clientes;
-            this.dineroMax = dineroMax;
+            this.codigoVendedor = codigoVendedor;
         }
         //propiedades
-        public List<Producto> GetProductos
+        public int GetCodigo
         {
-            get { return productos; }
-        }
-        public float GetDineroMax
-        {
-            get { return dineroMax; }
+            get { return codigoVendedor; }
         }
         //metodos 
+        public static float CalcularMonto(List<Producto> productos)
+        {
+            float montoTotal = 0;
+            foreach (Producto producto in productos)
+            {
+                montoTotal += producto.GetPrecio * producto.GetCantidadSeleccionada;
+            }
+            return montoTotal;
+        }
     }
 }

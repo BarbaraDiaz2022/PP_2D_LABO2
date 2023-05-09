@@ -33,36 +33,7 @@ namespace Frm_VendedorCliente
         {
             CargarDataGridView(Negocio.RetornarProductos());
         }
-        public float CalcularMonto()
-        {
-            float montoTotal = 0;
-            foreach (Producto producto in productosSeleccionados)
-            {
-                montoTotal += producto.GetPrecio * producto.GetCantidadSeleccionada;
-            }
-            return montoTotal;
-        }
-        private bool listaCargada = false;
-        private void rbBuscar_CheckedChanged(object sender, EventArgs e)
-        {
-            string textoBusqueda = txtBuscar.Text;
-            List<Producto> productosEncontrados = Negocio.BuscarPorCorte(textoBusqueda);
-            if (string.IsNullOrEmpty(textoBusqueda) || productosEncontrados.Count == 0)
-            {   //si la lista no fue cargada, la cargo 
-                if (!listaCargada)
-                {
-                    CargarDataGridView(productosEncontrados);
-                    listaCargada = true;
-                }
-            }
-            else
-            {
-                dgv.Rows.Clear();
-                CargarDataGridView(productosEncontrados);
-                //indico que la lista ya no esta cargada
-                listaCargada = false;
-            }
-        }
+
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int n = e.RowIndex;
@@ -111,8 +82,9 @@ namespace Frm_VendedorCliente
         }
         private void btnComprar_Click(object sender, EventArgs e)
         {
-            float montoTotal = CalcularMonto();
+            float montoConRecargo = 0;
             float montoMax = float.Parse(txtMonto.Text);
+            string nombre = txtNombreCliente.Text.ToString();
             DialogResult confirmarVenta;
             List<Producto> listaCompra = new List<Producto>();
             foreach (Producto producto in productosSeleccionados)
@@ -122,6 +94,7 @@ namespace Frm_VendedorCliente
                     listaCompra.Add(producto);
                 }
             }
+            float montoTotal = Vendedor.CalcularMonto(listaCompra);
             foreach (Producto productoCompra in listaCompra)
             {
                 if (productoCompra.GetStock > 0)
@@ -133,20 +106,21 @@ namespace Frm_VendedorCliente
                         {
                             if (cbMetodoPago.SelectedItem.ToString() == "Tarjeta de crédito")
                             {
-                                float montoConRecargo = montoTotal * 1.05f;
-                                montoTotal = montoConRecargo;
+                                montoConRecargo = montoTotal * 1.05f;
+                                Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoConRecargo, cbMetodoPago.SelectedItem.ToString(),montoTotal);
+                                frmFactura.ShowDialog();
                             }
-                            Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoTotal, cbMetodoPago.SelectedItem.ToString());
-                            frmFactura.ShowDialog();
-                            //actualizo el stock 
-                            Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == productoCompra.GetNombre);
+                            else 
+                            {
+                                Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoTotal, cbMetodoPago.SelectedItem.ToString(), montoTotal);
+                                frmFactura.ShowDialog();
+                            }
+                            //actualizo el stock
+                            Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == productoCompra.GetNombre && p.GetCantidadSeleccionada == productoCompra.GetCantidadSeleccionada);
                             productoEnLista.SetStock -= productoCompra.GetCantidadSeleccionada;
                             int rowIndex = listaDeProductos.IndexOf(productoEnLista);
                             dgv.Rows[rowIndex].Cells["stockProducto"].Value = productoEnLista.GetStock;
                             dgv.Refresh();
-                            //añado la venta a la lista para el historial 
-                            Venta venta = new Venta(listaCompra, "Venta realizada por un cliente");
-                            Negocio.CargarVentas(venta);
                         }
                     }
                     else
@@ -159,12 +133,38 @@ namespace Frm_VendedorCliente
                     MessageBox.Show("No hay stock disponible.");
                 }
             }
+            //añado la venta a la lista para el historial 
+            Venta venta = new Venta(listaCompra, nombre, montoTotal);
+            Negocio.CargarVentas(venta);
+            if (cbMetodoPago.SelectedItem.ToString() == "Tarjeta de crédito")
+            {
+                txtMonto.Text = (montoMax - montoConRecargo).ToString();
+            }
+            else 
+            { 
+                txtMonto.Text = (montoMax - montoTotal).ToString();
+            }
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
             Frm_LoginCliente frm = new Frm_LoginCliente();
             frm.Show();
             this.Close();
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string textoBusqueda = cbBuscarCorte.SelectedItem.ToString();
+            List<Producto> productosEncontrados = Negocio.BuscarPorCorte(textoBusqueda);
+            dgv.Rows.Clear();
+            CargarDataGridView(productosEncontrados);
+
+            if (cbBuscarCorte.SelectedItem.ToString() == "Mostrar todos los cortes")
+            {
+                CargarDataGridView(listaDeProductos);
+                //devuelve el control al codigo que lo llamo asi no carga el dgv 2 veces 
+                return;
+            }
         }
     }
 }

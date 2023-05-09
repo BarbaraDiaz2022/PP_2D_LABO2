@@ -16,15 +16,18 @@ namespace Frm_VendedorCliente
         List<Producto> listaDeProductosSeleccionados;
         float montoTotal;
         string metodoDePago;
-        public Frm_Factura(List<Producto> listaDeProductosSeleccionados, float montoTotal, string metodoDePago)
+        float subtotal;
+        public Frm_Factura(List<Producto> listaDeProductosSeleccionados, float montoTotal, string metodoDePago, float subtotal)
         {
             InitializeComponent();
             this.listaDeProductosSeleccionados = listaDeProductosSeleccionados;
             this.montoTotal = montoTotal;
             this.metodoDePago = metodoDePago;
+            this.subtotal = subtotal;
         }
         private void Frm_Factura_Load(object sender, EventArgs e)
         {
+            lblsub.Text = subtotal.ToString("C2");
             lblInfoPago.Text = metodoDePago;
             lblTotal.Text = montoTotal.ToString("C2");//"C2" formatea el valor como moneda con dos decimales
             //recorrer la lista de productos seleccionados

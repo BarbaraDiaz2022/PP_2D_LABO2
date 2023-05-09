@@ -21,25 +21,13 @@ namespace BibliotecaDeClases
             this.tipoDeCorte = tipoDeCorte;
             this.cantidadSeleccionada = 0;
         }
-        //sobrecarga del constructor pero sin el stock visible
-        public Producto(string nombre, float precio, string detalle, string tipoDeCorte, float cantidadSeleccionada)
+        //sobrecarga del constructor para cargar heladera
+        public Producto(float stock, float precio,string tipoDeCorte)
         {
-            this.nombre = nombre;
-            this.precio = precio;
-            this.detalle = detalle;
-            this.tipoDeCorte = tipoDeCorte;
-            this.cantidadSeleccionada = 0;
-        }
-        //sobrecarga del constructor pero sin la cantidad visible REVISARR
-        public Producto(string nombre, float stock, float precio, string detalle, string tipoDeCorte)
-        {
-            this.nombre = nombre;
             this.stock = stock;
             this.precio = precio;
-            this.detalle = detalle;
             this.tipoDeCorte = tipoDeCorte;
         }
-
         //propiedades 
         public string GetNombre
         {

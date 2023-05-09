@@ -41,6 +41,8 @@
             btnVolver = new Button();
             lblInfoPago = new Label();
             lblPago = new Label();
+            lblSubTotal = new Label();
+            lblsub = new Label();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -50,10 +52,10 @@
             dgv.BackgroundColor = SystemColors.ControlLight;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, precio, detalle, tipoDeCorte, cantidadComprada });
-            dgv.Location = new Point(11, 59);
+            dgv.Location = new Point(5, 58);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(543, 348);
+            dgv.Size = new Size(560, 298);
             dgv.TabIndex = 9;
             // 
             // nombre
@@ -65,20 +67,23 @@
             // 
             precio.HeaderText = "Precio x kilo";
             precio.Name = "precio";
+            precio.Width = 55;
             // 
             // detalle
             // 
             detalle.HeaderText = "Detalle";
             detalle.Name = "detalle";
+            detalle.Width = 185;
             // 
             // tipoDeCorte
             // 
             tipoDeCorte.HeaderText = "Tipo de corte";
             tipoDeCorte.Name = "tipoDeCorte";
+            tipoDeCorte.Width = 80;
             // 
             // cantidadComprada
             // 
-            cantidadComprada.HeaderText = "Cantidad comprada";
+            cantidadComprada.HeaderText = "Cant.comprada";
             cantidadComprada.Name = "cantidadComprada";
             // 
             // lblNombre
@@ -100,7 +105,7 @@
             lblTotal.BorderStyle = BorderStyle.FixedSingle;
             lblTotal.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblTotal.ForeColor = SystemColors.ActiveCaptionText;
-            lblTotal.Location = new Point(150, 409);
+            lblTotal.Location = new Point(151, 427);
             lblTotal.Name = "lblTotal";
             lblTotal.Size = new Size(64, 24);
             lblTotal.TabIndex = 11;
@@ -110,7 +115,7 @@
             // 
             lblInformacion.AutoSize = true;
             lblInformacion.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
-            lblInformacion.Location = new Point(11, 415);
+            lblInformacion.Location = new Point(13, 430);
             lblInformacion.Name = "lblInformacion";
             lblInformacion.Size = new Size(132, 18);
             lblInformacion.TabIndex = 12;
@@ -121,9 +126,9 @@
             btnVolver.BackColor = Color.MediumBlue;
             btnVolver.Font = new Font("Stencil", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             btnVolver.ForeColor = SystemColors.ControlLightLight;
-            btnVolver.Location = new Point(480, 426);
+            btnVolver.Location = new Point(475, 406);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(74, 31);
+            btnVolver.Size = new Size(85, 42);
             btnVolver.TabIndex = 13;
             btnVolver.Text = "Volver";
             btnVolver.UseVisualStyleBackColor = false;
@@ -134,7 +139,7 @@
             lblInfoPago.AutoSize = true;
             lblInfoPago.BorderStyle = BorderStyle.FixedSingle;
             lblInfoPago.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            lblInfoPago.Location = new Point(150, 433);
+            lblInfoPago.Location = new Point(149, 390);
             lblInfoPago.Name = "lblInfoPago";
             lblInfoPago.Size = new Size(135, 24);
             lblInfoPago.TabIndex = 14;
@@ -144,18 +149,41 @@
             // 
             lblPago.AutoSize = true;
             lblPago.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
-            lblPago.Location = new Point(12, 433);
+            lblPago.Location = new Point(13, 393);
             lblPago.Name = "lblPago";
             lblPago.Size = new Size(130, 18);
             lblPago.TabIndex = 15;
             lblPago.Text = "Usted pagó con  :";
+            // 
+            // lblSubTotal
+            // 
+            lblSubTotal.AutoSize = true;
+            lblSubTotal.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
+            lblSubTotal.Location = new Point(13, 362);
+            lblSubTotal.Name = "lblSubTotal";
+            lblSubTotal.Size = new Size(69, 18);
+            lblSubTotal.TabIndex = 16;
+            lblSubTotal.Text = "Subtotal:";
+            // 
+            // lblsub
+            // 
+            lblsub.AutoSize = true;
+            lblsub.BorderStyle = BorderStyle.FixedSingle;
+            lblsub.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblsub.Location = new Point(88, 359);
+            lblsub.Name = "lblsub";
+            lblsub.Size = new Size(81, 24);
+            lblsub.TabIndex = 17;
+            lblsub.Text = "Subtotal";
             // 
             // Frm_Factura
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Wheat;
-            ClientSize = new Size(566, 460);
+            ClientSize = new Size(572, 460);
+            Controls.Add(lblsub);
+            Controls.Add(lblSubTotal);
             Controls.Add(lblPago);
             Controls.Add(lblInfoPago);
             Controls.Add(btnVolver);
@@ -178,13 +206,15 @@
         private Label lblNombre;
         private Label lblTotal;
         private Label lblInformacion;
+        private Button btnVolver;
+        private Label lblInfoPago;
+        private Label lblPago;
         private DataGridViewTextBoxColumn nombre;
         private DataGridViewTextBoxColumn precio;
         private DataGridViewTextBoxColumn detalle;
         private DataGridViewTextBoxColumn tipoDeCorte;
         private DataGridViewTextBoxColumn cantidadComprada;
-        private Button btnVolver;
-        private Label lblInfoPago;
-        private Label lblPago;
+        private Label lblSubTotal;
+        private Label lblsub;
     }
 }

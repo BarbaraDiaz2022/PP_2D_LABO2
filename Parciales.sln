@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PP", "PP\PP.csproj", "{BCEEF149-EF72-4656-B5EE-092E31F47E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frm_VendedorCliente", "Frm_VendedorCliente\Frm_VendedorCliente.csproj", "{92DC012E-FEEE-4F97-B322-6810286C5713}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frm_VendedorCliente", "Frm_VendedorCliente\Frm_VendedorCliente.csproj", "{92DC012E-FEEE-4F97-B322-6810286C5713}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotecaDeClases", "BibliotecaDeClases\BibliotecaDeClases.csproj", "{CCBE0C9F-545B-4EE7-9F5F-D1AE3A435B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BibliotecaDeClases", "BibliotecaDeClases\BibliotecaDeClases.csproj", "{CCBE0C9F-545B-4EE7-9F5F-D1AE3A435B30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BCEEF149-EF72-4656-B5EE-092E31F47E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCEEF149-EF72-4656-B5EE-092E31F47E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCEEF149-EF72-4656-B5EE-092E31F47E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCEEF149-EF72-4656-B5EE-092E31F47E22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92DC012E-FEEE-4F97-B322-6810286C5713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{92DC012E-FEEE-4F97-B322-6810286C5713}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92DC012E-FEEE-4F97-B322-6810286C5713}.Release|Any CPU.ActiveCfg = Release|Any CPU

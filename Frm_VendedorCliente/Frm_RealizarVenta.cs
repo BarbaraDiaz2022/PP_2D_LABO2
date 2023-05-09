@@ -25,16 +25,15 @@ namespace Frm_VendedorCliente
         {
             foreach (Producto producto in listaDeProductos)
             {
-                dgv.Rows.Add(producto.GetNombre, producto.GetStock, producto.GetPrecio, producto.GetDetalle, producto.GetTipoDeCorte, producto.GetCantidadSeleccionada);
+                dgv.Rows.Add(producto.GetNombre, producto.GetStock, producto.GetPrecio, producto.GetDetalle, producto.GetTipoDeCorte, 0);
             }
         }
         private void Frm_RealizarVenta_Load(object sender, EventArgs e)
         {
-            // Cargar la lista de clientes
+            //primero cargo la lista 
             Negocio.CargarClientes();
-            // Obtener la lista de clientes
             List<Cliente> clientes = Negocio.RetornarClientes();
-            // Agregar los nombres de los clientes al ComboBox
+            //agrego los clientes al combobox 
             foreach (Cliente cliente in clientes)
             {
                 cbClientes.Items.Add(cliente.GetNombre);
@@ -69,30 +68,43 @@ namespace Frm_VendedorCliente
             }
         }
         private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {   //verifica si se edito la columna cantidad 
+        {
+            //verifica si se edito la columna cantidad 
             if (e.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
             {
                 int rowIndex = e.RowIndex;
-                float nuevoValor = Convert.ToSingle(dgv.Rows[rowIndex].Cells["cantidadComprada"].Value); // obtiene el nuevo valor de la celda
+                float nuevoValor = Convert.ToSingle(dgv.Rows[rowIndex].Cells["cantidadComprada"].Value);
+
                 if (nuevoValor > 0)
-                {   //actualiza el valor de lista de productos
-                    listaDeProductos[rowIndex].SetCantidadSeleccionada = nuevoValor;
-                    // busca el producto en productosSeleccionados por su nombre
-                    Producto productoSeleccionado = productosSeleccionados.Find(p => p.GetNombre == dgv.Rows[rowIndex].Cells["nombre"].Value.ToString());
-                    // actualiza la propiedad CantidadSeleccionada del producto correspondiente
-                    if (productoSeleccionado != null)
+                {
+                    // buscar el producto correspondiente a la fila editada
+                    string nombreProducto = dgv.Rows[rowIndex].Cells["nombre"].Value.ToString();
+                    Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == nombreProducto);
+                    Producto productoSeleccionado = productosSeleccionados.Find(p => p.GetNombre == nombreProducto);
+
+                    // actualizar la cantidad seleccionada y el stock del producto correspondiente
+                    productoEnLista.SetCantidadSeleccionada = nuevoValor;
+                    productoSeleccionado.SetCantidadSeleccionada = nuevoValor;
+                    productoEnLista.SetStock = productoEnLista.GetStock - nuevoValor;
+
+                    // buscar la fila correspondiente al producto utilizando el objeto Producto
+                    int rowIndexStock = dgv.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["nombre"].Value.ToString() == nombreProducto)?.Index ?? -1;
+                    if (rowIndexStock >= 0)
                     {
-                        productoSeleccionado.SetCantidadSeleccionada = nuevoValor;
+                        dgv.Rows[rowIndexStock].Cells["stock"].Value = productoEnLista.GetStock;
+                        dgv.Refresh();
                     }
                 }
             }
         }
         private void btnVender_Click(object sender, EventArgs e)
         {
-            string clienteSeleccionado = cbClientes.Text.ToString();
-            DialogResult confirmarVenta;
             List<Producto> listaCompra = new List<Producto>();
-            List<Cliente> auxCliente = new List<Cliente>();
+            Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
+            Vendedor vendedor = new Vendedor("vendedor 1","vendedor1@gmail.com",2042684);
+            string clienteSelecString = clienteSeleccionado.GetNombre;
+            float precioTotalConRecargo = 0;
+            DialogResult confirmarVenta;
 
             foreach (Producto producto in productosSeleccionados)
             {
@@ -101,21 +113,35 @@ namespace Frm_VendedorCliente
                     listaCompra.Add(producto);
                 }
             }
-
+            float precioTotal = Vendedor.CalcularMonto(listaCompra); ;
             confirmarVenta = MessageBox.Show("¿Desea confirmar la venta?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
             foreach (Producto producto in listaCompra)
             {
                 if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
                 {
                     if (confirmarVenta == DialogResult.Yes)
                     {
-                        //actualizo el stock 
-                        Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == producto.GetNombre);
-                        productoEnLista.SetStock -= producto.GetCantidadSeleccionada;
-                        int rowIndex = listaDeProductos.IndexOf(productoEnLista);
-                        dgv.Rows[rowIndex].Cells["stock"].Value = productoEnLista.GetStock;
-                        dgv.Refresh();
+                        if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
+                        {
+                            precioTotalConRecargo = precioTotal * 1.05f;
+                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo,vendedor.GetCodigo);
+                            frmVentas.ShowDialog();
+                        }
+                        else
+                        {
+                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal,vendedor.GetCodigo);
+                            frmVentas.ShowDialog();
+                        }
+                        //verifico si el cliente tiene monto para comprar 
+                        if (precioTotal > clienteSeleccionado.GetMontoDisponible)
+                        {
+                            MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        else
+                        {
+                            clienteSeleccionado.SetMontoDisponible = clienteSeleccionado.GetMontoDisponible - producto.GetPrecio;
+                        }
                     }
                 }
                 else
@@ -123,10 +149,13 @@ namespace Frm_VendedorCliente
                     MessageBox.Show("No hay suficiente stock para realizar la venta.");
                 }
             }
-            Venta venta = new Venta(listaCompra, clienteSeleccionado);//añade la venta a la lista para el historrial
+            txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
+            Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal);
             Negocio.CargarVentas(venta);
-            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSeleccionado);
-            frmVentas.Show();
+            foreach (Producto producto in listaCompra)
+            {
+                producto.SetCantidadSeleccionada = 0;
+            }
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {

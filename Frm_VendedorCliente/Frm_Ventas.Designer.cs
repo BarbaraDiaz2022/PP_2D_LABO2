@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            RadioButton rbBuscar;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Ventas));
             txtMonto = new TextBox();
             cbMetodoPago = new ComboBox();
@@ -42,35 +41,24 @@
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dgv = new DataGridView();
+            cbBuscarCorte = new ComboBox();
+            btnBuscar = new Button();
+            lblCliente = new Label();
+            txtNombreCliente = new TextBox();
             nombreProducto = new DataGridViewTextBoxColumn();
             stockProducto = new DataGridViewTextBoxColumn();
             precio = new DataGridViewTextBoxColumn();
             detalle = new DataGridViewTextBoxColumn();
             tipoDeCorte = new DataGridViewTextBoxColumn();
             cantidadComprada = new DataGridViewTextBoxColumn();
-            txtBuscar = new TextBox();
-            rbBuscar = new RadioButton();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
-            // 
-            // rbBuscar
-            // 
-            rbBuscar.AutoSize = true;
-            rbBuscar.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            rbBuscar.Location = new Point(334, 68);
-            rbBuscar.Name = "rbBuscar";
-            rbBuscar.Size = new Size(145, 22);
-            rbBuscar.TabIndex = 9;
-            rbBuscar.TabStop = true;
-            rbBuscar.Text = "Buscar por corte:";
-            rbBuscar.UseVisualStyleBackColor = true;
-            rbBuscar.CheckedChanged += rbBuscar_CheckedChanged;
             // 
             // txtMonto
             // 
             txtMonto.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             txtMonto.ForeColor = SystemColors.ActiveCaptionText;
-            txtMonto.Location = new Point(205, 70);
+            txtMonto.Location = new Point(205, 95);
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(98, 25);
             txtMonto.TabIndex = 0;
@@ -80,7 +68,7 @@
             cbMetodoPago.Font = new Font("Arial Narrow", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             cbMetodoPago.FormattingEnabled = true;
             cbMetodoPago.Items.AddRange(new object[] { "Efectivo ", "Tarjeta de crédito", "Tarjeta de débito", "Mercado Pago" });
-            cbMetodoPago.Location = new Point(243, 413);
+            cbMetodoPago.Location = new Point(243, 423);
             cbMetodoPago.Name = "cbMetodoPago";
             cbMetodoPago.Size = new Size(121, 24);
             cbMetodoPago.TabIndex = 1;
@@ -89,7 +77,7 @@
             // 
             lblPago.AutoSize = true;
             lblPago.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblPago.Location = new Point(12, 413);
+            lblPago.Location = new Point(12, 423);
             lblPago.Name = "lblPago";
             lblPago.Size = new Size(225, 18);
             lblPago.TabIndex = 2;
@@ -100,7 +88,7 @@
             btnComprar.BackColor = Color.MediumBlue;
             btnComprar.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnComprar.ForeColor = SystemColors.ControlLightLight;
-            btnComprar.Location = new Point(401, 409);
+            btnComprar.Location = new Point(534, 415);
             btnComprar.Name = "btnComprar";
             btnComprar.Size = new Size(111, 37);
             btnComprar.TabIndex = 3;
@@ -113,7 +101,7 @@
             btnVolver.BackColor = Color.MediumBlue;
             btnVolver.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point);
             btnVolver.ForeColor = SystemColors.ControlLightLight;
-            btnVolver.Location = new Point(547, 9);
+            btnVolver.Location = new Point(545, 9);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(100, 27);
             btnVolver.TabIndex = 4;
@@ -137,7 +125,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(12, 72);
+            label3.Location = new Point(12, 97);
             label3.Name = "label3";
             label3.Size = new Size(187, 18);
             label3.TabIndex = 7;
@@ -168,13 +156,55 @@
             dgv.BackgroundColor = SystemColors.Control;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, stockProducto, precio, detalle, tipoDeCorte, cantidadComprada });
-            dgv.Location = new Point(12, 98);
+            dgv.Location = new Point(12, 128);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(635, 305);
+            dgv.Size = new Size(633, 275);
             dgv.TabIndex = 8;
             dgv.CellClick += dgv_CellClick;
             dgv.CellEndEdit += dgv_CellEndEdit;
+            // 
+            // cbBuscarCorte
+            // 
+            cbBuscarCorte.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cbBuscarCorte.ForeColor = SystemColors.MenuText;
+            cbBuscarCorte.FormattingEnabled = true;
+            cbBuscarCorte.Items.AddRange(new object[] { "Mostrar todos los cortes", "Peceto", "Pechuga", "Bondiola", "Bola de lomo" });
+            cbBuscarCorte.Location = new Point(387, 99);
+            cbBuscarCorte.Name = "cbBuscarCorte";
+            cbBuscarCorte.Size = new Size(163, 26);
+            cbBuscarCorte.TabIndex = 9;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.BackColor = Color.MediumBlue;
+            btnBuscar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnBuscar.ForeColor = SystemColors.ControlLightLight;
+            btnBuscar.Location = new Point(387, 67);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(91, 26);
+            btnBuscar.TabIndex = 10;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = false;
+            btnBuscar.Click += btnBuscar_Click;
+            // 
+            // lblCliente
+            // 
+            lblCliente.AutoSize = true;
+            lblCliente.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblCliente.Location = new Point(12, 66);
+            lblCliente.Name = "lblCliente";
+            lblCliente.Size = new Size(140, 18);
+            lblCliente.TabIndex = 11;
+            lblCliente.Text = "Ingrese su nombre:";
+            // 
+            // txtNombreCliente
+            // 
+            txtNombreCliente.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            txtNombreCliente.Location = new Point(203, 61);
+            txtNombreCliente.Name = "txtNombreCliente";
+            txtNombreCliente.Size = new Size(100, 26);
+            txtNombreCliente.TabIndex = 12;
             // 
             // nombreProducto
             // 
@@ -185,16 +215,19 @@
             // 
             stockProducto.HeaderText = "Stock";
             stockProducto.Name = "stockProducto";
+            stockProducto.Width = 45;
             // 
             // precio
             // 
             precio.HeaderText = "Precio x kilo";
             precio.Name = "precio";
+            precio.Width = 80;
             // 
             // detalle
             // 
             detalle.HeaderText = "Detalle";
             detalle.Name = "detalle";
+            detalle.Width = 195;
             // 
             // tipoDeCorte
             // 
@@ -203,25 +236,20 @@
             // 
             // cantidadComprada
             // 
-            cantidadComprada.HeaderText = "Cantidad a comprar";
+            cantidadComprada.HeaderText = "Cant. a comprar";
             cantidadComprada.Name = "cantidadComprada";
-            // 
-            // txtBuscar
-            // 
-            txtBuscar.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            txtBuscar.Location = new Point(485, 68);
-            txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(162, 22);
-            txtBuscar.TabIndex = 10;
+            cantidadComprada.Width = 70;
             // 
             // Frm_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Wheat;
-            ClientSize = new Size(657, 450);
-            Controls.Add(txtBuscar);
-            Controls.Add(rbBuscar);
+            ClientSize = new Size(648, 457);
+            Controls.Add(txtNombreCliente);
+            Controls.Add(lblCliente);
+            Controls.Add(btnBuscar);
+            Controls.Add(cbBuscarCorte);
             Controls.Add(dgv);
             Controls.Add(label3);
             Controls.Add(lblNombre);
@@ -253,7 +281,10 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridView dgv;
-        private TextBox txtBuscar;
+        private ComboBox cbBuscarCorte;
+        private Button btnBuscar;
+        private Label lblCliente;
+        private TextBox txtNombreCliente;
         private DataGridViewTextBoxColumn nombreProducto;
         private DataGridViewTextBoxColumn stockProducto;
         private DataGridViewTextBoxColumn precio;

@@ -8,20 +8,20 @@ namespace BibliotecaDeClases
 {
     public class Venta
     {
-        //atributo
-        public string GetCliente { get; set; }
-        public List<Producto> Productos { get; set; }
-        //constructor
-        public Venta(List<Producto> productos, string cliente)
+        public Venta(List<Producto> productos,string cliente,float montoTotal) 
         {
+            listaProductos = productos;
             this.GetCliente = cliente;
-            Productos = productos;
+            this.GetMonto = montoTotal;
         }
         //propiedad
-        public static List<Venta> VentasRealizadas { get; set; } = new List<Venta>();
+        public string GetCliente { get; set; }
+        public float GetMonto { get; set; }
+        public List<Producto> listaProductos { get; set; }
+        //metodo
         public bool ContieneProducto(Producto producto)
-        {
-            foreach (Producto p in Productos)
+        {   
+            foreach (Producto p in listaProductos)
             {
                 if (p.GetNombre == producto.GetNombre)
                 {

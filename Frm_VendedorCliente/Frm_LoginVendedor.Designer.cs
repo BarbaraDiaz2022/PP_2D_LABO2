@@ -97,7 +97,7 @@
             // 
             rdbAcceder.AutoSize = true;
             rdbAcceder.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            rdbAcceder.Location = new Point(58, 220);
+            rdbAcceder.Location = new Point(59, 205);
             rdbAcceder.Name = "rdbAcceder";
             rdbAcceder.Size = new Size(172, 21);
             rdbAcceder.TabIndex = 7;
@@ -120,7 +120,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Linen;
+            BackColor = Color.Thistle;
             ClientSize = new Size(303, 321);
             Controls.Add(pbIconVendedor);
             Controls.Add(rdbAcceder);

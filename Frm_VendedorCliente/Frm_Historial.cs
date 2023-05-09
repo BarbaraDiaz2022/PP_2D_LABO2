@@ -34,8 +34,7 @@ namespace Frm_VendedorCliente
                     // Establecer el valor de las celdas con la información correspondiente a cada venta
                     if (venta.ContieneProducto(producto) && producto.GetCantidadSeleccionada > 0)
                     {
-                        dgv.Rows.Add(producto.GetNombre, venta.GetCliente, producto.GetPrecio, producto.GetDetalle,
-                        producto.GetTipoDeCorte, producto.GetCantidadSeleccionada);
+                        dgv.Rows.Add(producto.GetNombre, venta.GetCliente, venta.GetMonto);
                     }
                 }
             }

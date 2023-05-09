@@ -56,7 +56,7 @@ namespace BibliotecaDeClases
                 }
             }
         }
-        public eMetodoPago MetodoPago
+        public eMetodoPago GetMetodoPago
         {
             get { return this.metodoPago; } 
         }
