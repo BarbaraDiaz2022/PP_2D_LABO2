@@ -16,10 +16,14 @@ namespace BibliotecaDeClases
             this.mail = mail;
             this.password = password;
         }
-
         public string GetMail
         {
             get { return this.mail; }
         } 
+        public string GetPassword
+        {
+            get { return this.password; }
+        }
+
     }
 }

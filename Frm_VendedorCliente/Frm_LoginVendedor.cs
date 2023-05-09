@@ -11,8 +11,7 @@ using System.Windows.Forms;
 namespace Frm_VendedorCliente
 {
     public partial class Frm_LoginVendedor : Form
-    {
-        //hardcodeo el ingreso del vendedor
+    {   
         private const string usuarioVendedorReal = "vendedor@gmail.com";
         private const string passwordVendedorReal = "vendedor123";
         public Frm_LoginVendedor()

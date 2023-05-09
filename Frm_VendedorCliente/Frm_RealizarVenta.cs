@@ -149,6 +149,7 @@ namespace Frm_VendedorCliente
                     MessageBox.Show("No hay suficiente stock para realizar la venta.");
                 }
             }
+            
             txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
             Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal);
             Negocio.CargarVentas(venta);

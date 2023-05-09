@@ -66,10 +66,10 @@
             dgv.BackgroundColor = SystemColors.ButtonHighlight;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, precio, detalle, tipoCorte, cantidadComprada });
-            dgv.Location = new Point(13, 47);
+            dgv.Location = new Point(4, 47);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(540, 343);
+            dgv.Size = new Size(549, 347);
             dgv.TabIndex = 1;
             // 
             // nombre
