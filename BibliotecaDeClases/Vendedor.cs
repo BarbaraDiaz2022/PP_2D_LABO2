@@ -28,6 +28,11 @@ namespace BibliotecaDeClases
             get { return nombreVendedor; }
         }
         //metodos 
+        /// <summary>
+        /// metodo que calcula el monto total de productos seleccionados en una lista 
+        /// </summary>
+        /// <param name="productos">lista de tipo producto que contiene los productos a calcular </param>
+        /// <returns>retorna un dato de tipo float con el precio total de los productos de acuerdo a su cantidad comprada</returns>
         public static float CalcularMonto(List<Producto> productos)
         {
             float montoTotal = 0;

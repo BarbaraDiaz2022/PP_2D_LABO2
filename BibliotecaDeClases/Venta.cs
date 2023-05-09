@@ -19,11 +19,16 @@ namespace BibliotecaDeClases
         public float GetMonto { get; set; }
         public List<Producto> listaProductos { get; set; }
         //metodo
+        /// <summary>
+        /// metodo que busca y verifica si un producto pasado por parametro esta contenido en la lista original 
+        /// </summary>
+        /// <param name="producto">parametro de tipo producto</param>
+        /// <returns>retorna un bool que indica si el producto esta en la lista(true) o si no (false)</returns>
         public bool ContieneProducto(Producto producto)
         {   
-            foreach (Producto p in listaProductos)
+            foreach (Producto prod in listaProductos)
             {
-                if (p.GetNombre == producto.GetNombre)
+                if (prod.GetNombre == producto.GetNombre)
                 {
                     return true;
                 }

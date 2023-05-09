@@ -21,10 +21,5 @@ namespace BibliotecaDeClases
         {
             get { return this.mail; }
         } 
-
-        public string GetPassword
-        {
-            get { return this.password; }
-        }
     }
 }

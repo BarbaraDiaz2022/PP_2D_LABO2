@@ -78,7 +78,5 @@ namespace BibliotecaDeClases
         {
             set { this.cantidadSeleccionada = value; }
         }
-        //metodos 
-
     }
 }
