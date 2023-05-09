@@ -19,9 +19,9 @@ namespace Frm_VendedorCliente
         {
             InitializeComponent();
             this.listaDeProductos = Negocio.RetornarProductos();//productos disponibles en la tienda 
-            this.productosSeleccionados = new List<Producto>();//productos que el cliente selecciona para comprar
+            this.productosSeleccionados = new List<Producto>();//productos que el vendedor selecciona para vender
         }
-        public void CargarDataGridView(List<Producto> listaDeProductos)
+        public void CargarDataGridView()
         {
             foreach (Producto producto in listaDeProductos)
             {
@@ -38,7 +38,7 @@ namespace Frm_VendedorCliente
             {
                 cbClientes.Items.Add(cliente.GetNombre);
             }
-            CargarDataGridView(Negocio.RetornarProductos());
+            CargarDataGridView();
         }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {

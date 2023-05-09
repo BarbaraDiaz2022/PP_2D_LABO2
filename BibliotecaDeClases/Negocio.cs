@@ -35,6 +35,8 @@ namespace BibliotecaDeClases
             listaDeProductos.Add(new Producto("Hamburguesas.01", 20, 1500, "Hamburguesas de carne avicola", "Pechuga", 0));
             listaDeProductos.Add(new Producto("Bife", 25, 2800, "Bifes de carne vacuna", "Bife de chorizo", 0));
             listaDeProductos.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto", 0));
+            listaDeProductos.Add(new Producto("Bife.02", 30, 1950, "Bifes de carne porcina", "Bife de bondiola", 0));
+
         }
         /// <summary>
         /// metodo que se encarga de retorna la lista con los productos ya cargados 
@@ -86,7 +88,10 @@ namespace BibliotecaDeClases
         {
             listaCliente.Add(new Cliente("Leo Messi", "leomessi@gmail.com", "contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
             listaCliente.Add(new Cliente("Angel DiMaria", "angelito@gmail.com", "contraseña456", 20000, eMetodoPago.Tarjeta_de_debito));
+            listaCliente.Add(new Cliente("Maria Lopez", "marilopez@gmail.com", "contraseña496", 10000, eMetodoPago.Mercado_pago));
             listaCliente.Add(new Cliente("Julian Alvarez", "julialvarez@gmail.com", "contraseña789", 23000, eMetodoPago.Efectivo));
+            listaCliente.Add(new Cliente("Juana Fernandez", "juana@gmail.com", "contraseña636", 13000, eMetodoPago.Efectivo));
+            listaCliente.Add(new Cliente("Susana Gimenez", "susanita@gmail.com", "contraseña937", 15500, eMetodoPago.Tarjeta_de_credito));
         }
         /// <summary>
         /// metodo que retorna la lista de clientes con los clientes cargados
