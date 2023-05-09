@@ -101,7 +101,7 @@ namespace Frm_VendedorCliente
         {
             List<Producto> listaCompra = new List<Producto>();
             Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
-            Vendedor vendedor = new Vendedor("vendedor 1","vendedor1@gmail.com",2042684);
+            Vendedor vendedor = new Vendedor("vendedor@gmail.com","contraseñaVendedor1",2042684,"Juan Perez");
             string clienteSelecString = clienteSeleccionado.GetNombre;
             float precioTotalConRecargo = 0;
             DialogResult confirmarVenta;
@@ -124,12 +124,12 @@ namespace Frm_VendedorCliente
                         if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
                         {
                             precioTotalConRecargo = precioTotal * 1.05f;
-                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo,vendedor.GetCodigo);
+                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo,vendedor.GetCodigo,vendedor.GetNombreVendedor);
                             frmVentas.ShowDialog();
                         }
                         else
                         {
-                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal,vendedor.GetCodigo);
+                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal,vendedor.GetCodigo,vendedor.GetNombreVendedor);
                             frmVentas.ShowDialog();
                         }
                         //verifico si el cliente tiene monto para comprar 

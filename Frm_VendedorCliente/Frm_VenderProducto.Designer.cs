@@ -45,6 +45,8 @@
             lblSubtotal = new Label();
             lblInfoVend = new Label();
             lblVendedor = new Label();
+            lblInfoCod = new Label();
+            lblNombreVendedor = new Label();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -190,11 +192,31 @@
             lblVendedor.AutoSize = true;
             lblVendedor.BorderStyle = BorderStyle.FixedSingle;
             lblVendedor.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVendedor.Location = new Point(379, 414);
+            lblVendedor.Location = new Point(440, 439);
             lblVendedor.Name = "lblVendedor";
             lblVendedor.Size = new Size(75, 20);
             lblVendedor.TabIndex = 10;
             lblVendedor.Text = "vendedor";
+            // 
+            // lblInfoCod
+            // 
+            lblInfoCod.AutoSize = true;
+            lblInfoCod.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
+            lblInfoCod.Location = new Point(276, 441);
+            lblInfoCod.Name = "lblInfoCod";
+            lblInfoCod.Size = new Size(158, 18);
+            lblInfoCod.TabIndex = 11;
+            lblInfoCod.Text = "Codigo del vendedor:";
+            // 
+            // lblNombreVendedor
+            // 
+            lblNombreVendedor.AutoSize = true;
+            lblNombreVendedor.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblNombreVendedor.Location = new Point(379, 414);
+            lblNombreVendedor.Name = "lblNombreVendedor";
+            lblNombreVendedor.Size = new Size(73, 18);
+            lblNombreVendedor.TabIndex = 12;
+            lblNombreVendedor.Text = "vendedor";
             // 
             // Frm_VenderProducto
             // 
@@ -202,6 +224,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Thistle;
             ClientSize = new Size(559, 507);
+            Controls.Add(lblNombreVendedor);
+            Controls.Add(lblInfoCod);
             Controls.Add(lblVendedor);
             Controls.Add(lblInfoVend);
             Controls.Add(lblSubtotal);
@@ -240,5 +264,7 @@
         private Label lblSubtotal;
         private Label lblInfoVend;
         private Label lblVendedor;
+        private Label lblInfoCod;
+        private Label lblNombreVendedor;
     }
 }

@@ -18,7 +18,9 @@ namespace Frm_VendedorCliente
         float montoTotal;
         float montoTotalConRecargo;
         int vendedor;
-        public Frm_VenderProducto(List<Producto> productoSeleccionado, string clienteSeleccionado, float montoTotal, float montoTotalConRecargo, int vendedor)
+        string nombreVendedor;
+        public Frm_VenderProducto(List<Producto> productoSeleccionado, string clienteSeleccionado, float montoTotal,
+            float montoTotalConRecargo, int vendedor, string nombreVendedor)
         {
             InitializeComponent();
             this.productoSeleccionado = productoSeleccionado;
@@ -26,9 +28,11 @@ namespace Frm_VendedorCliente
             this.montoTotal = montoTotal;
             this.montoTotalConRecargo = montoTotalConRecargo;
             this.vendedor = vendedor;
+            this.nombreVendedor = nombreVendedor;
         }
         private void Frm_VenderProducto_Load(object sender, EventArgs e)
         {
+            lblNombreVendedor.Text = nombreVendedor;
             lblVendedor.Text = vendedor.ToString();
             lblSubtotal.Text = montoTotalConRecargo.ToString("C2");
             lblPago.Text = montoTotal.ToString("C2");

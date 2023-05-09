@@ -67,7 +67,7 @@ namespace Frm_VendedorCliente
             {
                 int rowIndex = e.RowIndex;
                 float nuevoValor = Convert.ToSingle(dgv.Rows[rowIndex].Cells["cantidadComprada"].Value); // obtiene el nuevo valor de la celda
-                if (nuevoValor > 0)
+                if (nuevoValor > 0 && nuevoValor != null)
                 {   //actualiza el valor de la lista de productos correspondientes
                     listaDeProductos[rowIndex].SetCantidadSeleccionada = nuevoValor;
                     // busca el producto en productosSeleccionados por su nombre
@@ -85,6 +85,7 @@ namespace Frm_VendedorCliente
             float montoConRecargo = 0;
             float montoMax = float.Parse(txtMonto.Text);
             string nombre = txtNombreCliente.Text.ToString();
+            bool compraRealizada = false;
             DialogResult confirmarVenta;
             List<Producto> listaCompra = new List<Producto>();
             foreach (Producto producto in productosSeleccionados)
@@ -99,7 +100,7 @@ namespace Frm_VendedorCliente
             {
                 if (productoCompra.GetStock > 0)
                 {
-                    if (montoMax >= productoCompra.GetPrecio)
+                    if (montoMax >= montoTotal)
                     {
                         confirmarVenta = MessageBox.Show("¿Desea confirmar la compra?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (confirmarVenta == DialogResult.Yes)
@@ -122,10 +123,11 @@ namespace Frm_VendedorCliente
                             dgv.Rows[rowIndex].Cells["stockProducto"].Value = productoEnLista.GetStock;
                             dgv.Refresh();
                         }
+                        compraRealizada = true;
                     }
                     else
                     {
-                        MessageBox.Show("No tiene suficiente dinero para realizar esta compra.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No tiene suficiente dinero para realizar esta compra.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error); 
                     }
                 }
                 else
@@ -136,13 +138,16 @@ namespace Frm_VendedorCliente
             //añado la venta a la lista para el historial 
             Venta venta = new Venta(listaCompra, nombre, montoTotal);
             Negocio.CargarVentas(venta);
-            if (cbMetodoPago.SelectedItem.ToString() == "Tarjeta de crédito")
+            if (cbMetodoPago.SelectedItem.ToString() == "Tarjeta de crédito" && compraRealizada)
             {
                 txtMonto.Text = (montoMax - montoConRecargo).ToString();
             }
             else 
-            { 
-                txtMonto.Text = (montoMax - montoTotal).ToString();
+            {
+                if (compraRealizada)
+                {
+                    txtMonto.Text = (montoMax - montoTotal).ToString();
+                }
             }
         }
         private void btnVolver_Click(object sender, EventArgs e)

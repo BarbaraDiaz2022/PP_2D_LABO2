@@ -9,17 +9,23 @@ namespace BibliotecaDeClases
     public class Vendedor : Usuario
     {
         //atributos 
-        int codigoVendedor;
+        private int codigoVendedor;
+        private string nombreVendedor;
         //constructor
-        public Vendedor(string mail, string password,int codigoVendedor)
+        public Vendedor(string mail, string password,int codigoVendedor,string nombreVendedor)
         : base(mail, password)
         {
             this.codigoVendedor = codigoVendedor;
+            this.nombreVendedor = nombreVendedor;
         }
         //propiedades
         public int GetCodigo
         {
             get { return codigoVendedor; }
+        }
+        public string GetNombreVendedor
+        {
+            get { return nombreVendedor; }
         }
         //metodos 
         public static float CalcularMonto(List<Producto> productos)

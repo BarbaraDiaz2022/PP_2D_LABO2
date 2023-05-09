@@ -22,28 +22,28 @@ namespace BibliotecaDeClases
             CargarDgv();
         }
         //metodos
-        public static void CargarDgv() 
+        public static void CargarDgv()
         {
             //nombre stock precioxkilo detalle tipodecorte
-            listaDeProductos.Add(new Producto("Milanesas.01",15,2500,"Milanesas de carne vacuna","Peceto",0));
-            listaDeProductos.Add(new Producto("Milanesas.02", 15, 1800, "Milanesas de carne avicola", "Pechuga",0));
-            listaDeProductos.Add(new Producto("Milanesas.03", 12, 1900, "Milanesas de carne porcina", "Bondiola",0));
-            listaDeProductos.Add(new Producto("Milanesas.04", 15, 2000, "Milanesas de carne vacuna", "Bola de lomo",0));
-            listaDeProductos.Add(new Producto("Hamburguesas.01", 20, 1500, "Hamburguesas de carne avicola", "Pechuga",0));
-            listaDeProductos.Add(new Producto("Bife",25,2800,"Bifes de carne vacuna","Bife de chorizo",0));
-            listaDeProductos.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto",0));
+            listaDeProductos.Add(new Producto("Milanesas.01", 15, 2500, "Milanesas de carne vacuna", "Peceto", 0));
+            listaDeProductos.Add(new Producto("Milanesas.02", 15, 1800, "Milanesas de carne avicola", "Pechuga", 0));
+            listaDeProductos.Add(new Producto("Milanesas.03", 12, 1900, "Milanesas de carne porcina", "Bondiola", 0));
+            listaDeProductos.Add(new Producto("Milanesas.04", 15, 2000, "Milanesas de carne vacuna", "Bola de lomo", 0));
+            listaDeProductos.Add(new Producto("Hamburguesas.01", 20, 1500, "Hamburguesas de carne avicola", "Pechuga", 0));
+            listaDeProductos.Add(new Producto("Bife", 25, 2800, "Bifes de carne vacuna", "Bife de chorizo", 0));
+            listaDeProductos.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto", 0));
         }
         public static List<Producto> RetornarProductos()
         {
             return listaDeProductos;
         }
-        public static void CargarProducto(string nombre,float stock,float precio, string detalle, string tipoDeCorte,float cantidadComprada) 
+        public static void CargarProducto(string nombre, float stock, float precio, string detalle, string tipoDeCorte, float cantidadComprada)
         {
-            listaDeProductos.Add(new Producto(nombre,stock,precio,detalle,tipoDeCorte,cantidadComprada));
+            listaDeProductos.Add(new Producto(nombre, stock, precio, detalle, tipoDeCorte, cantidadComprada));
         }
-        public static void CargarProducto(float stock,float precio,string tipoDeCorte)
+        public static void CargarProducto(float stock, float precio, string tipoDeCorte)
         {
-            listaDeProductos.Add(new Producto(stock, precio,tipoDeCorte));
+            listaDeProductos.Add(new Producto(stock, precio, tipoDeCorte));
         }
         public static void CargarVentas(Venta venta)
         {
@@ -68,7 +68,7 @@ namespace BibliotecaDeClases
         }
         public static void CargarClientes()
         {
-            listaCliente.Add(new Cliente("Leo Messi","leomessi@gmail.com","contraseña123",25000,eMetodoPago.Tarjeta_de_credito));
+            listaCliente.Add(new Cliente("Leo Messi", "leomessi@gmail.com", "contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
             listaCliente.Add(new Cliente("Angel DiMaria", "angelito@gmail.com", "contraseña456", 20000, eMetodoPago.Tarjeta_de_debito));
             listaCliente.Add(new Cliente("Julian Alvarez", "julialvarez@gmail.com", "contraseña789", 23000, eMetodoPago.Efectivo));
         }
