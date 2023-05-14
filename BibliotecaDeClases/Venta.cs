@@ -8,16 +8,18 @@ namespace BibliotecaDeClases
 {
     public class Venta
     {
-        public Venta(List<Producto> productos,string cliente,float montoTotal) 
+        public Venta(List<Producto> productos,string cliente,float montoTotal,string vendedor) 
         {
             listaProductos = productos;
             this.GetCliente = cliente;
             this.GetMonto = montoTotal;
+            this.GetVendedor = vendedor;
         }
         //propiedad
         public string GetCliente { get; set; }
         public float GetMonto { get; set; }
         public List<Producto> listaProductos { get; set; }
+        public string GetVendedor { get; set; }
         //metodo
         /// <summary>
         /// metodo que busca y verifica si un producto pasado por parametro esta contenido en la lista original 

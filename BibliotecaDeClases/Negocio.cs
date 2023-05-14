@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace BibliotecaDeClases
 {
+    //corregir excepciones 
     public static class Negocio
     {
         //atributos 
         private static List<Producto> listaDeProductos;
+        private static List<Producto> listaValidada;
         private static List<Venta> listaVentas;
         private static List<Cliente> listaCliente;
         //constructor
@@ -19,7 +21,9 @@ namespace BibliotecaDeClases
             listaDeProductos = new List<Producto>();
             listaVentas = new List<Venta>();
             listaCliente = new List<Cliente>();
+            listaValidada = new List<Producto>();
             CargarDgv();
+            CargarCopiaProductos();
         }
         //metodos
         /// <summary>
@@ -36,7 +40,20 @@ namespace BibliotecaDeClases
             listaDeProductos.Add(new Producto("Bife", 25, 2800, "Bifes de carne vacuna", "Bife de chorizo", 0));
             listaDeProductos.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto", 0));
             listaDeProductos.Add(new Producto("Bife.02", 30, 1950, "Bifes de carne porcina", "Bife de bondiola", 0));
-
+        }
+        private static void CargarCopiaProductos()
+        {
+            foreach (Producto producto in listaDeProductos)
+            {
+                string precioString = Producto.ConvertirACaracter(producto.GetPrecio);
+                string stockString = Producto.ConvertirACaracter(producto.GetStock);
+                string cantidadString = Producto.ConvertirACaracter(producto.GetCantidadSeleccionada);
+                if (float.TryParse(precioString, out _) && float.TryParse(stockString, out _) &&
+                    float.TryParse(cantidadString, out _))
+                {
+                    listaValidada = listaDeProductos;
+                }
+            }
         }
         /// <summary>
         /// metodo que se encarga de retorna la lista con los productos ya cargados 
@@ -44,6 +61,7 @@ namespace BibliotecaDeClases
         /// <returns>retorna una lista de tipo producto</returns>
         public static List<Producto> RetornarProductos()
         {
+
             return listaDeProductos;
         }
         /// <summary>
@@ -86,7 +104,7 @@ namespace BibliotecaDeClases
         /// </summary>
         public static void CargarClientes()
         {
-            listaCliente.Add(new Cliente("Leo Messi", "leomessi@gmail.com", "contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
+            listaCliente.Add(new Cliente("Leo Messi","leomessi@gmail.com","contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
             listaCliente.Add(new Cliente("Angel DiMaria", "angelito@gmail.com", "contraseña456", 20000, eMetodoPago.Tarjeta_de_debito));
             listaCliente.Add(new Cliente("Maria Lopez", "marilopez@gmail.com", "contraseña496", 10000, eMetodoPago.Mercado_pago));
             listaCliente.Add(new Cliente("Julian Alvarez", "julialvarez@gmail.com", "contraseña789", 23000, eMetodoPago.Efectivo));
@@ -99,7 +117,34 @@ namespace BibliotecaDeClases
         /// <returns>retorna una lista de tipo cliente</returns>
         public static List<Cliente> RetornarClientes()
         {
-            return listaCliente;
+            List<Cliente> clientesDatosSeguros = new List<Cliente>();
+
+            foreach (Cliente cliente in listaCliente)
+            {
+                Cliente datosSeguros = new Cliente(cliente.GetNombre,"","",cliente.GetMontoDisponible,cliente.GetMetodoPago);
+                clientesDatosSeguros.Add(datosSeguros);
+            }
+            return clientesDatosSeguros;
+        }
+        public static List<Vendedor> CargarVendedores() 
+        {
+            List<Vendedor> listaVendedores = new List<Vendedor>()
+            { 
+                new Vendedor("vendedor1@gmail.com", "contraseñaVendedor1", 123456, "Juan Perez"),
+                new Vendedor("vendedor2@gmail.com", "contraseñaVendedor2", 789012, "Adriana Davalos"),
+                new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez ")
+            };
+            return listaVendedores;
+        }
+        public static Vendedor RetornarVendedor()
+        {
+            List <Vendedor> listaVendedores = CargarVendedores();
+            Random random = new Random();
+            int indiceRandom = random.Next(0, listaVendedores.Count);
+
+            Vendedor vendedorAleatorio = listaVendedores[indiceRandom];
+
+            return vendedorAleatorio;
         }
     }
 }

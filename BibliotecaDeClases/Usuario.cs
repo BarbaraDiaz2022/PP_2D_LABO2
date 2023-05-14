@@ -19,11 +19,7 @@ namespace BibliotecaDeClases
         public string GetMail
         {
             get { return this.mail; }
-        } 
-        public string GetPassword
-        {
-            get { return this.password; }
-        }
+        } //aca podria servir un metodo que valide las contraseñas 
 
     }
 }

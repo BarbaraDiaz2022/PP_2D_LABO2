@@ -33,6 +33,7 @@
             btnVolver = new Button();
             dgv = new DataGridView();
             nombre = new DataGridViewTextBoxColumn();
+            vendedor = new DataGridViewTextBoxColumn();
             cliente = new DataGridViewTextBoxColumn();
             precio = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
@@ -44,7 +45,7 @@
             lblHistorial.BackColor = Color.Linen;
             lblHistorial.BorderStyle = BorderStyle.FixedSingle;
             lblHistorial.Font = new Font("Snap ITC", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lblHistorial.Location = new Point(108, 9);
+            lblHistorial.Location = new Point(185, 9);
             lblHistorial.Name = "lblHistorial";
             lblHistorial.Size = new Size(210, 37);
             lblHistorial.TabIndex = 11;
@@ -54,7 +55,7 @@
             // 
             btnVolver.BackColor = SystemColors.MenuHighlight;
             btnVolver.Font = new Font("Stencil", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            btnVolver.Location = new Point(335, 414);
+            btnVolver.Location = new Point(432, 411);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(96, 33);
             btnVolver.TabIndex = 12;
@@ -67,29 +68,38 @@
             dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv.BackgroundColor = SystemColors.ControlLightLight;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, cliente, precio });
+            dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, vendedor, cliente, precio });
             dgv.Location = new Point(12, 46);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(419, 359);
+            dgv.Size = new Size(516, 359);
             dgv.TabIndex = 13;
             // 
             // nombre
             // 
             nombre.HeaderText = "Producto vendido";
             nombre.Name = "nombre";
+            nombre.ReadOnly = true;
             nombre.Width = 125;
+            // 
+            // vendedor
+            // 
+            vendedor.HeaderText = "Vendido por";
+            vendedor.Name = "vendedor";
+            vendedor.ReadOnly = true;
             // 
             // cliente
             // 
             cliente.HeaderText = "Vendido al cliente";
             cliente.Name = "cliente";
+            cliente.ReadOnly = true;
             cliente.Width = 125;
             // 
             // precio
             // 
             precio.HeaderText = "Monto";
             precio.Name = "precio";
+            precio.ReadOnly = true;
             precio.Width = 125;
             // 
             // Frm_Historial
@@ -97,7 +107,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Thistle;
-            ClientSize = new Size(443, 450);
+            ClientSize = new Size(540, 450);
             Controls.Add(dgv);
             Controls.Add(btnVolver);
             Controls.Add(lblHistorial);
@@ -115,6 +125,7 @@
         private Button btnVolver;
         private DataGridView dgv;
         private DataGridViewTextBoxColumn nombre;
+        private DataGridViewTextBoxColumn vendedor;
         private DataGridViewTextBoxColumn cliente;
         private DataGridViewTextBoxColumn precio;
     }

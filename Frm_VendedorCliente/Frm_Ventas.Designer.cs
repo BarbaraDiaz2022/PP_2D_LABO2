@@ -32,7 +32,6 @@
             txtMonto = new TextBox();
             cbMetodoPago = new ComboBox();
             lblPago = new Label();
-            btnComprar = new Button();
             btnVolver = new Button();
             lblNombre = new Label();
             label3 = new Label();
@@ -41,16 +40,17 @@
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dgv = new DataGridView();
-            cbBuscarCorte = new ComboBox();
-            btnBuscar = new Button();
-            lblCliente = new Label();
-            txtNombreCliente = new TextBox();
             nombreProducto = new DataGridViewTextBoxColumn();
             stockProducto = new DataGridViewTextBoxColumn();
             precio = new DataGridViewTextBoxColumn();
             detalle = new DataGridViewTextBoxColumn();
             tipoDeCorte = new DataGridViewTextBoxColumn();
             cantidadComprada = new DataGridViewTextBoxColumn();
+            cbBuscarCorte = new ComboBox();
+            btnBuscar = new Button();
+            lblCliente = new Label();
+            txtNombreCliente = new TextBox();
+            btnComprar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -70,8 +70,10 @@
             cbMetodoPago.Items.AddRange(new object[] { "Efectivo ", "Tarjeta de crédito", "Tarjeta de débito", "Mercado Pago" });
             cbMetodoPago.Location = new Point(243, 423);
             cbMetodoPago.Name = "cbMetodoPago";
+            cbMetodoPago.RightToLeft = RightToLeft.Yes;
             cbMetodoPago.Size = new Size(121, 24);
             cbMetodoPago.TabIndex = 1;
+            cbMetodoPago.TabStop = false;
             // 
             // lblPago
             // 
@@ -82,19 +84,6 @@
             lblPago.Size = new Size(225, 18);
             lblPago.TabIndex = 2;
             lblPago.Text = "Seleccione el metodo de pago:";
-            // 
-            // btnComprar
-            // 
-            btnComprar.BackColor = Color.MediumBlue;
-            btnComprar.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnComprar.ForeColor = SystemColors.ControlLightLight;
-            btnComprar.Location = new Point(534, 415);
-            btnComprar.Name = "btnComprar";
-            btnComprar.Size = new Size(111, 37);
-            btnComprar.TabIndex = 3;
-            btnComprar.Text = "Comprar";
-            btnComprar.UseVisualStyleBackColor = false;
-            btnComprar.Click += btnComprar_Click;
             // 
             // btnVolver
             // 
@@ -161,8 +150,43 @@
             dgv.RowTemplate.Height = 25;
             dgv.Size = new Size(633, 275);
             dgv.TabIndex = 8;
-            dgv.CellClick += dgv_CellClick;
+            dgv.CellBeginEdit += dgv_CellBeginEdit;
+            dgv.CellClick += dgv_CellClick_1;
             dgv.CellEndEdit += dgv_CellEndEdit;
+            // 
+            // nombreProducto
+            // 
+            nombreProducto.HeaderText = "Nombre";
+            nombreProducto.Name = "nombreProducto";
+            // 
+            // stockProducto
+            // 
+            stockProducto.HeaderText = "Stock";
+            stockProducto.Name = "stockProducto";
+            stockProducto.Width = 45;
+            // 
+            // precio
+            // 
+            precio.HeaderText = "Precio x kilo";
+            precio.Name = "precio";
+            precio.Width = 80;
+            // 
+            // detalle
+            // 
+            detalle.HeaderText = "Detalle";
+            detalle.Name = "detalle";
+            detalle.Width = 195;
+            // 
+            // tipoDeCorte
+            // 
+            tipoDeCorte.HeaderText = "Tipo de corte";
+            tipoDeCorte.Name = "tipoDeCorte";
+            // 
+            // cantidadComprada
+            // 
+            cantidadComprada.HeaderText = "Cant. a comprar";
+            cantidadComprada.Name = "cantidadComprada";
+            cantidadComprada.Width = 70;
             // 
             // cbBuscarCorte
             // 
@@ -206,46 +230,23 @@
             txtNombreCliente.Size = new Size(100, 26);
             txtNombreCliente.TabIndex = 12;
             // 
-            // nombreProducto
+            // btnComprar
             // 
-            nombreProducto.HeaderText = "Nombre";
-            nombreProducto.Name = "nombreProducto";
-            // 
-            // stockProducto
-            // 
-            stockProducto.HeaderText = "Stock";
-            stockProducto.Name = "stockProducto";
-            stockProducto.Width = 45;
-            // 
-            // precio
-            // 
-            precio.HeaderText = "Precio x kilo";
-            precio.Name = "precio";
-            precio.Width = 80;
-            // 
-            // detalle
-            // 
-            detalle.HeaderText = "Detalle";
-            detalle.Name = "detalle";
-            detalle.Width = 195;
-            // 
-            // tipoDeCorte
-            // 
-            tipoDeCorte.HeaderText = "Tipo de corte";
-            tipoDeCorte.Name = "tipoDeCorte";
-            // 
-            // cantidadComprada
-            // 
-            cantidadComprada.HeaderText = "Cant. a comprar";
-            cantidadComprada.Name = "cantidadComprada";
-            cantidadComprada.Width = 70;
+            btnComprar.Location = new Point(478, 432);
+            btnComprar.Name = "btnComprar";
+            btnComprar.Size = new Size(75, 23);
+            btnComprar.TabIndex = 13;
+            btnComprar.Text = "comprar";
+            btnComprar.UseVisualStyleBackColor = true;
+            btnComprar.Click += btnComprar_Click;
             // 
             // Frm_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Wheat;
-            ClientSize = new Size(648, 457);
+            ClientSize = new Size(654, 457);
+            Controls.Add(btnComprar);
             Controls.Add(txtNombreCliente);
             Controls.Add(lblCliente);
             Controls.Add(btnBuscar);
@@ -254,7 +255,6 @@
             Controls.Add(label3);
             Controls.Add(lblNombre);
             Controls.Add(btnVolver);
-            Controls.Add(btnComprar);
             Controls.Add(lblPago);
             Controls.Add(cbMetodoPago);
             Controls.Add(txtMonto);
@@ -270,9 +270,7 @@
         #endregion
 
         private TextBox txtMonto;
-        private ComboBox cbMetodoPago;
         private Label lblPago;
-        private Button btnComprar;
         private Button btnVolver;
         private Label lblNombre;
         private Label label3;
@@ -285,6 +283,8 @@
         private Button btnBuscar;
         private Label lblCliente;
         private TextBox txtNombreCliente;
+        public ComboBox cbMetodoPago;
+        private Button btnComprar;
         private DataGridViewTextBoxColumn nombreProducto;
         private DataGridViewTextBoxColumn stockProducto;
         private DataGridViewTextBoxColumn precio;

@@ -43,7 +43,7 @@ namespace Frm_VendedorCliente
             txtCorte.Text = "";
         }
         private void btnModificar_Click(object sender, EventArgs e)
-        {
+        {//revisar validaciones 
             //obtengo los nuevos valores q ingresa el ususario 
             float precioModificado = float.Parse(txtPrecio.Text);
             string corteModificado = txtCorte.Text;

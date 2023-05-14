@@ -11,6 +11,7 @@ namespace BibliotecaDeClases
         private string detalle;
         private string tipoDeCorte;
         private float cantidadSeleccionada;
+        //bool visible para decidir si mostrarse en una lista 
         //constructor 
         public Producto(string nombre, float stock, float precio, string detalle,string tipoDeCorte, float cantidadSeleccionada) 
         {
@@ -77,6 +78,10 @@ namespace BibliotecaDeClases
         public float SetCantidadSeleccionada
         {
             set { this.cantidadSeleccionada = value; }
+        }
+        public static string ConvertirACaracter(float numero)
+        {
+            return numero.ToString();
         }
     }
 }

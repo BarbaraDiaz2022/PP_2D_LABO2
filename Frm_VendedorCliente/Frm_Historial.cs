@@ -21,7 +21,7 @@ namespace Frm_VendedorCliente
 
         private void Frm_Historial_Load(object sender, EventArgs e)
         {
-            // Crear una lista de ventas y obtener todas las ventas realizadas desde los formularios Frm_VenderProducto y Frm_Factura
+            //creo una lista de ventas para obtener todas las ventas realizadas desde Frm_VenderProducto y Frm_Factura
             List<Venta> ventas = new List<Venta>();
             productosObtenidos = Negocio.RetornarProductos();
             ventas.AddRange(Negocio.RetornarVentas());
@@ -34,7 +34,7 @@ namespace Frm_VendedorCliente
                     // Establecer el valor de las celdas con la información correspondiente a cada venta
                     if (venta.ContieneProducto(producto) && producto.GetCantidadSeleccionada > 0)
                     {
-                        dgv.Rows.Add(producto.GetNombre, venta.GetCliente, venta.GetMonto);
+                        dgv.Rows.Add(producto.GetNombre, venta.GetVendedor, venta.GetCliente, venta.GetMonto);
                     }
                 }
             }

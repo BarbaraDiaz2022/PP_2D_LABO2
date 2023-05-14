@@ -101,7 +101,7 @@ namespace Frm_VendedorCliente
         {
             List<Producto> listaCompra = new List<Producto>();
             Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
-            Vendedor vendedor = new Vendedor("vendedor@gmail.com","contraseñaVendedor1",2042684,"Juan Perez");
+            Vendedor vendedor = Negocio.RetornarVendedor();
             string clienteSelecString = clienteSeleccionado.GetNombre;
             float precioTotalConRecargo = 0;
             DialogResult confirmarVenta;
@@ -151,7 +151,7 @@ namespace Frm_VendedorCliente
             }
             
             txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
-            Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal);
+            Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal,vendedor.GetNombreVendedor);
             Negocio.CargarVentas(venta);
             foreach (Producto producto in listaCompra)
             {

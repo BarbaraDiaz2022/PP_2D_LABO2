@@ -20,7 +20,6 @@ namespace BibliotecaDeClases
         private string nombre;
         private float montoDisponible;
         private eMetodoPago metodoPago;
-
         //constructor
         public Cliente(string nombre,string mail, string password, float montoDisponible,eMetodoPago metodoPago)
         : base(mail, password)
@@ -59,6 +58,16 @@ namespace BibliotecaDeClases
         public eMetodoPago GetMetodoPago
         {
             get { return this.metodoPago; } 
+        }
+        //metodo
+        public static float ObtenerCeldaAValidar(object valorAValidar)
+        {
+            float valorFloat;
+            if (valorAValidar != null && float.TryParse(valorAValidar.ToString(), out valorFloat))
+            {
+                return valorFloat;
+            }
+            return 0.0f;//valor predeterminado por si no puede convertir 
         }
     }
 }

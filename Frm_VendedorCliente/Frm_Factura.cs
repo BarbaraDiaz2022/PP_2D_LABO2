@@ -43,7 +43,6 @@ namespace Frm_VendedorCliente
                 row.Cells["cantidadComprada"].Value = producto.GetCantidadSeleccionada;
             }
         }
-
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
