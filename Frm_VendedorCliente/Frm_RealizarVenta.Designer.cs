@@ -57,6 +57,7 @@
             dgv.RowTemplate.Height = 25;
             dgv.Size = new Size(643, 360);
             dgv.TabIndex = 1;
+            dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick;
             dgv.CellEndEdit += dgv_CellEndEdit;
             // 

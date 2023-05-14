@@ -74,6 +74,7 @@
             dgv.RowTemplate.Height = 25;
             dgv.Size = new Size(516, 359);
             dgv.TabIndex = 13;
+            dgv.CellBeginEdit += dgv_CellBeginEdit;
             // 
             // nombre
             // 

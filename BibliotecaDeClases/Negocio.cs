@@ -6,22 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BibliotecaDeClases
-{
-    //corregir excepciones 
+{ 
     public static class Negocio
     {
         //atributos 
-        private static List<Producto> listaDeProductos;
-        private static List<Producto> listaValidada;
+        private static List<Producto> listaOriginal;
+        private static List<Producto> listaCopia;
         private static List<Venta> listaVentas;
         private static List<Cliente> listaCliente;
         //constructor
         static Negocio()
         {
-            listaDeProductos = new List<Producto>();
+            listaOriginal = new List<Producto>();
             listaVentas = new List<Venta>();
             listaCliente = new List<Cliente>();
-            listaValidada = new List<Producto>();
+            listaCopia = new List<Producto>();
             CargarDgv();
             CargarCopiaProductos();
         }
@@ -29,30 +28,23 @@ namespace BibliotecaDeClases
         /// <summary>
         /// metodo que carga a la lista los productos (hardcodeados)
         /// </summary>
-        public static void CargarDgv()
+        private static void CargarDgv()
         {
             //nombre stock precioxkilo detalle tipodecorte
-            listaDeProductos.Add(new Producto("Milanesas.01", 15, 2500, "Milanesas de carne vacuna", "Peceto", 0));
-            listaDeProductos.Add(new Producto("Milanesas.02", 15, 1800, "Milanesas de carne avicola", "Pechuga", 0));
-            listaDeProductos.Add(new Producto("Milanesas.03", 12, 1900, "Milanesas de carne porcina", "Bondiola", 0));
-            listaDeProductos.Add(new Producto("Milanesas.04", 15, 2000, "Milanesas de carne vacuna", "Bola de lomo", 0));
-            listaDeProductos.Add(new Producto("Hamburguesas.01", 20, 1500, "Hamburguesas de carne avicola", "Pechuga", 0));
-            listaDeProductos.Add(new Producto("Bife", 25, 2800, "Bifes de carne vacuna", "Bife de chorizo", 0));
-            listaDeProductos.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto", 0));
-            listaDeProductos.Add(new Producto("Bife.02", 30, 1950, "Bifes de carne porcina", "Bife de bondiola", 0));
+            listaOriginal.Add(new Producto("Milanesas.01", 15, 2500, "Milanesas de carne vacuna", "Peceto", 0));
+            listaOriginal.Add(new Producto("Milanesas.02", 15, 1800, "Milanesas de carne avicola", "Pechuga", 0));
+            listaOriginal.Add(new Producto("Milanesas.03", 12, 1900, "Milanesas de carne porcina", "Bondiola", 0));
+            listaOriginal.Add(new Producto("Milanesas.04", 15, 2000, "Milanesas de carne vacuna", "Bola de lomo", 0));
+            listaOriginal.Add(new Producto("Hamburguesas.01", 20, 1500, "Hamburguesas de carne avicola", "Pechuga", 0));
+            listaOriginal.Add(new Producto("Bife", 25, 2800, "Bifes de carne vacuna", "Bife de chorizo", 0));
+            listaOriginal.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto", 0));
+            listaOriginal.Add(new Producto("Bife.02", 30, 1950, "Bifes de carne porcina", "Bife de bondiola", 0));
         }
         private static void CargarCopiaProductos()
         {
-            foreach (Producto producto in listaDeProductos)
+            foreach (Producto producto in listaOriginal)
             {
-                string precioString = Producto.ConvertirACaracter(producto.GetPrecio);
-                string stockString = Producto.ConvertirACaracter(producto.GetStock);
-                string cantidadString = Producto.ConvertirACaracter(producto.GetCantidadSeleccionada);
-                if (float.TryParse(precioString, out _) && float.TryParse(stockString, out _) &&
-                    float.TryParse(cantidadString, out _))
-                {
-                    listaValidada = listaDeProductos;
-                }
+                listaCopia = listaOriginal;
             }
         }
         /// <summary>
@@ -62,7 +54,7 @@ namespace BibliotecaDeClases
         public static List<Producto> RetornarProductos()
         {
 
-            return listaDeProductos;
+            return listaCopia;
         }
         /// <summary>
         /// metodo que añade una venta que recibe por parametro a la lista de ventas
@@ -90,7 +82,7 @@ namespace BibliotecaDeClases
         {
             List<Producto> listaFiltrada = new List<Producto>();
 
-            foreach (Producto producto in listaDeProductos)
+            foreach (Producto producto in listaCopia)
             {
                 if (producto.GetTipoDeCorte.ToLower().Contains(corteBusqueda.ToLower()))
                 {

@@ -70,7 +70,7 @@
             cbMetodoPago.Items.AddRange(new object[] { "Efectivo ", "Tarjeta de crédito", "Tarjeta de débito", "Mercado Pago" });
             cbMetodoPago.Location = new Point(243, 423);
             cbMetodoPago.Name = "cbMetodoPago";
-            cbMetodoPago.RightToLeft = RightToLeft.Yes;
+            cbMetodoPago.RightToLeft = RightToLeft.No;
             cbMetodoPago.Size = new Size(121, 24);
             cbMetodoPago.TabIndex = 1;
             cbMetodoPago.TabStop = false;
@@ -232,12 +232,15 @@
             // 
             // btnComprar
             // 
-            btnComprar.Location = new Point(478, 432);
+            btnComprar.BackColor = Color.MediumBlue;
+            btnComprar.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnComprar.ForeColor = SystemColors.ControlLightLight;
+            btnComprar.Location = new Point(511, 414);
             btnComprar.Name = "btnComprar";
-            btnComprar.Size = new Size(75, 23);
+            btnComprar.Size = new Size(134, 36);
             btnComprar.TabIndex = 13;
             btnComprar.Text = "comprar";
-            btnComprar.UseVisualStyleBackColor = true;
+            btnComprar.UseVisualStyleBackColor = false;
             btnComprar.Click += btnComprar_Click;
             // 
             // Frm_Ventas

@@ -47,6 +47,8 @@
             lblVendedor = new Label();
             lblInfoCod = new Label();
             lblNombreVendedor = new Label();
+            lblInfoMetPago = new Label();
+            lblMetodoPagado = new Label();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -69,7 +71,7 @@
             dgv.Location = new Point(4, 47);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(549, 347);
+            dgv.Size = new Size(549, 317);
             dgv.TabIndex = 1;
             // 
             // nombre
@@ -105,7 +107,7 @@
             // 
             lblInformacion.AutoSize = true;
             lblInformacion.Font = new Font("Arial Black", 12F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point);
-            lblInformacion.Location = new Point(13, 476);
+            lblInformacion.Location = new Point(4, 475);
             lblInformacion.Name = "lblInformacion";
             lblInformacion.Size = new Size(173, 23);
             lblInformacion.TabIndex = 2;
@@ -117,7 +119,7 @@
             lblCliente.BorderStyle = BorderStyle.FixedSingle;
             lblCliente.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblCliente.ForeColor = SystemColors.ControlText;
-            lblCliente.Location = new Point(188, 479);
+            lblCliente.Location = new Point(183, 478);
             lblCliente.Name = "lblCliente";
             lblCliente.Size = new Size(59, 20);
             lblCliente.TabIndex = 3;
@@ -127,9 +129,9 @@
             // 
             btnVolver.BackColor = SystemColors.MenuHighlight;
             btnVolver.Font = new Font("Stencil", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            btnVolver.Location = new Point(464, 479);
+            btnVolver.Location = new Point(454, 463);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(89, 25);
+            btnVolver.Size = new Size(99, 35);
             btnVolver.TabIndex = 4;
             btnVolver.Text = "Volver";
             btnVolver.UseVisualStyleBackColor = false;
@@ -139,7 +141,7 @@
             // 
             lblInfoPago.AutoSize = true;
             lblInfoPago.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
-            lblInfoPago.Location = new Point(13, 448);
+            lblInfoPago.Location = new Point(4, 426);
             lblInfoPago.Name = "lblInfoPago";
             lblInfoPago.Size = new Size(114, 18);
             lblInfoPago.TabIndex = 5;
@@ -150,7 +152,7 @@
             lblPago.AutoSize = true;
             lblPago.BorderStyle = BorderStyle.FixedSingle;
             lblPago.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblPago.Location = new Point(84, 414);
+            lblPago.Location = new Point(79, 367);
             lblPago.Name = "lblPago";
             lblPago.Size = new Size(129, 20);
             lblPago.TabIndex = 6;
@@ -160,7 +162,7 @@
             // 
             lblInfoSub.AutoSize = true;
             lblInfoSub.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
-            lblInfoSub.Location = new Point(13, 414);
+            lblInfoSub.Location = new Point(4, 367);
             lblInfoSub.Name = "lblInfoSub";
             lblInfoSub.Size = new Size(69, 18);
             lblInfoSub.TabIndex = 7;
@@ -171,7 +173,7 @@
             lblSubtotal.AutoSize = true;
             lblSubtotal.BorderStyle = BorderStyle.FixedSingle;
             lblSubtotal.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblSubtotal.Location = new Point(133, 448);
+            lblSubtotal.Location = new Point(124, 426);
             lblSubtotal.Name = "lblSubtotal";
             lblSubtotal.Size = new Size(104, 20);
             lblSubtotal.TabIndex = 8;
@@ -181,7 +183,7 @@
             // 
             lblInfoVend.AutoSize = true;
             lblInfoVend.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
-            lblInfoVend.Location = new Point(276, 414);
+            lblInfoVend.Location = new Point(276, 369);
             lblInfoVend.Name = "lblInfoVend";
             lblInfoVend.Size = new Size(97, 18);
             lblInfoVend.TabIndex = 9;
@@ -192,7 +194,7 @@
             lblVendedor.AutoSize = true;
             lblVendedor.BorderStyle = BorderStyle.FixedSingle;
             lblVendedor.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVendedor.Location = new Point(440, 439);
+            lblVendedor.Location = new Point(440, 398);
             lblVendedor.Name = "lblVendedor";
             lblVendedor.Size = new Size(75, 20);
             lblVendedor.TabIndex = 10;
@@ -202,7 +204,7 @@
             // 
             lblInfoCod.AutoSize = true;
             lblInfoCod.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
-            lblInfoCod.Location = new Point(276, 441);
+            lblInfoCod.Location = new Point(276, 398);
             lblInfoCod.Name = "lblInfoCod";
             lblInfoCod.Size = new Size(158, 18);
             lblInfoCod.TabIndex = 11;
@@ -212,11 +214,32 @@
             // 
             lblNombreVendedor.AutoSize = true;
             lblNombreVendedor.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblNombreVendedor.Location = new Point(379, 414);
+            lblNombreVendedor.Location = new Point(379, 369);
             lblNombreVendedor.Name = "lblNombreVendedor";
             lblNombreVendedor.Size = new Size(73, 18);
             lblNombreVendedor.TabIndex = 12;
             lblNombreVendedor.Text = "vendedor";
+            // 
+            // lblInfoMetPago
+            // 
+            lblInfoMetPago.AutoSize = true;
+            lblInfoMetPago.BorderStyle = BorderStyle.FixedSingle;
+            lblInfoMetPago.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblInfoMetPago.Location = new Point(107, 396);
+            lblInfoMetPago.Name = "lblInfoMetPago";
+            lblInfoMetPago.Size = new Size(46, 20);
+            lblInfoMetPago.TabIndex = 13;
+            lblInfoMetPago.Text = "pago";
+            // 
+            // lblMetodoPagado
+            // 
+            lblMetodoPagado.AutoSize = true;
+            lblMetodoPagado.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
+            lblMetodoPagado.Location = new Point(4, 396);
+            lblMetodoPagado.Name = "lblMetodoPagado";
+            lblMetodoPagado.Size = new Size(97, 18);
+            lblMetodoPagado.TabIndex = 14;
+            lblMetodoPagado.Text = "Pagado con:";
             // 
             // Frm_VenderProducto
             // 
@@ -224,6 +247,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Thistle;
             ClientSize = new Size(559, 507);
+            Controls.Add(lblMetodoPagado);
+            Controls.Add(lblInfoMetPago);
             Controls.Add(lblNombreVendedor);
             Controls.Add(lblInfoCod);
             Controls.Add(lblVendedor);
@@ -266,5 +291,7 @@
         private Label lblVendedor;
         private Label lblInfoCod;
         private Label lblNombreVendedor;
+        private Label lblInfoMetPago;
+        private Label lblMetodoPagado;
     }
 }

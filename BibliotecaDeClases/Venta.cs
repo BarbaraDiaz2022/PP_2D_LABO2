@@ -15,11 +15,20 @@ namespace BibliotecaDeClases
             this.GetMonto = montoTotal;
             this.GetVendedor = vendedor;
         }
+        public Venta(List<Producto> productos,string cliente,float montoTotal,string vendedor,eMetodoPago pago) 
+        {
+            listaProductos = productos;
+            this.GetCliente = cliente;
+            this.GetMonto = montoTotal;
+            this.GetVendedor = vendedor;
+            this.GetMetodoDePago = pago;
+        }
         //propiedad
         public string GetCliente { get; set; }
         public float GetMonto { get; set; }
         public List<Producto> listaProductos { get; set; }
         public string GetVendedor { get; set; }
+        public eMetodoPago GetMetodoDePago { get; set; }
         //metodo
         /// <summary>
         /// metodo que busca y verifica si un producto pasado por parametro esta contenido en la lista original 

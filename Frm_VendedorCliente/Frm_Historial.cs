@@ -45,6 +45,12 @@ namespace Frm_VendedorCliente
             frmSelecVendedor.Show();
             this.Close();
         }
+
+        private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridViewColumn columnaActual = dgv.Columns[e.ColumnIndex];
+            e.Cancel = true;
+        }
     }
 }
 

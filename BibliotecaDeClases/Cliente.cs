@@ -60,6 +60,11 @@ namespace BibliotecaDeClases
             get { return this.metodoPago; } 
         }
         //metodo
+        /// <summary>
+        /// valida el valor q ingreso el cliente
+        /// </summary>
+        /// <param name="valorAValidar">celda del data grid view a validar</param>
+        /// <returns>retorna el valor en flotante si es un numero y 0 si era una letra</returns>
         public static float ObtenerCeldaAValidar(object valorAValidar)
         {
             float valorFloat;

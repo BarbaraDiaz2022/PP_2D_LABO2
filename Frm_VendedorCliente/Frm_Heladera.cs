@@ -15,12 +15,12 @@ namespace Frm_VendedorCliente
     {
         int posicion;
         List<Producto> listaDeProductos;
-        List<Producto> productosSeleccionados;
+        //List<Producto> productosSeleccionados;
         public Frm_Heladera()
         {
             InitializeComponent();
             this.listaDeProductos = Negocio.RetornarProductos();
-            this.productosSeleccionados = new List<Producto>();
+            //this.productosSeleccionados = new List<Producto>();
         }
         public void CargarDataGridView(List<Producto> listaDeProductos)
         {
@@ -28,6 +28,10 @@ namespace Frm_VendedorCliente
             {
                 dgv.Rows.Add(producto.GetNombre, producto.GetStock, producto.GetPrecio, producto.GetDetalle, producto.GetTipoDeCorte);
             }
+        }
+        private void Frm_Heladera_Load(object sender, EventArgs e)
+        {
+            CargarDataGridView(Negocio.RetornarProductos());
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
@@ -37,28 +41,35 @@ namespace Frm_VendedorCliente
         }
         void limpiarTxt()
         {
-
             txtStock.Text = "";
             txtPrecio.Text = "";
             txtCorte.Text = "";
         }
         private void btnModificar_Click(object sender, EventArgs e)
-        {//revisar validaciones 
-            //obtengo los nuevos valores q ingresa el ususario 
-            float precioModificado = float.Parse(txtPrecio.Text);
+        {
+            //obtengo los valores que ingresa el usuario
+            float precioModificado;
+            if (!float.TryParse(txtPrecio.Text, out precioModificado) && precioModificado > 0)
+            {
+                MessageBox.Show("Ingrese un valor numérico válido para el precio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            float stockModificado;
+            if (!float.TryParse(txtStock.Text, out stockModificado) && stockModificado > 0)
+            {
+                MessageBox.Show("Ingrese un valor numérico válido para el stock.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             string corteModificado = txtCorte.Text;
-            float stockModificado = float.Parse(txtStock.Text);
             //obtengo la fila seleccionada en el indice que corresponde 
             DataGridViewRow filaSelec = dgv.CurrentRow;
             int indiceFilaSeleccionada = filaSelec.Index;
-            //cargo los nuevos datos que se ingresaron 
+            //cargo los nuevos datos que se ingresaron en el producto
             Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
-
             productoSeleccionado.SetPrecio = precioModificado;
             productoSeleccionado.SetTipoDeCorte = corteModificado;
             productoSeleccionado.SetStock = stockModificado;
-            // Restar la cantidad modificada del valor actual del stock para obtener el nuevo valor del stock
-            listaDeProductos[indiceFilaSeleccionada] = productoSeleccionado;
+
             //actualizo el dgv
             filaSelec.Cells["stock"].Value = stockModificado;
             filaSelec.Cells["precio"].Value = precioModificado;
@@ -76,26 +87,6 @@ namespace Frm_VendedorCliente
             //habilito los botones
             btnModificar.Enabled = true;
             txtStock.Focus();
-
-            int n = e.RowIndex;
-            if (n != -1)
-            {
-                //obtener el producto seleccionado
-                DataGridViewRow row = this.dgv.Rows[e.RowIndex];
-                //crear el producto y agregarlo a la lista de los seleccionados 
-                Producto producto = new Producto(
-                    Convert.ToSingle(row.Cells["stock"].Value),
-                    Convert.ToSingle(row.Cells["precio"].Value),
-                    row.Cells["tipoCorte"].Value.ToString());
-                if (row.Selected)
-                {
-                    productosSeleccionados.Add(producto);
-                }
-            }
-        }
-        private void Frm_Heladera_Load(object sender, EventArgs e)
-        {
-            CargarDataGridView(Negocio.RetornarProductos());
         }
     }
 }

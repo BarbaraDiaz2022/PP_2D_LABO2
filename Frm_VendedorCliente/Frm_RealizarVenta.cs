@@ -40,6 +40,43 @@ namespace Frm_VendedorCliente
             }
             CargarDataGridView();
         }
+        private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridViewColumn columnaActual = dgv.Columns[e.ColumnIndex];
+            //solo permite editar la columna de la cantidad 
+            if (columnaActual.Name == "cantidadComprada")
+            {
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+        private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //verifico si se editó la columna "cantidadComprada"
+            if (e.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
+            {   //obtengo el valor de la celda como cadena de texto 
+                int rowIndex = e.RowIndex;
+                string nuevoValorString = dgv.Rows[rowIndex].Cells["cantidadComprada"].Value.ToString();
+                if (float.TryParse(nuevoValorString, out float nuevoValor) && nuevoValor >= 0)
+                {   //actualiza el valor de la lista de productos correspondientes
+                    listaDeProductos[rowIndex].SetCantidadSeleccionada = nuevoValor;
+                    //busca el producto en productosSeleccionados por su nombre
+                    Producto productoSeleccionado = productosSeleccionados.Find(p => p.GetNombre == dgv.Rows[rowIndex].Cells["nombre"].Value.ToString());
+                    //actualiza la cantidad seleccionada del producto correspondiente
+                    if (productoSeleccionado != null)
+                    {
+                        productoSeleccionado.SetCantidadSeleccionada = nuevoValor;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ingrese una cantidad válida.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int n = e.RowIndex;
@@ -52,8 +89,16 @@ namespace Frm_VendedorCliente
                     Convert.ToSingle(row.Cells["precio"].Value),
                     row.Cells["detalle"].Value.ToString(),
                     row.Cells["tipoCorte"].Value.ToString(),
-                    Convert.ToSingle(row.Cells["cantidadComprada"].Value));
-                // agregar el producto seleccionado a la lista
+                    Cliente.ObtenerCeldaAValidar(row.Cells["cantidadComprada"].Value));
+                //verifico si fue la celda cantidad
+                if (dgv.CurrentCell != null && dgv.CurrentCell.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
+                {   //si estoy editando la celda que salga y no haga nada
+                    if (dgv.IsCurrentCellInEditMode)
+                    {
+                        return;
+                    }
+                }
+                //agregar el producto seleccionado a la lista
                 if (row.Selected)
                 {
                     if (productosSeleccionados.Contains(producto))
@@ -67,42 +112,10 @@ namespace Frm_VendedorCliente
                 }
             }
         }
-        private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            //verifica si se edito la columna cantidad 
-            if (e.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
-            {
-                int rowIndex = e.RowIndex;
-                float nuevoValor = Convert.ToSingle(dgv.Rows[rowIndex].Cells["cantidadComprada"].Value);
-
-                if (nuevoValor > 0)
-                {
-                    // buscar el producto correspondiente a la fila editada
-                    string nombreProducto = dgv.Rows[rowIndex].Cells["nombre"].Value.ToString();
-                    Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == nombreProducto);
-                    Producto productoSeleccionado = productosSeleccionados.Find(p => p.GetNombre == nombreProducto);
-
-                    // actualizar la cantidad seleccionada y el stock del producto correspondiente
-                    productoEnLista.SetCantidadSeleccionada = nuevoValor;
-                    productoSeleccionado.SetCantidadSeleccionada = nuevoValor;
-                    productoEnLista.SetStock = productoEnLista.GetStock - nuevoValor;
-
-                    // buscar la fila correspondiente al producto utilizando el objeto Producto
-                    int rowIndexStock = dgv.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["nombre"].Value.ToString() == nombreProducto)?.Index ?? -1;
-                    if (rowIndexStock >= 0)
-                    {
-                        dgv.Rows[rowIndexStock].Cells["stock"].Value = productoEnLista.GetStock;
-                        dgv.Refresh();
-                    }
-                }
-            }
-        }
         private void btnVender_Click(object sender, EventArgs e)
         {
             List<Producto> listaCompra = new List<Producto>();
-            Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
             Vendedor vendedor = Negocio.RetornarVendedor();
-            string clienteSelecString = clienteSeleccionado.GetNombre;
             float precioTotalConRecargo = 0;
             DialogResult confirmarVenta;
 
@@ -113,49 +126,72 @@ namespace Frm_VendedorCliente
                     listaCompra.Add(producto);
                 }
             }
-            float precioTotal = Vendedor.CalcularMonto(listaCompra); ;
-            confirmarVenta = MessageBox.Show("¿Desea confirmar la venta?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            foreach (Producto producto in listaCompra)
+            //si selecciono un cliente
+            if (cbClientes.SelectedIndex != -1)
             {
-                if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
-                {
-                    if (confirmarVenta == DialogResult.Yes)
+                Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
+                txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
+                string clienteSelecString = clienteSeleccionado.GetNombre;
+                float precioTotal = Vendedor.CalcularMonto(listaCompra);
+                confirmarVenta = MessageBox.Show("¿Desea confirmar la venta?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                
+                foreach (Producto producto in listaCompra)
+                {   //verifico si hay stock 
+                    if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
                     {
-                        if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
+                        //verifico si el cliente tiene el dinero suficiente
+                        if (precioTotal <= clienteSeleccionado.GetMontoDisponible)
                         {
-                            precioTotalConRecargo = precioTotal * 1.05f;
-                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo,vendedor.GetCodigo,vendedor.GetNombreVendedor);
-                            frmVentas.ShowDialog();
+                            if (confirmarVenta == DialogResult.Yes)
+                            {
+                                if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
+                                {
+                                    precioTotalConRecargo = precioTotal * 1.05f;
+                                    clienteSeleccionado.SetMontoDisponible = clienteSeleccionado.GetMontoDisponible - precioTotalConRecargo;
+                                    //actualizo el monto en txtInfoMonto
+                                    txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
+                                    Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo, vendedor.GetCodigo, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
+                                    frmVentas.ShowDialog();
+                                }
+                                else
+                                {
+                                    clienteSeleccionado.SetMontoDisponible = clienteSeleccionado.GetMontoDisponible - precioTotal;
+                                    //actualizo el monto en txtInfoMonto
+                                    txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
+                                    Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal, vendedor.GetCodigo, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
+                                    frmVentas.ShowDialog();
+                                }
+                                
+                                //actualizo el stock
+                                Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == producto.GetNombre && p.GetCantidadSeleccionada == producto.GetCantidadSeleccionada);
+                                productoEnLista.SetStock -= producto.GetCantidadSeleccionada;
+                                int rowIndex = listaDeProductos.IndexOf(productoEnLista);
+                                dgv.Rows[rowIndex].Cells["stock"].Value = productoEnLista.GetStock;
+                                dgv.Refresh();
+                            }
                         }
                         else
-                        {
-                            Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal,vendedor.GetCodigo,vendedor.GetNombreVendedor);
-                            frmVentas.ShowDialog();
-                        }
-                        //verifico si el cliente tiene monto para comprar 
-                        if (precioTotal > clienteSeleccionado.GetMontoDisponible)
                         {
                             MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                        else
-                        {
-                            clienteSeleccionado.SetMontoDisponible = clienteSeleccionado.GetMontoDisponible - producto.GetPrecio;
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No hay suficiente stock para realizar la venta.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                     }
                 }
-                else
+                Venta venta = new Venta(listaCompra,clienteSelecString, precioTotal, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
+                Negocio.CargarVentas(venta);
+
+                foreach (Producto producto in listaCompra)
                 {
-                    MessageBox.Show("No hay suficiente stock para realizar la venta.");
+                    producto.SetCantidadSeleccionada = 0;
                 }
             }
-            
-            txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
-            Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal,vendedor.GetNombreVendedor);
-            Negocio.CargarVentas(venta);
-            foreach (Producto producto in listaCompra)
+            else 
             {
-                producto.SetCantidadSeleccionada = 0;
+                MessageBox.Show("Seleccione un cliente para realizar la venta.","ATENCION",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
         private void btnVolver_Click(object sender, EventArgs e)
@@ -164,5 +200,6 @@ namespace Frm_VendedorCliente
             frmMenuSelec.Show();
             this.Close();
         }
+
     }
 }

@@ -57,7 +57,7 @@ namespace Frm_VendedorCliente
             {   //obtengo el valor de la celda como cadena de texto 
                 int rowIndex = e.RowIndex;
                 string nuevoValorString = dgv.Rows[rowIndex].Cells["cantidadComprada"].Value.ToString();
-                if(float.TryParse(nuevoValorString, out float nuevoValor) && nuevoValor >= 0)
+                if (float.TryParse(nuevoValorString, out float nuevoValor) && nuevoValor >= 0)
                 {   //actualiza el valor de la lista de productos correspondientes
                     listaDeProductos[rowIndex].SetCantidadSeleccionada = nuevoValor;
                     //busca el producto en productosSeleccionados por su nombre
@@ -86,7 +86,7 @@ namespace Frm_VendedorCliente
                     Convert.ToSingle(row.Cells["precio"].Value),
                     row.Cells["detalle"].Value.ToString(),
                     row.Cells["tipoDeCorte"].Value.ToString(),
-                    Cliente.ObtenerCeldaAValidar(row.Cells["cantidadComprada"].Value));        
+                    Cliente.ObtenerCeldaAValidar(row.Cells["cantidadComprada"].Value));
                 //verifico si fue la celda cantidad comprada la q se selecciono y edito
                 if (dgv.CurrentCell != null && dgv.CurrentCell.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
                 {
@@ -133,6 +133,7 @@ namespace Frm_VendedorCliente
         private void btnComprar_Click(object sender, EventArgs e)
         {
             float montoConRecargo = 0;
+            float montoMax = 0;
             string nombre = txtNombreCliente.Text.ToString();
             bool compraRealizada = false;
             DialogResult confirmarVenta;
@@ -145,94 +146,89 @@ namespace Frm_VendedorCliente
                     listaCompra.Add(producto);
                 }
             }
-            //si elige un metodo de pago
-            if (cbMetodoPago.SelectedIndex != -1)
-            {   //si ingresa un monto valido 
-                if (float.TryParse(txtMonto.Text, out float montoMax))
-                {
-                    float montoTotal = Vendedor.CalcularMonto(listaCompra);
-
-                    foreach (Producto productoCompra in listaCompra)
-                    {   //si hay stock
-                        if (productoCompra.GetStock > 0)
-                        {   //si el monto que ingreso el cliente alcanza 
-                            if (montoMax >= montoTotal)
-                            {
-                                confirmarVenta = MessageBox.Show("¿Desea confirmar la compra?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                if (confirmarVenta == DialogResult.Yes)
+            if (nombre == null || nombre == "") 
+            {
+                MessageBox.Show("Ingrese su nombre.","Error",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+            }
+            else
+            {
+                //si elige un metodo de pago
+                if (cbMetodoPago.SelectedIndex != -1)
+                {   //si ingresa un monto valido 
+                    if (float.TryParse(txtMonto.Text, out montoMax))
+                    {
+                        float montoTotal = Vendedor.CalcularMonto(listaCompra);
+                        foreach (Producto productoCompra in listaCompra)
+                        {   //si hay stock
+                            if (productoCompra.GetStock > 0)
+                            {   //si el monto que ingreso el cliente no alcanza
+                                if (montoMax < montoTotal)
                                 {
-                                    if (cbMetodoPago.SelectedItem.ToString() == "Tarjeta de crédito")
+                                    MessageBox.Show("No tiene suficiente dinero para realizar esta compra.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    //txtMonto.Text = montoMax.ToString("N2");
+                                    return; //salgo sin comprar nada 
+                                }
+                                else
+                                {
+                                    confirmarVenta = MessageBox.Show("¿Desea confirmar la compra?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    if (confirmarVenta == DialogResult.Yes)
                                     {
-                                        montoConRecargo = montoTotal * 1.05f;
-                                        if (montoMax >= montoConRecargo)
+                                        if (cbMetodoPago.SelectedItem.ToString() == "Tarjeta de crédito")
                                         {
-                                            Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoConRecargo, cbMetodoPago.SelectedItem.ToString(), montoTotal);
-                                            frmFactura.ShowDialog();
+                                            montoConRecargo = montoTotal * 1.05f;
+                                            if (montoMax >= montoConRecargo)
+                                            {
+                                                Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoConRecargo, cbMetodoPago.SelectedItem.ToString(), montoTotal);
+                                                frmFactura.ShowDialog();
+                                                compraRealizada = true;
+                                                //añado la venta a la lista para el historial 
+                                                Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta hecha por el cliente");
+                                                Negocio.CargarVentas(venta);
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("No tiene suficiente dinero para realizar esta compra", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }
                                         }
                                         else
                                         {
-                                            MessageBox.Show("No tiene suficiente dinero para realizar esta compra", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoTotal, cbMetodoPago.SelectedItem.ToString(), montoTotal);
+                                            frmFactura.ShowDialog();
+                                            compraRealizada = true;
+                                            Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta online hecha por cliente");
+                                            Negocio.CargarVentas(venta);
                                         }
+                                        //actualizo el stock
+                                        Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == productoCompra.GetNombre && p.GetCantidadSeleccionada == productoCompra.GetCantidadSeleccionada);
+                                        productoEnLista.SetStock -= productoCompra.GetCantidadSeleccionada;
+                                        int rowIndex = listaDeProductos.IndexOf(productoEnLista);
+                                        dgv.Rows[rowIndex].Cells["stockProducto"].Value = productoEnLista.GetStock;
+                                        dgv.Refresh();
+                                        //calculo y actualizo el txt con el nuevo monto 
+                                        montoMax -= montoTotal;
+                                        txtMonto.Text = montoMax.ToString("N2");
                                     }
-                                    else
-                                    {
-                                        Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoTotal, cbMetodoPago.SelectedItem.ToString(), montoTotal);
-                                        frmFactura.ShowDialog();
-                                    }
-                                    //actualizo el stock
-                                    Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == productoCompra.GetNombre && p.GetCantidadSeleccionada == productoCompra.GetCantidadSeleccionada);
-                                    productoEnLista.SetStock -= productoCompra.GetCantidadSeleccionada;
-                                    int rowIndex = listaDeProductos.IndexOf(productoEnLista);
-                                    dgv.Rows[rowIndex].Cells["stockProducto"].Value = productoEnLista.GetStock;
-                                    dgv.Refresh();
                                 }
-                                compraRealizada = true;
                             }
                             else
                             {
-                                MessageBox.Show("No tiene suficiente dinero para realizar esta compra.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("No hay stock disponible.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
-                        else
+                        foreach (Producto producto in listaCompra)
                         {
-                            MessageBox.Show("No hay stock disponible.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    //añado la venta a la lista para el historial 
-                    Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta online");
-                    Negocio.CargarVentas(venta);
-                    //edito el valor de los txt solo si se pudo comprar 
-                    if (cbMetodoPago.SelectedItem.ToString() == "Tarjeta de crédito" && compraRealizada)
-                    {
-                        if ((montoMax - montoConRecargo) > 0)
-                        {
-                            txtMonto.Text = (montoMax - montoConRecargo).ToString("N2");
-                        }
-                        else
-                        {
-                            txtMonto.Text = montoTotal.ToString("N2");
+                            producto.SetCantidadSeleccionada = 0;
                         }
                     }
                     else
                     {
-                        if (compraRealizada && (montoMax - montoTotal > 0))
-                        {
-                            txtMonto.Text = (montoMax - montoTotal).ToString("N2");
-                        }
-                        else
-                        {
-                            txtMonto.Text =montoTotal.ToString("N2");
-                        }
+                        MessageBox.Show("Ingrese un monto valido.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Ingrese un monto valido.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Indique un método de pago.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            else
-            {
-                MessageBox.Show("Indique un método de pago.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

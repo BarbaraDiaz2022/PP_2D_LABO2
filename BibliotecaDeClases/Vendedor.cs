@@ -12,6 +12,12 @@ namespace BibliotecaDeClases
         private int codigoVendedor;
         private string nombreVendedor;
         //constructor
+        public Vendedor(string mail,string password,string nombre)
+            : base(mail, password) 
+        {
+            this.nombreVendedor = nombre;   
+        }
+        //sobrecarga 
         public Vendedor(string mail, string password,int codigoVendedor,string nombreVendedor)
         : base(mail, password)
         {
