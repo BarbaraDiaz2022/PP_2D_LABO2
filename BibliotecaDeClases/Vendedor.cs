@@ -25,14 +25,8 @@ namespace BibliotecaDeClases
             this.nombreVendedor = nombreVendedor;
         }
         //propiedades
-        public int GetCodigo
-        {
-            get { return codigoVendedor; }
-        }
-        public string GetNombreVendedor
-        {
-            get { return nombreVendedor; }
-        }
+        public int GetCodigo { get; }
+        public string GetNombreVendedor { get; }
         //metodos 
         /// <summary>
         /// metodo que calcula el monto total de productos seleccionados en una lista 
@@ -47,6 +41,17 @@ namespace BibliotecaDeClases
                 montoTotal += producto.GetPrecio * producto.GetCantidadSeleccionada;
             }
             return montoTotal;
+        }
+        public override string Saludar(string nombre) 
+        { 
+            return "Usted ingresó como: Vendedor" + base.Saludar(nombre); 
+        }
+        public static string RetornarSaludo() 
+        {
+            Vendedor vendedor = new Vendedor("","","");
+            string mensaje = vendedor.Saludar("Juan Perez");
+
+            return mensaje;
         }
     }
 }

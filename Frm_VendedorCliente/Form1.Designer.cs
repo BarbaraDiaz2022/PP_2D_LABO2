@@ -97,6 +97,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
             Text = "Menu Principal";
+            FormClosing += Form1_FormClosing;
             ((System.ComponentModel.ISupportInitialize)pbMarca).EndInit();
             ResumeLayout(false);
         }

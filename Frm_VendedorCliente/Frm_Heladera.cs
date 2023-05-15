@@ -15,12 +15,10 @@ namespace Frm_VendedorCliente
     {
         int posicion;
         List<Producto> listaDeProductos;
-        //List<Producto> productosSeleccionados;
         public Frm_Heladera()
         {
             InitializeComponent();
             this.listaDeProductos = Negocio.RetornarProductos();
-            //this.productosSeleccionados = new List<Producto>();
         }
         public void CargarDataGridView(List<Producto> listaDeProductos)
         {
@@ -49,13 +47,13 @@ namespace Frm_VendedorCliente
         {
             //obtengo los valores que ingresa el usuario
             float precioModificado;
-            if (!float.TryParse(txtPrecio.Text, out precioModificado) && precioModificado > 0)
+            if (!float.TryParse(txtPrecio.Text, out precioModificado) || (precioModificado < 0))
             {
                 MessageBox.Show("Ingrese un valor numérico válido para el precio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             float stockModificado;
-            if (!float.TryParse(txtStock.Text, out stockModificado) && stockModificado > 0)
+            if (!float.TryParse(txtStock.Text, out stockModificado) || (stockModificado < 0))
             {
                 MessageBox.Show("Ingrese un valor numérico válido para el stock.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -87,6 +85,13 @@ namespace Frm_VendedorCliente
             //habilito los botones
             btnModificar.Enabled = true;
             txtStock.Focus();
+        }
+
+        private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridViewColumn columnaActual = dgv.Columns[e.ColumnIndex];
+            //que no se edite nada
+              e.Cancel = true;
         }
     }
 }

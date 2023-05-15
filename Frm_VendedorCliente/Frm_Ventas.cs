@@ -70,7 +70,7 @@ namespace Frm_VendedorCliente
                 }
                 else
                 {
-                    MessageBox.Show("Ingrese una cantidad válida.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ingrese una cantidad válida.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -88,12 +88,16 @@ namespace Frm_VendedorCliente
                     row.Cells["tipoDeCorte"].Value.ToString(),
                     Cliente.ObtenerCeldaAValidar(row.Cells["cantidadComprada"].Value));
                 //verifico si fue la celda cantidad comprada la q se selecciono y edito
-                if (dgv.CurrentCell != null && dgv.CurrentCell.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
+                if (dgv.CurrentCell.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
                 {
                     //si estoy editando la celda que salga y no haga nada
                     if (dgv.IsCurrentCellInEditMode)
                     {
                         return;
+                    }
+                    else 
+                    {
+                        MessageBox.Show("Debe ingresar solo numeros positivos.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 //agrego el producto si no esta en la lista o lo elimino si ya esta para q no se duplique 
@@ -153,9 +157,9 @@ namespace Frm_VendedorCliente
             else
             {
                 //si elige un metodo de pago
-                if (cbMetodoPago.SelectedIndex != -1)
+                if (float.TryParse(txtMonto.Text, out montoMax))
                 {   //si ingresa un monto valido 
-                    if (float.TryParse(txtMonto.Text, out montoMax))
+                    if (cbMetodoPago.SelectedIndex != -1)
                     {
                         float montoTotal = Vendedor.CalcularMonto(listaCompra);
                         foreach (Producto productoCompra in listaCompra)
@@ -165,7 +169,6 @@ namespace Frm_VendedorCliente
                                 if (montoMax < montoTotal)
                                 {
                                     MessageBox.Show("No tiene suficiente dinero para realizar esta compra.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    //txtMonto.Text = montoMax.ToString("N2");
                                     return; //salgo sin comprar nada 
                                 }
                                 else
@@ -182,7 +185,7 @@ namespace Frm_VendedorCliente
                                                 frmFactura.ShowDialog();
                                                 compraRealizada = true;
                                                 //añado la venta a la lista para el historial 
-                                                Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta hecha por el cliente");
+                                                Venta venta = new Venta(listaCompra, nombre, montoConRecargo, "Venta realizada por el cliente");
                                                 Negocio.CargarVentas(venta);
                                             }
                                             else
@@ -195,7 +198,7 @@ namespace Frm_VendedorCliente
                                             Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoTotal, cbMetodoPago.SelectedItem.ToString(), montoTotal);
                                             frmFactura.ShowDialog();
                                             compraRealizada = true;
-                                            Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta online hecha por cliente");
+                                            Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta realizada hecha por cliente");
                                             Negocio.CargarVentas(venta);
                                         }
                                         //actualizo el stock
@@ -222,12 +225,12 @@ namespace Frm_VendedorCliente
                     }
                     else
                     {
-                        MessageBox.Show("Ingrese un monto valido.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Indique un método de pago.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Indique un método de pago.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Debe ingresar el monto a gastar(número válido).", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

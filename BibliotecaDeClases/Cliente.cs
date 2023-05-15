@@ -74,5 +74,22 @@ namespace BibliotecaDeClases
             }
             return 0.0f;//valor predeterminado por si no puede convertir 
         }
+        public override string Saludar(string nombre)
+        {
+            return "Usted ingresó como: Cliente" + base.Saludar(nombre);
+        }
+        public static string RetornarSaludo()
+        {
+            List<Cliente> listaClientes = Negocio.RetornarClientes();
+            Random random = new Random();
+            int indiceRandom = random.Next(0, listaClientes.Count);
+
+            Cliente clienteAleatorio = listaClientes[indiceRandom];
+            string nombre = clienteAleatorio.GetNombre;
+
+            string mensaje = clienteAleatorio.Saludar(nombre);
+
+            return mensaje;
+        }
     }
 }

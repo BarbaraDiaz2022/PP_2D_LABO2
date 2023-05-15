@@ -59,6 +59,7 @@
             dgv.RowTemplate.Height = 25;
             dgv.Size = new Size(624, 362);
             dgv.TabIndex = 0;
+            dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick;
             // 
             // nombre

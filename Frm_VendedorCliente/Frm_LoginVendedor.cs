@@ -1,9 +1,11 @@
-﻿using System;
+﻿using BibliotecaDeClases;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 namespace Frm_VendedorCliente
 {
     public partial class Frm_LoginVendedor : Form
-    {   
+    {
         private const string usuarioVendedorReal = "vendedor@gmail.com";
         private const string passwordVendedorReal = "vendedor123";
         public Frm_LoginVendedor()
@@ -20,11 +22,14 @@ namespace Frm_VendedorCliente
         }
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+            SoundPlayer sonidoLogueo = new SoundPlayer();
+            sonidoLogueo.SoundLocation = "C:/Users/GAMER ASUS/Downloads/logueo_1.wav";
+            sonidoLogueo.Play();
+
             string usuario = this.txtMail.Text;
             string password = this.txtPassword.Text;
 
             this.Hide();
-
             if (usuario == usuarioVendedorReal && password == passwordVendedorReal)
             {
                 Frm_SelecVendedor frmSeleccionarOpcion = new Frm_SelecVendedor();
@@ -54,12 +59,13 @@ namespace Frm_VendedorCliente
             form.Show();
             this.Close();
         }
-
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             //cargo en los textbox los valores hardcodeados
             txtMail.Text = usuarioVendedorReal;
             txtPassword.Text = passwordVendedorReal;
+            string mensaje = Vendedor.RetornarSaludo();
+            MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
         }
     }
 

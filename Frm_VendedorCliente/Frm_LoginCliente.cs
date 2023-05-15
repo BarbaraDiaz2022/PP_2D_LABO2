@@ -1,9 +1,12 @@
-﻿using System;
+﻿using BibliotecaDeClases;
+using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,6 +26,9 @@ namespace Frm_VendedorCliente
             string usuario = this.textBox1.Text;
             string password = this.textBox2.Text;
 
+            SoundPlayer sonidoLogueo = new SoundPlayer();
+            sonidoLogueo.SoundLocation = "C:/Users/GAMER ASUS/Downloads/logueo_1.wav";
+            sonidoLogueo.Play();
             this.Hide();
             if (usuario == ususarioClienteReal && password == passwordClienteReal)
             {
@@ -55,9 +61,11 @@ namespace Frm_VendedorCliente
             this.Close();
         }
         private void rbAutocompletar_CheckedChanged(object sender, EventArgs e)
-        {
+        { 
             textBox1.Text = ususarioClienteReal;
             textBox2.Text = passwordClienteReal;
+            string mensaje = Cliente.RetornarSaludo();
+            MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
         }
     }
 }

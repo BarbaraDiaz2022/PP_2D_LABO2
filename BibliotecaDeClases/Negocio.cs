@@ -23,6 +23,7 @@ namespace BibliotecaDeClases
             listaCopia = new List<Producto>();
             CargarDgv();
             CargarCopiaProductos();
+            CargarClientes();
         }
         //metodos
         /// <summary>
@@ -42,10 +43,7 @@ namespace BibliotecaDeClases
         }
         private static void CargarCopiaProductos()
         {
-            foreach (Producto producto in listaOriginal)
-            {
-                listaCopia = listaOriginal;
-            }
+            listaCopia = listaOriginal;
         }
         /// <summary>
         /// metodo que se encarga de retorna la lista con los productos ya cargados 
@@ -94,7 +92,7 @@ namespace BibliotecaDeClases
         /// <summary>
         /// metodo que agrega clientes a la lista de clientes
         /// </summary>
-        public static void CargarClientes()
+        private static void CargarClientes()
         {
             listaCliente.Add(new Cliente("Leo Messi","leomessi@gmail.com","contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
             listaCliente.Add(new Cliente("Angel DiMaria", "angelito@gmail.com", "contraseña456", 20000, eMetodoPago.Tarjeta_de_debito));
@@ -118,13 +116,13 @@ namespace BibliotecaDeClases
             }
             return clientesDatosSeguros;
         }
-        public static List<Vendedor> CargarVendedores() 
+        private static List<Vendedor> CargarVendedores() 
         {
             List<Vendedor> listaVendedores = new List<Vendedor>()
             { 
                 new Vendedor("vendedor1@gmail.com", "contraseñaVendedor1", 123456, "Juan Perez"),
                 new Vendedor("vendedor2@gmail.com", "contraseñaVendedor2", 789012, "Adriana Davalos"),
-                new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez ")
+                new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez")
             };
             return listaVendedores;
         }

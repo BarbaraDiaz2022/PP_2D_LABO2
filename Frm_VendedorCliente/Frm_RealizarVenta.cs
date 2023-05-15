@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,7 @@ namespace Frm_VendedorCliente
             InitializeComponent();
             this.listaDeProductos = Negocio.RetornarProductos();//productos disponibles en la tienda 
             this.productosSeleccionados = new List<Producto>();//productos que el vendedor selecciona para vender
+            cbClientes.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         public void CargarDataGridView()
         {
@@ -30,15 +32,23 @@ namespace Frm_VendedorCliente
         }
         private void Frm_RealizarVenta_Load(object sender, EventArgs e)
         {
-            //primero cargo la lista 
-            Negocio.CargarClientes();
-            List<Cliente> clientes = Negocio.RetornarClientes();
-            //agrego los clientes al combobox 
-            foreach (Cliente cliente in clientes)
+            if (!this.DesignMode)
             {
-                cbClientes.Items.Add(cliente.GetNombre);
+                //primero cargo la lista 
+                List<Cliente> clientes = Negocio.RetornarClientes();
+
+                //verifico si el cmb esta vacio 
+                if (cbClientes.Items.Count == 0)
+                {
+                    //agrego los clientes al combobox 
+                    foreach (Cliente cliente in clientes)
+                    {
+                        cbClientes.Items.Add(cliente.GetNombre);
+                    }
+                }
+
+                CargarDataGridView();
             }
-            CargarDataGridView();
         }
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -135,14 +145,14 @@ namespace Frm_VendedorCliente
                 float precioTotal = Vendedor.CalcularMonto(listaCompra);
                 confirmarVenta = MessageBox.Show("¿Desea confirmar la venta?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 
-                foreach (Producto producto in listaCompra)
-                {   //verifico si hay stock 
-                    if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
-                    {
-                        //verifico si el cliente tiene el dinero suficiente
-                        if (precioTotal <= clienteSeleccionado.GetMontoDisponible)
+                if (confirmarVenta == DialogResult.Yes)
+                {
+                    foreach (Producto producto in listaCompra)
+                    {   //verifico si hay stock 
+                        if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
                         {
-                            if (confirmarVenta == DialogResult.Yes)
+                            //verifico si el cliente tiene el dinero suficiente
+                            if (precioTotal <= clienteSeleccionado.GetMontoDisponible)
                             {
                                 if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
                                 {
@@ -152,6 +162,8 @@ namespace Frm_VendedorCliente
                                     txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
                                     Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo, vendedor.GetCodigo, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
                                     frmVentas.ShowDialog();
+                                    Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal, vendedor.GetNombreVendedor, clienteSeleccionado.GetMetodoPago);
+                                    Negocio.CargarVentas(venta);
                                 }
                                 else
                                 {
@@ -160,6 +172,8 @@ namespace Frm_VendedorCliente
                                     txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
                                     Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal, vendedor.GetCodigo, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
                                     frmVentas.ShowDialog();
+                                    Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal, vendedor.GetNombreVendedor, clienteSeleccionado.GetMetodoPago);
+                                    Negocio.CargarVentas(venta);
                                 }
                                 
                                 //actualizo el stock
@@ -169,20 +183,18 @@ namespace Frm_VendedorCliente
                                 dgv.Rows[rowIndex].Cells["stock"].Value = productoEnLista.GetStock;
                                 dgv.Refresh();
                             }
+                            else
+                            {
+                                MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
                         }
                         else
                         {
-                            MessageBox.Show("El valor total de los productos seleccionados supera el monto a gastar del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
+                            MessageBox.Show("No hay suficiente stock para realizar la venta.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("No hay suficiente stock para realizar la venta.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                    }
                 }
-                Venta venta = new Venta(listaCompra,clienteSelecString, precioTotal, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
-                Negocio.CargarVentas(venta);
 
                 foreach (Producto producto in listaCompra)
                 {
@@ -191,7 +203,7 @@ namespace Frm_VendedorCliente
             }
             else 
             {
-                MessageBox.Show("Seleccione un cliente para realizar la venta.","ATENCION",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Debe seleccionar un clientes antes de realizar una venta.","ATENCION",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
         }
         private void btnVolver_Click(object sender, EventArgs e)
