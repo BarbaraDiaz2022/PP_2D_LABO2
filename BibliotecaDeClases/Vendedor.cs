@@ -56,7 +56,7 @@ namespace BibliotecaDeClases
         }
         public static string RetornarSaludo() 
         {
-            Vendedor vendedor = new Vendedor("","", 123456,"Juan Perez");
+            Vendedor vendedor = Negocio.RetornarVendedor();
             string mensaje = vendedor.Saludar(vendedor.GetNombreVendedor);
 
             return mensaje;
