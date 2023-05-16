@@ -95,7 +95,7 @@ namespace Frm_VendedorCliente
                     {
                         return;
                     }
-                    else 
+                    else
                     {
                         MessageBox.Show("Debe ingresar solo numeros positivos.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
@@ -150,9 +150,9 @@ namespace Frm_VendedorCliente
                     listaCompra.Add(producto);
                 }
             }
-            if (nombre == null || nombre == "") 
+            if (nombre == null || nombre == "")
             {
-                MessageBox.Show("Ingrese su nombre.","Error",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+                MessageBox.Show("Ingrese su nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
             {

@@ -12,12 +12,6 @@ namespace BibliotecaDeClases
         private int codigoVendedor;
         private string nombreVendedor;
         //constructor
-        public Vendedor(string mail,string password,string nombre)
-            : base(mail, password) 
-        {
-            this.nombreVendedor = nombre;   
-        }
-        //sobrecarga 
         public Vendedor(string mail, string password,int codigoVendedor,string nombreVendedor)
         : base(mail, password)
         {
@@ -25,8 +19,22 @@ namespace BibliotecaDeClases
             this.nombreVendedor = nombreVendedor;
         }
         //propiedades
-        public int GetCodigo { get; }
-        public string GetNombreVendedor { get; }
+        public string GetNombreVendedor
+        {
+            get { return nombreVendedor; }
+        }
+        public string SetNombreVendedor
+        {
+            set { this.nombreVendedor = value; }
+        }
+        public int GetCodigo
+        {
+            get { return codigoVendedor; }
+        }
+        public int SetCodigo
+        {
+            set { this.codigoVendedor = value; }
+        }
         //metodos 
         /// <summary>
         /// metodo que calcula el monto total de productos seleccionados en una lista 
@@ -48,8 +56,8 @@ namespace BibliotecaDeClases
         }
         public static string RetornarSaludo() 
         {
-            Vendedor vendedor = new Vendedor("","","");
-            string mensaje = vendedor.Saludar("Juan Perez");
+            Vendedor vendedor = new Vendedor("","", 123456,"Juan Perez");
+            string mensaje = vendedor.Saludar(vendedor.GetNombreVendedor);
 
             return mensaje;
         }

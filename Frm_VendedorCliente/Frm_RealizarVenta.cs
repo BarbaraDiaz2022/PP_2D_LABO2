@@ -144,7 +144,7 @@ namespace Frm_VendedorCliente
                 string clienteSelecString = clienteSeleccionado.GetNombre;
                 float precioTotal = Vendedor.CalcularMonto(listaCompra);
                 confirmarVenta = MessageBox.Show("¿Desea confirmar la venta?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                
+
                 if (confirmarVenta == DialogResult.Yes)
                 {
                     foreach (Producto producto in listaCompra)
@@ -160,7 +160,7 @@ namespace Frm_VendedorCliente
                                     clienteSeleccionado.SetMontoDisponible = clienteSeleccionado.GetMontoDisponible - precioTotalConRecargo;
                                     //actualizo el monto en txtInfoMonto
                                     txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
-                                    Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo, vendedor.GetCodigo, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
+                                    Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotalConRecargo, vendedor.GetCodigo, vendedor.GetNombreVendedor, clienteSeleccionado.GetMetodoPago);
                                     frmVentas.ShowDialog();
                                     Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal, vendedor.GetNombreVendedor, clienteSeleccionado.GetMetodoPago);
                                     Negocio.CargarVentas(venta);
@@ -170,12 +170,12 @@ namespace Frm_VendedorCliente
                                     clienteSeleccionado.SetMontoDisponible = clienteSeleccionado.GetMontoDisponible - precioTotal;
                                     //actualizo el monto en txtInfoMonto
                                     txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
-                                    Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal, vendedor.GetCodigo, vendedor.GetNombreVendedor,clienteSeleccionado.GetMetodoPago);
+                                    Frm_VenderProducto frmVentas = new Frm_VenderProducto(listaCompra, clienteSelecString, precioTotal, precioTotal, vendedor.GetCodigo, vendedor.GetNombreVendedor, clienteSeleccionado.GetMetodoPago);
                                     frmVentas.ShowDialog();
                                     Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal, vendedor.GetNombreVendedor, clienteSeleccionado.GetMetodoPago);
                                     Negocio.CargarVentas(venta);
                                 }
-                                
+
                                 //actualizo el stock
                                 Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == producto.GetNombre && p.GetCantidadSeleccionada == producto.GetCantidadSeleccionada);
                                 productoEnLista.SetStock -= producto.GetCantidadSeleccionada;
@@ -191,7 +191,7 @@ namespace Frm_VendedorCliente
                         }
                         else
                         {
-                            MessageBox.Show("No hay suficiente stock para realizar la venta.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            MessageBox.Show("No hay suficiente stock para realizar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -201,9 +201,9 @@ namespace Frm_VendedorCliente
                     producto.SetCantidadSeleccionada = 0;
                 }
             }
-            else 
+            else
             {
-                MessageBox.Show("Debe seleccionar un clientes antes de realizar una venta.","ATENCION",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Debe seleccionar un clientes antes de realizar una venta.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btnVolver_Click(object sender, EventArgs e)

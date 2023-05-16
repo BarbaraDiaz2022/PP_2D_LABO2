@@ -42,10 +42,10 @@
             // lblHistorial
             // 
             lblHistorial.AutoSize = true;
-            lblHistorial.BackColor = Color.Linen;
+            lblHistorial.BackColor = Color.Thistle;
             lblHistorial.BorderStyle = BorderStyle.FixedSingle;
             lblHistorial.Font = new Font("Snap ITC", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
-            lblHistorial.Location = new Point(185, 9);
+            lblHistorial.Location = new Point(165, 9);
             lblHistorial.Name = "lblHistorial";
             lblHistorial.Size = new Size(210, 37);
             lblHistorial.TabIndex = 11;
@@ -55,9 +55,9 @@
             // 
             btnVolver.BackColor = SystemColors.MenuHighlight;
             btnVolver.Font = new Font("Stencil", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            btnVolver.Location = new Point(432, 411);
+            btnVolver.Location = new Point(403, 411);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(96, 33);
+            btnVolver.Size = new Size(110, 39);
             btnVolver.TabIndex = 12;
             btnVolver.Text = "Volver";
             btnVolver.UseVisualStyleBackColor = false;
@@ -69,10 +69,10 @@
             dgv.BackgroundColor = SystemColors.ControlLightLight;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, vendedor, cliente, precio });
-            dgv.Location = new Point(12, 46);
+            dgv.Location = new Point(12, 49);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(516, 359);
+            dgv.Size = new Size(501, 356);
             dgv.TabIndex = 13;
             dgv.CellBeginEdit += dgv_CellBeginEdit;
             // 
@@ -108,7 +108,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Thistle;
-            ClientSize = new Size(540, 450);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            ClientSize = new Size(525, 450);
             Controls.Add(dgv);
             Controls.Add(btnVolver);
             Controls.Add(lblHistorial);

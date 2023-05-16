@@ -91,7 +91,7 @@ namespace Frm_VendedorCliente
         {
             DataGridViewColumn columnaActual = dgv.Columns[e.ColumnIndex];
             //que no se edite nada
-              e.Cancel = true;
+            e.Cancel = true;
         }
     }
 }

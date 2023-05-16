@@ -53,11 +53,11 @@
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, stock, precio, detalle, tipoCorte });
             dgv.EnableHeadersVisualStyles = false;
-            dgv.Location = new Point(12, 167);
+            dgv.Location = new Point(12, 212);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(624, 362);
+            dgv.Size = new Size(626, 308);
             dgv.TabIndex = 0;
             dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick;
@@ -100,7 +100,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(12, 57);
+            label2.Location = new Point(12, 86);
             label2.Name = "label2";
             label2.Size = new Size(107, 17);
             label2.TabIndex = 3;
@@ -110,7 +110,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(12, 86);
+            label3.Location = new Point(12, 134);
             label3.Name = "label3";
             label3.Size = new Size(84, 17);
             label3.TabIndex = 5;
@@ -118,14 +118,14 @@
             // 
             // txtStock
             // 
-            txtStock.Location = new Point(125, 57);
+            txtStock.Location = new Point(125, 80);
             txtStock.Name = "txtStock";
             txtStock.Size = new Size(100, 23);
             txtStock.TabIndex = 7;
             // 
             // txtPrecio
             // 
-            txtPrecio.Location = new Point(125, 86);
+            txtPrecio.Location = new Point(125, 128);
             txtPrecio.Name = "txtPrecio";
             txtPrecio.Size = new Size(100, 23);
             txtPrecio.TabIndex = 8;
@@ -134,7 +134,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(12, 115);
+            label5.Location = new Point(12, 179);
             label5.Name = "label5";
             label5.Size = new Size(77, 17);
             label5.TabIndex = 11;
@@ -142,7 +142,7 @@
             // 
             // txtCorte
             // 
-            txtCorte.Location = new Point(125, 115);
+            txtCorte.Location = new Point(125, 173);
             txtCorte.Name = "txtCorte";
             txtCorte.Size = new Size(100, 23);
             txtCorte.TabIndex = 12;
@@ -151,7 +151,7 @@
             // 
             btnModificar.BackColor = SystemColors.MenuHighlight;
             btnModificar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnModificar.Location = new Point(242, 57);
+            btnModificar.Location = new Point(254, 80);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(159, 46);
             btnModificar.TabIndex = 14;
@@ -163,7 +163,7 @@
             // 
             btnVolver.BackColor = SystemColors.MenuHighlight;
             btnVolver.Font = new Font("Stencil", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            btnVolver.Location = new Point(242, 115);
+            btnVolver.Location = new Point(254, 160);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(159, 36);
             btnVolver.TabIndex = 16;
@@ -174,10 +174,10 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Snap ITC", 21.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Snap ITC", 36F, FontStyle.Bold, GraphicsUnit.Point);
             label7.Location = new Point(12, 5);
             label7.Name = "label7";
-            label7.Size = new Size(169, 37);
+            label7.Size = new Size(274, 63);
             label7.TabIndex = 20;
             label7.Text = "Heladera";
             // 
@@ -186,6 +186,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Thistle;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(641, 532);
             Controls.Add(label7);
             Controls.Add(btnVolver);

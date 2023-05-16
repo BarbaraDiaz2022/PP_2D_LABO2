@@ -11,19 +11,19 @@ namespace BibliotecaDeClases
     {
         //atributos 
         private static List<Producto> listaOriginal;
-        private static List<Producto> listaCopia;
         private static List<Venta> listaVentas;
         private static List<Cliente> listaCliente;
+        private static List<Vendedor> listaVendedores;
         //constructor
         static Negocio()
         {
             listaOriginal = new List<Producto>();
             listaVentas = new List<Venta>();
             listaCliente = new List<Cliente>();
-            listaCopia = new List<Producto>();
+            listaVendedores = new List<Vendedor>();
             CargarDgv();
-            CargarCopiaProductos();
             CargarClientes();
+            //CargarVendedores();
         }
         //metodos
         /// <summary>
@@ -41,17 +41,13 @@ namespace BibliotecaDeClases
             listaOriginal.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto", 0));
             listaOriginal.Add(new Producto("Bife.02", 30, 1950, "Bifes de carne porcina", "Bife de bondiola", 0));
         }
-        private static void CargarCopiaProductos()
-        {
-            listaCopia = listaOriginal;
-        }
         /// <summary>
         /// metodo que se encarga de retorna la lista con los productos ya cargados 
         /// </summary>
         /// <returns>retorna una lista de tipo producto</returns>
         public static List<Producto> RetornarProductos()
         {
-
+            List<Producto> listaCopia = new List<Producto>(listaOriginal);
             return listaCopia;
         }
         /// <summary>
@@ -78,6 +74,7 @@ namespace BibliotecaDeClases
         /// <returns>retorna una lista de tipo producto con los productos que coincidan con el tipo buscado</returns>
         public static List<Producto> BuscarPorCorte(string corteBusqueda)
         {
+            List<Producto> listaCopia = Negocio.RetornarProductos();
             List<Producto> listaFiltrada = new List<Producto>();
 
             foreach (Producto producto in listaCopia)
@@ -94,7 +91,7 @@ namespace BibliotecaDeClases
         /// </summary>
         private static void CargarClientes()
         {
-            listaCliente.Add(new Cliente("Leo Messi","leomessi@gmail.com","contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
+            listaCliente.Add(new Cliente("Lionel Messi","leomessi@gmail.com","contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
             listaCliente.Add(new Cliente("Angel DiMaria", "angelito@gmail.com", "contraseña456", 20000, eMetodoPago.Tarjeta_de_debito));
             listaCliente.Add(new Cliente("Maria Lopez", "marilopez@gmail.com", "contraseña496", 10000, eMetodoPago.Mercado_pago));
             listaCliente.Add(new Cliente("Julian Alvarez", "julialvarez@gmail.com", "contraseña789", 23000, eMetodoPago.Efectivo));
@@ -116,19 +113,17 @@ namespace BibliotecaDeClases
             }
             return clientesDatosSeguros;
         }
-        private static List<Vendedor> CargarVendedores() 
+        /*private static void CargarVendedores() 
         {
-            List<Vendedor> listaVendedores = new List<Vendedor>()
-            { 
-                new Vendedor("vendedor1@gmail.com", "contraseñaVendedor1", 123456, "Juan Perez"),
-                new Vendedor("vendedor2@gmail.com", "contraseñaVendedor2", 789012, "Adriana Davalos"),
-                new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez")
-            };
-            return listaVendedores;
-        }
+            listaVendedores.Add(new Vendedor("vendedor1@gmail.com", "contraseñaVendedor1", 123456, "Juan Perez"));
+            listaVendedores.Add(new Vendedor("vendedor2@gmail.com", "contraseñaVendedor2", 789012, "Adriana Davalos"));
+            listaVendedores.Add(new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez")); 
+        }*/
         public static Vendedor RetornarVendedor()
         {
-            List <Vendedor> listaVendedores = CargarVendedores();
+            listaVendedores.Add(new Vendedor("vendedor1@gmail.com", "contraseñaVendedor1", 123456, "Juan Perez"));
+            listaVendedores.Add(new Vendedor("vendedor2@gmail.com", "contraseñaVendedor2", 789012, "Adriana Davalos"));
+            listaVendedores.Add(new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez"));
             Random random = new Random();
             int indiceRandom = random.Next(0, listaVendedores.Count);
 

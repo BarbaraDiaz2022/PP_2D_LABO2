@@ -55,7 +55,7 @@
             dgv.Location = new Point(7, 34);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(643, 360);
+            dgv.Size = new Size(643, 369);
             dgv.TabIndex = 1;
             dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick;
@@ -142,8 +142,9 @@
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
+            lblTitulo.BackColor = Color.Transparent;
             lblTitulo.Font = new Font("Snap ITC", 21.75F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTitulo.Location = new Point(36, -6);
+            lblTitulo.Location = new Point(29, -6);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(582, 37);
             lblTitulo.TabIndex = 22;
@@ -172,6 +173,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Thistle;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(658, 480);
             Controls.Add(txtInfoMonto);
             Controls.Add(lblInfoMonto);

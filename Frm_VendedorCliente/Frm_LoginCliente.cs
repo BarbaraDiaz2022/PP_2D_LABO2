@@ -61,7 +61,7 @@ namespace Frm_VendedorCliente
             this.Close();
         }
         private void rbAutocompletar_CheckedChanged(object sender, EventArgs e)
-        { 
+        {
             textBox1.Text = ususarioClienteReal;
             textBox2.Text = passwordClienteReal;
             string mensaje = Cliente.RetornarSaludo();

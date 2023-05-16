@@ -40,6 +40,5 @@ namespace Frm_VendedorCliente
         {
             Application.Exit();
         }
-
     }
 }

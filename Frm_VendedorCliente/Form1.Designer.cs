@@ -64,7 +64,7 @@
             // 
             btnCerrar.BackColor = SystemColors.ActiveCaption;
             btnCerrar.Font = new Font("Showcard Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            btnCerrar.Location = new Point(228, 442);
+            btnCerrar.Location = new Point(446, 451);
             btnCerrar.Name = "btnCerrar";
             btnCerrar.Size = new Size(83, 26);
             btnCerrar.TabIndex = 3;
@@ -75,9 +75,9 @@
             // pbMarca
             // 
             pbMarca.Image = (Image)resources.GetObject("pbMarca.Image");
-            pbMarca.Location = new Point(12, 12);
+            pbMarca.Location = new Point(58, 127);
             pbMarca.Name = "pbMarca";
-            pbMarca.Size = new Size(517, 318);
+            pbMarca.Size = new Size(421, 203);
             pbMarca.SizeMode = PictureBoxSizeMode.StretchImage;
             pbMarca.TabIndex = 4;
             pbMarca.TabStop = false;
@@ -87,7 +87,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Window;
-            BackgroundImageLayout = ImageLayout.Center;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(541, 480);
             Controls.Add(pbMarca);
             Controls.Add(btnCerrar);
