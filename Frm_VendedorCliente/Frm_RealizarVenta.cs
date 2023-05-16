@@ -152,7 +152,7 @@ namespace Frm_VendedorCliente
                         if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
                         {
                             //verifico si el cliente tiene el dinero suficiente
-                            if (precioTotal <= clienteSeleccionado.GetMontoDisponible)
+                            if (precioTotal <= clienteSeleccionado.GetMontoDisponible && precioTotal > 0)
                             {
                                 if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
                                 {

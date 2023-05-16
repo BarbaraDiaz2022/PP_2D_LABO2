@@ -155,10 +155,9 @@ namespace Frm_VendedorCliente
                 MessageBox.Show("Ingrese su nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
-            {
-                //si elige un metodo de pago
-                if (float.TryParse(txtMonto.Text, out montoMax))
-                {   //si ingresa un monto valido 
+            {   //si ingresa un monto valido 
+                if (float.TryParse(txtMonto.Text, out montoMax) || montoMax > 0)
+                {   //si elige un metodo de pago
                     if (cbMetodoPago.SelectedIndex != -1)
                     {
                         float montoTotal = Vendedor.CalcularMonto(listaCompra);
