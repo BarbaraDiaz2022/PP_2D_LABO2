@@ -97,7 +97,7 @@ namespace Frm_VendedorCliente
                     }
                     else
                     {
-                        MessageBox.Show("Debe ingresar solo numeros positivos.", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Debe ingresar solo numeros positivos.", "Recordatorio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 //agrego el producto si no esta en la lista o lo elimino si ya esta para q no se duplique 
@@ -156,7 +156,7 @@ namespace Frm_VendedorCliente
             }
             else
             {   //si ingresa un monto valido 
-                if (float.TryParse(txtMonto.Text, out montoMax) || montoMax > 0)
+                if (float.TryParse(txtMonto.Text, out montoMax) && montoMax > 0)
                 {   //si elige un metodo de pago
                     if (cbMetodoPago.SelectedIndex != -1)
                     {
