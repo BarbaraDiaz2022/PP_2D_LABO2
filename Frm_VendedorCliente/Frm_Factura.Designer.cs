@@ -48,6 +48,7 @@
             // 
             // dgv
             // 
+            dgv.AllowUserToAddRows = false;
             dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv.BackgroundColor = SystemColors.ControlLight;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -102,6 +103,7 @@
             // lblTotal
             // 
             lblTotal.AutoSize = true;
+            lblTotal.BackColor = Color.White;
             lblTotal.BorderStyle = BorderStyle.FixedSingle;
             lblTotal.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblTotal.ForeColor = SystemColors.ActiveCaptionText;
@@ -114,6 +116,7 @@
             // lblInformacion
             // 
             lblInformacion.AutoSize = true;
+            lblInformacion.BackColor = Color.White;
             lblInformacion.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
             lblInformacion.Location = new Point(13, 430);
             lblInformacion.Name = "lblInformacion";
@@ -137,6 +140,7 @@
             // lblInfoPago
             // 
             lblInfoPago.AutoSize = true;
+            lblInfoPago.BackColor = Color.White;
             lblInfoPago.BorderStyle = BorderStyle.FixedSingle;
             lblInfoPago.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblInfoPago.Location = new Point(149, 390);
@@ -148,6 +152,7 @@
             // lblPago
             // 
             lblPago.AutoSize = true;
+            lblPago.BackColor = Color.White;
             lblPago.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
             lblPago.Location = new Point(13, 393);
             lblPago.Name = "lblPago";
@@ -158,6 +163,7 @@
             // lblSubTotal
             // 
             lblSubTotal.AutoSize = true;
+            lblSubTotal.BackColor = Color.White;
             lblSubTotal.Font = new Font("Arial", 12F, FontStyle.Underline, GraphicsUnit.Point);
             lblSubTotal.Location = new Point(13, 362);
             lblSubTotal.Name = "lblSubTotal";
@@ -168,6 +174,7 @@
             // lblsub
             // 
             lblsub.AutoSize = true;
+            lblsub.BackColor = Color.White;
             lblsub.BorderStyle = BorderStyle.FixedSingle;
             lblsub.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
             lblsub.Location = new Point(88, 359);

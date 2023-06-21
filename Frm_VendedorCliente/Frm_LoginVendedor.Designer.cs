@@ -86,6 +86,7 @@
             // lblVendedor
             // 
             lblVendedor.AutoSize = true;
+            lblVendedor.BackColor = Color.Transparent;
             lblVendedor.Font = new Font("Snap ITC", 27.75F, FontStyle.Underline, GraphicsUnit.Point);
             lblVendedor.Location = new Point(78, 9);
             lblVendedor.Name = "lblVendedor";
@@ -96,18 +97,20 @@
             // rdbAcceder
             // 
             rdbAcceder.AutoSize = true;
-            rdbAcceder.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            rdbAcceder.BackColor = Color.Transparent;
+            rdbAcceder.Font = new Font("Arial", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             rdbAcceder.Location = new Point(59, 205);
             rdbAcceder.Name = "rdbAcceder";
-            rdbAcceder.Size = new Size(172, 21);
+            rdbAcceder.Size = new Size(185, 22);
             rdbAcceder.TabIndex = 7;
             rdbAcceder.TabStop = true;
             rdbAcceder.Text = "Autocompletar usuario";
-            rdbAcceder.UseVisualStyleBackColor = true;
+            rdbAcceder.UseVisualStyleBackColor = false;
             rdbAcceder.CheckedChanged += radioButton1_CheckedChanged;
             // 
             // pbIconVendedor
             // 
+            pbIconVendedor.BackColor = Color.Transparent;
             pbIconVendedor.Image = (Image)resources.GetObject("pbIconVendedor.Image");
             pbIconVendedor.Location = new Point(3, 9);
             pbIconVendedor.Name = "pbIconVendedor";

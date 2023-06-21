@@ -52,7 +52,7 @@ namespace Frm_VendedorCliente
         }
         private void dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            //verifico si se editó la columna "cantidadComprada"
+            //verifico si se edito la columna "cantidadComprada"
             if (e.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
             {   //obtengo el valor de la celda como cadena de texto 
                 int rowIndex = e.RowIndex;
@@ -77,7 +77,8 @@ namespace Frm_VendedorCliente
         private void dgv_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             int n = e.RowIndex;
-            if (n != -1)
+
+            if (n != -1 && e.ColumnIndex != -1)
             {
                 DataGridViewRow row = dgv.Rows[e.RowIndex];
                 //obtengo el producto seleccionado
@@ -94,10 +95,6 @@ namespace Frm_VendedorCliente
                     if (dgv.IsCurrentCellInEditMode)
                     {
                         return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Debe ingresar solo numeros positivos.", "Recordatorio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
                 //agrego el producto si no esta en la lista o lo elimino si ya esta para q no se duplique 
@@ -139,7 +136,6 @@ namespace Frm_VendedorCliente
             float montoConRecargo = 0;
             float montoMax = 0;
             string nombre = txtNombreCliente.Text.ToString();
-            bool compraRealizada = false;
             DialogResult confirmarVenta;
             List<Producto> listaCompra = new List<Producto>();
 
@@ -182,7 +178,6 @@ namespace Frm_VendedorCliente
                                             {
                                                 Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoConRecargo, cbMetodoPago.SelectedItem.ToString(), montoTotal);
                                                 frmFactura.ShowDialog();
-                                                compraRealizada = true;
                                                 //añado la venta a la lista para el historial 
                                                 Venta venta = new Venta(listaCompra, nombre, montoConRecargo, "Venta realizada por el cliente");
                                                 Negocio.CargarVentas(venta);
@@ -196,7 +191,6 @@ namespace Frm_VendedorCliente
                                         {
                                             Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoTotal, cbMetodoPago.SelectedItem.ToString(), montoTotal);
                                             frmFactura.ShowDialog();
-                                            compraRealizada = true;
                                             Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta realizada hecha por cliente");
                                             Negocio.CargarVentas(venta);
                                         }

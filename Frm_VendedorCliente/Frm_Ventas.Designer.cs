@@ -78,6 +78,7 @@
             // lblPago
             // 
             lblPago.AutoSize = true;
+            lblPago.BackColor = Color.WhiteSmoke;
             lblPago.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblPago.Location = new Point(12, 423);
             lblPago.Name = "lblPago";
@@ -101,7 +102,7 @@
             // lblNombre
             // 
             lblNombre.AutoSize = true;
-            lblNombre.BackColor = Color.Wheat;
+            lblNombre.BackColor = Color.Transparent;
             lblNombre.BorderStyle = BorderStyle.FixedSingle;
             lblNombre.Font = new Font("Snap ITC", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblNombre.Location = new Point(12, 9);
@@ -113,6 +114,7 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.BackColor = Color.WhiteSmoke;
             label3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label3.Location = new Point(12, 97);
             label3.Name = "label3";
@@ -142,6 +144,7 @@
             // 
             // dgv
             // 
+            dgv.AllowUserToAddRows = false;
             dgv.BackgroundColor = SystemColors.Control;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, stockProducto, precio, detalle, tipoDeCorte, cantidadComprada });
@@ -215,6 +218,7 @@
             // lblCliente
             // 
             lblCliente.AutoSize = true;
+            lblCliente.BackColor = Color.WhiteSmoke;
             lblCliente.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             lblCliente.Location = new Point(12, 66);
             lblCliente.Name = "lblCliente";

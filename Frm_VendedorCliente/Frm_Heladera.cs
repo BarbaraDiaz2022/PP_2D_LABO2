@@ -42,6 +42,8 @@ namespace Frm_VendedorCliente
             txtStock.Text = "";
             txtPrecio.Text = "";
             txtCorte.Text = "";
+            txtNombre.Text = "";
+            txtDetalle.Text = "";
         }
         private void btnModificar_Click(object sender, EventArgs e)
         {
@@ -59,6 +61,10 @@ namespace Frm_VendedorCliente
                 return;
             }
             string corteModificado = txtCorte.Text;
+            if (string.IsNullOrEmpty(corteModificado))
+            {
+                MessageBox.Show("Ingrese un tipo de corte.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             //obtengo la fila seleccionada en el indice que corresponde 
             DataGridViewRow filaSelec = dgv.CurrentRow;
             int indiceFilaSeleccionada = filaSelec.Index;
@@ -82,6 +88,8 @@ namespace Frm_VendedorCliente
             txtStock.Text = dgv[1, posicion].Value.ToString();
             txtPrecio.Text = dgv[2, posicion].Value.ToString();
             txtCorte.Text = dgv[4, posicion].Value.ToString();
+            txtNombre.Text = dgv[0, posicion].Value.ToString();
+            txtDetalle.Text = dgv[3, posicion].Value.ToString();
             //habilito los botones
             btnModificar.Enabled = true;
             txtStock.Focus();
@@ -89,9 +97,81 @@ namespace Frm_VendedorCliente
 
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            DataGridViewColumn columnaActual = dgv.Columns[e.ColumnIndex];
+            //DataGridViewColumn columnaActual = dgv.Columns[e.ColumnIndex];
             //que no se edite nada
             e.Cancel = true;
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            //obtengo los valores que ingresa el usuario
+            float precioNuevo;
+            if (!float.TryParse(txtPrecio.Text, out precioNuevo) || (precioNuevo < 0))
+            {
+                MessageBox.Show("Ingrese un valor numérico válido para el precio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            float stockNuevo;
+            if (!float.TryParse(txtStock.Text, out stockNuevo) || (stockNuevo < 0))
+            {
+                MessageBox.Show("Ingrese un valor numérico válido para el stock.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string corteNuevo = txtCorte.Text;
+            if (string.IsNullOrEmpty(corteNuevo))
+            {
+                MessageBox.Show("Ingrese un tipo de corte.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            string nombreNuevo = txtNombre.Text;
+            if (string.IsNullOrEmpty(nombreNuevo))
+            {
+                MessageBox.Show("Ingrese un nombre para el producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            string detalleNuevo = txtNombre.Text;
+            if (string.IsNullOrEmpty(detalleNuevo))
+            {
+                MessageBox.Show("Ingrese un detalle para el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            //obtengo la fila seleccionada en el indice que corresponde 
+            DataGridViewRow filaSelec = dgv.CurrentRow;
+            int indiceFilaSeleccionada = filaSelec.Index;
+            //cargo los nuevos datos que se ingresaron en el producto
+            Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
+            productoSeleccionado.SetPrecio = precioNuevo;
+            productoSeleccionado.SetTipoDeCorte = corteNuevo;
+            productoSeleccionado.SetStock = stockNuevo;
+            productoSeleccionado.SetNombre = nombreNuevo;
+            productoSeleccionado.SetDetalle = detalleNuevo;
+            //actualizo el dgv
+            filaSelec.Cells["stock"].Value = stockNuevo;
+            filaSelec.Cells["precio"].Value = precioNuevo;
+            filaSelec.Cells["tipoCorte"].Value = corteNuevo;
+            filaSelec.Cells["nombre"].Value = nombreNuevo;
+            filaSelec.Cells["detalle"].Value = detalleNuevo;
+
+            limpiarTxt();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dgv.SelectedRows[0];
+                //valores de las celdas en la fila seleccionada
+                string nombre = selectedRow.Cells["nombre"].Value.ToString();
+                //actualizo la lista de productos eliminando el producto correspondiente
+                Producto productoAEliminar = listaDeProductos.FirstOrDefault(p => p.GetNombre == nombre);
+                listaDeProductos.Remove(productoAEliminar);
+
+                //elimino la fila seleccionada del DataGridView
+                dgv.Rows.Remove(dgv.CurrentRow);
+
+                Negocio.ValidarLista(listaDeProductos);
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar el producto que desea eliminar", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

@@ -65,6 +65,7 @@
             // 
             // dgv
             // 
+            dgv.AllowUserToAddRows = false;
             dgv.BackgroundColor = SystemColors.ButtonHighlight;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, precio, detalle, tipoCorte, cantidadComprada });
@@ -245,7 +246,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Thistle;
+            BackColor = Color.PeachPuff;
             ClientSize = new Size(559, 507);
             Controls.Add(lblMetodoPagado);
             Controls.Add(lblInfoMetPago);

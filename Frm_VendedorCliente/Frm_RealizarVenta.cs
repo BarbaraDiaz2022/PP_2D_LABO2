@@ -212,6 +212,5 @@ namespace Frm_VendedorCliente
             frmMenuSelec.Show();
             this.Close();
         }
-
     }
 }

@@ -75,6 +75,7 @@
             // lblNombre
             // 
             lblNombre.AutoSize = true;
+            lblNombre.BackColor = Color.Transparent;
             lblNombre.Font = new Font("Snap ITC", 27.75F, FontStyle.Underline, GraphicsUnit.Point);
             lblNombre.Location = new Point(79, 9);
             lblNombre.Name = "lblNombre";
@@ -98,18 +99,20 @@
             // rbAutocompletar
             // 
             rbAutocompletar.AutoSize = true;
-            rbAutocompletar.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            rbAutocompletar.BackColor = Color.White;
+            rbAutocompletar.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
             rbAutocompletar.Location = new Point(59, 210);
             rbAutocompletar.Name = "rbAutocompletar";
-            rbAutocompletar.Size = new Size(182, 22);
+            rbAutocompletar.Size = new Size(201, 23);
             rbAutocompletar.TabIndex = 6;
             rbAutocompletar.TabStop = true;
             rbAutocompletar.Text = "Autocompletar usuario";
-            rbAutocompletar.UseVisualStyleBackColor = true;
+            rbAutocompletar.UseVisualStyleBackColor = false;
             rbAutocompletar.CheckedChanged += rbAutocompletar_CheckedChanged;
             // 
             // pbLogIn
             // 
+            pbLogIn.BackColor = Color.Transparent;
             pbLogIn.Image = (Image)resources.GetObject("pbLogIn.Image");
             pbLogIn.Location = new Point(3, 0);
             pbLogIn.Name = "pbLogIn";

@@ -123,7 +123,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Thistle;
+            BackColor = Color.PeachPuff;
             ClientSize = new Size(282, 362);
             Controls.Add(pictureBox3);
             Controls.Add(pictureBox2);

@@ -42,7 +42,7 @@
             // lblHistorial
             // 
             lblHistorial.AutoSize = true;
-            lblHistorial.BackColor = Color.Thistle;
+            lblHistorial.BackColor = Color.GhostWhite;
             lblHistorial.BorderStyle = BorderStyle.FixedSingle;
             lblHistorial.Font = new Font("Snap ITC", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblHistorial.Location = new Point(165, 9);
@@ -65,6 +65,7 @@
             // 
             // dgv
             // 
+            dgv.AllowUserToAddRows = false;
             dgv.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgv.BackgroundColor = SystemColors.ControlLightLight;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;

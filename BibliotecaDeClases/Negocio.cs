@@ -50,6 +50,14 @@ namespace BibliotecaDeClases
             List<Producto> listaCopia = new List<Producto>(listaOriginal);
             return listaCopia;
         }
+
+        public static void ValidarLista(List<Producto> listaProductosCopia)
+        {
+            if (listaProductosCopia != null) 
+            {
+                listaOriginal = listaProductosCopia;
+            }
+        }
         /// <summary>
         /// metodo que añade una venta que recibe por parametro a la lista de ventas
         /// </summary>
