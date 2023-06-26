@@ -61,5 +61,9 @@ namespace BibliotecaDeClases
 
             return mensaje;
         }
+        public static void CargarDBVendedor(List<Vendedor> listaVendedores)
+        {
+            UsuariosDAO.GuardarVendedores(listaVendedores);
+        }
     }
 }

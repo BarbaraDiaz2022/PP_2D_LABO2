@@ -12,22 +12,28 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Frm_VendedorCliente
 {
+    //declaro el delegado para actualizar el cartel
+    public delegate void ActualizarCartelDelegate(string mensaje);
     public partial class Frm_Ventas : Form
     {
+        //declaro el evento para actualizar el cartel
+        public event ActualizarCartelDelegate ActualizarCartelEvent;
         List<Producto> listaDeProductos;
         List<Producto> productosSeleccionados;
-
-        public Frm_Ventas()
+        private string nombreCliente;
+        public Frm_Ventas(string nombre)
         {
             InitializeComponent();
             this.listaDeProductos = Negocio.RetornarProductos();//productos disponibles en la tienda 
             this.productosSeleccionados = new List<Producto>();//productos que el cliente selecciona para comprar
+            this.nombreCliente = nombre;
+            txtNombreCliente.Text = nombre;
         }
         public void CargarDataGridView(List<Producto> listaDeProductos)
         {
             foreach (Producto producto in listaDeProductos)
             {
-                dgv.Rows.Add(producto.GetNombre, producto.GetStock, producto.GetPrecio, producto.GetDetalle, producto.GetTipoDeCorte);
+                dgv.Rows.Add(producto.GetNombre, producto.GetStock, producto.GetPrecio, producto.GetDetalle, producto.GetTipoDeCorte, producto.GetCantidadSeleccionada);
             }
         }
         private void Frm_Ventas_Load(object sender, EventArgs e)
@@ -36,6 +42,15 @@ namespace Frm_VendedorCliente
             //valido que no modifiquen los combobox
             cbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
             cbBuscarCorte.DropDownStyle = ComboBoxStyle.DropDownList;
+            DateTime fecha = DateTime.Now;
+            lblInfo.Text = fecha.ToString();
+            // suscribo el metodo al evento 
+            ActualizarCartelEvent += ActualizarCartelEventHandler;
+
+            //inicio el hilo que actualiza el cartel
+            Thread cartelThread = new Thread(ActualizarCartel);
+            cartelThread.IsBackground = true;
+            cartelThread.Start();
         }
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -100,14 +115,7 @@ namespace Frm_VendedorCliente
                 //agrego el producto si no esta en la lista o lo elimino si ya esta para q no se duplique 
                 if (row.Selected)
                 {
-                    if (productosSeleccionados.Contains(producto))
-                    {
-                        productosSeleccionados.Remove(producto);
-                    }
-                    else
-                    {
-                        productosSeleccionados.Add(producto);
-                    }
+                    productosSeleccionados.Add(producto);
                 }
             }
         }
@@ -120,14 +128,14 @@ namespace Frm_VendedorCliente
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string textoBusqueda = cbBuscarCorte.SelectedItem.ToString();
-            List<Producto> productosEncontrados = Negocio.BuscarPorCorte(textoBusqueda);
+            List<Producto> productosEncontrados = ExtensionProducto.FiltrarPorNombreCorte(listaDeProductos, textoBusqueda);
             dgv.Rows.Clear();
             CargarDataGridView(productosEncontrados);
 
             if (cbBuscarCorte.SelectedItem.ToString() == "Mostrar todos los cortes")
             {
-                CargarDataGridView(listaDeProductos);
                 //devuelve el control al codigo que lo llamo asi no carga el dgv 2 veces 
+                CargarDataGridView(listaDeProductos);
                 return;
             }
         }
@@ -139,7 +147,7 @@ namespace Frm_VendedorCliente
             DialogResult confirmarVenta;
             List<Producto> listaCompra = new List<Producto>();
 
-            foreach (Producto producto in productosSeleccionados)
+            foreach (Producto producto in listaDeProductos)
             {
                 if (producto.GetCantidadSeleccionada > 0 && producto.GetCantidadSeleccionada != null)
                 {
@@ -148,7 +156,7 @@ namespace Frm_VendedorCliente
             }
             if (nombre == null || nombre == "")
             {
-                MessageBox.Show("Ingrese su nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show("Ingrese su nombre.", "Atencion", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             else
             {   //si ingresa un monto valido 
@@ -191,18 +199,21 @@ namespace Frm_VendedorCliente
                                         {
                                             Frm_Factura frmFactura = new Frm_Factura(listaCompra, montoTotal, cbMetodoPago.SelectedItem.ToString(), montoTotal);
                                             frmFactura.ShowDialog();
-                                            Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta realizada hecha por cliente");
+                                            Venta venta = new Venta(listaCompra, nombre, montoTotal, "Venta realizada por cliente");
                                             Negocio.CargarVentas(venta);
                                         }
                                         //actualizo el stock
-                                        Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == productoCompra.GetNombre && p.GetCantidadSeleccionada == productoCompra.GetCantidadSeleccionada);
-                                        productoEnLista.SetStock -= productoCompra.GetCantidadSeleccionada;
+                                        Producto productoEnLista = ExtensionProducto.ActualizarStock(listaDeProductos,productoCompra);
                                         int rowIndex = listaDeProductos.IndexOf(productoEnLista);
                                         dgv.Rows[rowIndex].Cells["stockProducto"].Value = productoEnLista.GetStock;
                                         dgv.Refresh();
+                                       
                                         //calculo y actualizo el txt con el nuevo monto 
                                         montoMax -= montoTotal;
                                         txtMonto.Text = montoMax.ToString("N2");
+                                        //guardo el nuevo stock en la base de datos 
+                                        ProductosDAO.ActualizarListaComprada(productoEnLista);
+                                        Negocio.CargarDBHistorial();
                                     }
                                 }
                             }
@@ -225,6 +236,28 @@ namespace Frm_VendedorCliente
                 {
                     MessageBox.Show("Debe ingresar el monto a gastar(número válido).", "ATENCION", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        //suscribo un metodo al evento
+        private void ActualizarCartelEventHandler(string mensaje)
+        {
+            //actualizo el cartel con el mensaje recibido
+            if (lblInfo.InvokeRequired)
+            {
+                lblInfo.Invoke(new Action(() => lblInfo.Text = mensaje));
+            }
+            else
+            {
+                lblInfo.Text = mensaje;
+            }
+        }
+        //metodo que ejecuto en segundo plano y muestra la info 
+        private void ActualizarCartel()
+        {
+            while (true)
+            {
+                Thread.Sleep(5000); // Esperar 10 segundos
+                ActualizarCartelEvent?.Invoke("¡¡¡Recordar!!!:si paga con 'Tarjeta de crédito' tiene un 5% de recargo");
             }
         }
     }

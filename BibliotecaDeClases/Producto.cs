@@ -1,8 +1,12 @@
 ﻿using System.Drawing;
+using System.IO;
+using System.Text;
+using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace BibliotecaDeClases
 {
-    public class Producto
+    public class Producto : ISerializable<Producto>
     {
         //atributos
         private string nombre;
@@ -11,7 +15,12 @@ namespace BibliotecaDeClases
         private string detalle;
         private string tipoDeCorte;
         private float cantidadSeleccionada;
-        //bool visible para decidir si mostrarse en una lista 
+        private int id;
+
+        public Producto()
+        {
+        }
+
         //constructor 
         public Producto(string nombre, float stock, float precio, string detalle,string tipoDeCorte, float cantidadSeleccionada) 
         {
@@ -22,28 +31,33 @@ namespace BibliotecaDeClases
             this.tipoDeCorte = tipoDeCorte;
             this.cantidadSeleccionada = 0;
         }
-        //sobrecarga del constructor para cargar heladera
-        public Producto(float stock, float precio,string tipoDeCorte)
+        //sobrecarga del constructor 
+        public Producto(int id, string nombre,string detalle,float precio,float cantidadSeleccionada,float stock,string tipoDeCorte)
         {
-            this.stock = stock;
+            this.id = id;
+            this.nombre = nombre;
+            this.detalle = detalle;
             this.precio = precio;
+            this.cantidadSeleccionada = cantidadSeleccionada;
+            this.stock = stock;
             this.tipoDeCorte = tipoDeCorte;
         }
         //propiedades 
-        public string GetNombre
+        public int GetId { get { return id; } }
+        public int SetId
         {
-            get { return this.nombre; }
+            get { return id; }
+            set { id = value; } 
         }
-        public string SetNombre
+        public string GetNombre { get { return nombre; } }
+        public string SetNombre 
         {
-            set { this.nombre = value; }
+            get { return nombre; }
+            set { nombre = value; } 
         }
-        public float GetStock
+        public float GetStock { get { return stock; } }
+        public float SetStock 
         { 
-            get { return this.stock; }
-        }
-        public float SetStock
-        {
             get { return stock; }
             set { this.stock = value; }
         }
@@ -53,6 +67,7 @@ namespace BibliotecaDeClases
         }
         public float SetPrecio
         {
+            get { return precio; }
             set { this.precio = value; }
         }
         public string GetDetalle
@@ -61,6 +76,7 @@ namespace BibliotecaDeClases
         }
         public string SetDetalle
         {
+            get { return detalle; }
             set { this.detalle = value; }
         }
         public string GetTipoDeCorte
@@ -69,6 +85,7 @@ namespace BibliotecaDeClases
         }
         public string SetTipoDeCorte
         {
+            get { return tipoDeCorte; }
             set { this.tipoDeCorte = value; }
         }
         public float GetCantidadSeleccionada
@@ -77,11 +94,79 @@ namespace BibliotecaDeClases
         }
         public float SetCantidadSeleccionada
         {
+            get { return cantidadSeleccionada; }
             set { this.cantidadSeleccionada = value; }
         }
-        public static string ConvertirACaracter(float numero)
+
+        public static void CargarDB(List<Producto> listaDeProductos) 
         {
-            return numero.ToString();
+            ProductosDAO.Guardar(listaDeProductos);
+        }
+
+        public void SerializeJson(List<Producto> listaASerializar) 
+        {
+            using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializados.json")) 
+            {
+                string jsonString = JsonSerializer.Serialize(listaASerializar);
+                sw.WriteLine(jsonString);
+            }
+        }
+        public void SerializeXml(List<Producto> listaASerializar) 
+        {
+            using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializadosXml.xml")) 
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Producto>));
+                xmlSerializer.Serialize(sw, listaASerializar);
+            }
+        }
+
+        public string DeserializeJson() 
+        {
+            using (StreamReader sr = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializados.json")) 
+            { 
+                string jsonString = sr.ReadToEnd();
+
+                List<Producto> producto = JsonSerializer.Deserialize<List<Producto>>(jsonString) as List<Producto>;
+                
+                StringBuilder sb = new StringBuilder();
+
+                foreach (Producto item in producto) 
+                {
+                    sb.AppendLine($"**********");
+                    sb.AppendLine($"Codigo del producto: {item.GetId}");
+                    sb.AppendLine($"Nombre: {item.GetNombre}");
+                    sb.AppendLine($"Precio: {item.GetPrecio}");
+                    sb.AppendLine($"Stock: {item.GetStock}");
+                    sb.AppendLine($"Detalle: {item.GetDetalle}");
+                    sb.AppendLine("");
+
+                }
+                return sb.ToString();
+            }
+        }
+        public string DeserializeXml()
+        {
+            using (StreamReader sr = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializadosXml.xml"))
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Producto>));
+
+                List<Producto> producto = xmlSerializer.Deserialize(sr) as List<Producto>;
+
+                StringBuilder sb = new StringBuilder();
+                foreach (Producto item in producto)
+                {
+                    sb.AppendLine($"**********");
+                    sb.AppendLine($"Codigo del producto: {item.GetId}");
+                    sb.AppendLine($"Nombre: {item.GetNombre}");
+                    sb.AppendLine($"Precio: {item.GetPrecio}");
+                    sb.AppendLine($"Stock: {item.GetStock}");
+                    sb.AppendLine($"Detalle: {item.GetDetalle}");
+                    sb.AppendLine("");
+                }
+
+                return sb.ToString();
+
+            }
         }
     }
 }

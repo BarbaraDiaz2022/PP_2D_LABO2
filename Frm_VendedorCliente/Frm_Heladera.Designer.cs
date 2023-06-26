@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Heladera));
             dgv = new DataGridView();
+            idProducto = new DataGridViewTextBoxColumn();
             nombre = new DataGridViewTextBoxColumn();
             stock = new DataGridViewTextBoxColumn();
             precio = new DataGridViewTextBoxColumn();
@@ -58,16 +59,23 @@
             dgv.AllowUserToAddRows = false;
             dgv.BackgroundColor = SystemColors.ButtonFace;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv.Columns.AddRange(new DataGridViewColumn[] { nombre, stock, precio, detalle, tipoCorte });
+            dgv.Columns.AddRange(new DataGridViewColumn[] { idProducto, nombre, stock, precio, detalle, tipoCorte });
             dgv.EnableHeadersVisualStyles = false;
             dgv.Location = new Point(12, 320);
             dgv.Name = "dgv";
             dgv.ReadOnly = true;
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(626, 200);
+            dgv.Size = new Size(676, 200);
             dgv.TabIndex = 0;
             dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick;
+            // 
+            // idProducto
+            // 
+            idProducto.HeaderText = "Codigo";
+            idProducto.Name = "idProducto";
+            idProducto.ReadOnly = true;
+            idProducto.Width = 50;
             // 
             // nombre
             // 
@@ -110,9 +118,9 @@
             label2.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             label2.Location = new Point(12, 86);
             label2.Name = "label2";
-            label2.Size = new Size(107, 17);
+            label2.Size = new Size(79, 17);
             label2.TabIndex = 3;
-            label2.Text = "Reponer stock:";
+            label2.Text = "Fijar stock:";
             // 
             // label3
             // 
@@ -129,14 +137,14 @@
             // 
             txtStock.Location = new Point(125, 85);
             txtStock.Name = "txtStock";
-            txtStock.Size = new Size(100, 23);
+            txtStock.Size = new Size(161, 23);
             txtStock.TabIndex = 7;
             // 
             // txtPrecio
             // 
             txtPrecio.Location = new Point(125, 127);
             txtPrecio.Name = "txtPrecio";
-            txtPrecio.Size = new Size(100, 23);
+            txtPrecio.Size = new Size(161, 23);
             txtPrecio.TabIndex = 8;
             // 
             // label5
@@ -154,14 +162,14 @@
             // 
             txtCorte.Location = new Point(125, 166);
             txtCorte.Name = "txtCorte";
-            txtCorte.Size = new Size(100, 23);
+            txtCorte.Size = new Size(161, 23);
             txtCorte.TabIndex = 12;
             // 
             // btnModificar
             // 
             btnModificar.BackColor = SystemColors.MenuHighlight;
             btnModificar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnModificar.Location = new Point(290, 85);
+            btnModificar.Location = new Point(350, 73);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(159, 46);
             btnModificar.TabIndex = 14;
@@ -173,7 +181,7 @@
             // 
             btnVolver.BackColor = SystemColors.MenuHighlight;
             btnVolver.Font = new Font("Stencil", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            btnVolver.Location = new Point(290, 251);
+            btnVolver.Location = new Point(350, 232);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(159, 36);
             btnVolver.TabIndex = 16;
@@ -197,7 +205,7 @@
             // 
             btnAgregar.BackColor = SystemColors.MenuHighlight;
             btnAgregar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnAgregar.Location = new Point(290, 141);
+            btnAgregar.Location = new Point(350, 125);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(159, 46);
             btnAgregar.TabIndex = 21;
@@ -231,21 +239,21 @@
             // 
             txtNombre.Location = new Point(125, 205);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(100, 23);
+            txtNombre.Size = new Size(161, 23);
             txtNombre.TabIndex = 24;
             // 
             // txtDetalle
             // 
             txtDetalle.Location = new Point(125, 245);
             txtDetalle.Name = "txtDetalle";
-            txtDetalle.Size = new Size(100, 23);
+            txtDetalle.Size = new Size(161, 23);
             txtDetalle.TabIndex = 25;
             // 
             // btnEliminar
             // 
             btnEliminar.BackColor = SystemColors.MenuHighlight;
             btnEliminar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            btnEliminar.Location = new Point(290, 193);
+            btnEliminar.Location = new Point(350, 177);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(159, 46);
             btnEliminar.TabIndex = 26;
@@ -260,7 +268,7 @@
             BackColor = Color.Thistle;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(641, 532);
+            ClientSize = new Size(722, 532);
             Controls.Add(btnEliminar);
             Controls.Add(txtDetalle);
             Controls.Add(txtNombre);
@@ -298,16 +306,17 @@
         private Button btnModificar;
         private Button btnVolver;
         private Label label7;
-        private DataGridViewTextBoxColumn nombre;
-        private DataGridViewTextBoxColumn stock;
-        private DataGridViewTextBoxColumn precio;
-        private DataGridViewTextBoxColumn detalle;
-        private DataGridViewTextBoxColumn tipoCorte;
         private Button btnAgregar;
         private Label lbl;
         private Label lbltipo;
         private TextBox txtNombre;
         private TextBox txtDetalle;
         private Button btnEliminar;
+        private DataGridViewTextBoxColumn idProducto;
+        private DataGridViewTextBoxColumn nombre;
+        private DataGridViewTextBoxColumn stock;
+        private DataGridViewTextBoxColumn precio;
+        private DataGridViewTextBoxColumn detalle;
+        private DataGridViewTextBoxColumn tipoCorte;
     }
 }

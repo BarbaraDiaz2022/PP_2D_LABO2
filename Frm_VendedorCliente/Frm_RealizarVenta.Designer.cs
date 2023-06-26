@@ -104,6 +104,7 @@
             cbClientes.Name = "cbClientes";
             cbClientes.Size = new Size(147, 23);
             cbClientes.TabIndex = 18;
+            cbClientes.SelectedIndexChanged += cbClientes_SelectedIndexChanged;
             cbClientes.DropDownStyleChanged += btnVender_Click;
             // 
             // lblSeleccion

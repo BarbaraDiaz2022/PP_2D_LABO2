@@ -20,6 +20,10 @@ namespace BibliotecaDeClases
         {
             get { return this.mail; }
         } 
+        public string GetPassword
+        {
+            get { return this.password; }
+        }
         public virtual string Saludar(string nombre) 
         {
             return "\n¡Bienvenido " + nombre + " !";

@@ -14,8 +14,6 @@ namespace Frm_VendedorCliente
 {
     public partial class Frm_LoginVendedor : Form
     {
-        private const string usuarioVendedorReal = "vendedor@gmail.com";
-        private const string passwordVendedorReal = "vendedor123";
         public Frm_LoginVendedor()
         {
             InitializeComponent();
@@ -25,15 +23,17 @@ namespace Frm_VendedorCliente
             SoundPlayer sonidoLogueo = new SoundPlayer();
             sonidoLogueo.SoundLocation = "C:/Users/GAMER ASUS/Downloads/logueo_1.wav";
             sonidoLogueo.Play();
-
-            string usuario = this.txtMail.Text;
+            string mail = this.txtMail.Text;
             string password = this.txtPassword.Text;
+            bool vendedorReal = UsuariosDAO.ValidarVendedores(mail,password);
 
-            this.Hide();
-            if (usuario == usuarioVendedorReal && password == passwordVendedorReal)
+            if (vendedorReal)
             {
                 Frm_SelecVendedor frmSeleccionarOpcion = new Frm_SelecVendedor();
                 frmSeleccionarOpcion.Show();
+                //string mensaje = Vendedor.RetornarSaludo();
+                //MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
+                this.Hide();
             }
             else
             {
@@ -42,8 +42,8 @@ namespace Frm_VendedorCliente
                 frm.Show();
                 if (rdbAcceder.Checked)
                 {
-                    txtMail.Text = usuarioVendedorReal;
-                    txtPassword.Text = passwordVendedorReal;
+                    txtMail.Text = mail;
+                    txtPassword.Text = password;
                 }
                 else
                 {
@@ -62,10 +62,8 @@ namespace Frm_VendedorCliente
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             //cargo en los textbox los valores hardcodeados
-            txtMail.Text = usuarioVendedorReal;
-            txtPassword.Text = passwordVendedorReal;
-            string mensaje = Vendedor.RetornarSaludo();
-            MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
+            txtMail.Text = "vendedor1@gmail.com";
+            txtPassword.Text = "contraseñaVendedor1";
         }
     }
 

@@ -51,6 +51,8 @@
             lblCliente = new Label();
             txtNombreCliente = new TextBox();
             btnComprar = new Button();
+            lblCartel = new Label();
+            lblInfo = new Label();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -58,7 +60,7 @@
             // 
             txtMonto.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
             txtMonto.ForeColor = SystemColors.ActiveCaptionText;
-            txtMonto.Location = new Point(205, 95);
+            txtMonto.Location = new Point(214, 153);
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(98, 25);
             txtMonto.TabIndex = 0;
@@ -116,7 +118,7 @@
             label3.AutoSize = true;
             label3.BackColor = Color.WhiteSmoke;
             label3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(12, 97);
+            label3.Location = new Point(12, 155);
             label3.Name = "label3";
             label3.Size = new Size(187, 18);
             label3.TabIndex = 7;
@@ -148,10 +150,10 @@
             dgv.BackgroundColor = SystemColors.Control;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new DataGridViewColumn[] { nombreProducto, stockProducto, precio, detalle, tipoDeCorte, cantidadComprada });
-            dgv.Location = new Point(12, 128);
+            dgv.Location = new Point(12, 187);
             dgv.Name = "dgv";
             dgv.RowTemplate.Height = 25;
-            dgv.Size = new Size(633, 275);
+            dgv.Size = new Size(633, 216);
             dgv.TabIndex = 8;
             dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick_1;
@@ -197,7 +199,7 @@
             cbBuscarCorte.ForeColor = SystemColors.MenuText;
             cbBuscarCorte.FormattingEnabled = true;
             cbBuscarCorte.Items.AddRange(new object[] { "Mostrar todos los cortes", "Peceto", "Pechuga", "Bondiola", "Bola de lomo" });
-            cbBuscarCorte.Location = new Point(387, 99);
+            cbBuscarCorte.Location = new Point(479, 155);
             cbBuscarCorte.Name = "cbBuscarCorte";
             cbBuscarCorte.Size = new Size(163, 26);
             cbBuscarCorte.TabIndex = 9;
@@ -207,7 +209,7 @@
             btnBuscar.BackColor = Color.MediumBlue;
             btnBuscar.Font = new Font("Stencil", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnBuscar.ForeColor = SystemColors.ControlLightLight;
-            btnBuscar.Location = new Point(387, 67);
+            btnBuscar.Location = new Point(479, 123);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(91, 26);
             btnBuscar.TabIndex = 10;
@@ -220,7 +222,7 @@
             lblCliente.AutoSize = true;
             lblCliente.BackColor = Color.WhiteSmoke;
             lblCliente.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCliente.Location = new Point(12, 66);
+            lblCliente.Location = new Point(12, 125);
             lblCliente.Name = "lblCliente";
             lblCliente.Size = new Size(140, 18);
             lblCliente.TabIndex = 11;
@@ -229,9 +231,9 @@
             // txtNombreCliente
             // 
             txtNombreCliente.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            txtNombreCliente.Location = new Point(203, 61);
+            txtNombreCliente.Location = new Point(160, 125);
             txtNombreCliente.Name = "txtNombreCliente";
-            txtNombreCliente.Size = new Size(100, 26);
+            txtNombreCliente.Size = new Size(204, 26);
             txtNombreCliente.TabIndex = 12;
             // 
             // btnComprar
@@ -247,6 +249,29 @@
             btnComprar.UseVisualStyleBackColor = false;
             btnComprar.Click += btnComprar_Click;
             // 
+            // lblCartel
+            // 
+            lblCartel.AutoSize = true;
+            lblCartel.BackColor = Color.Pink;
+            lblCartel.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblCartel.Location = new Point(302, 43);
+            lblCartel.Name = "lblCartel";
+            lblCartel.Size = new Size(0, 20);
+            lblCartel.TabIndex = 14;
+            // 
+            // lblInfo
+            // 
+            lblInfo.AutoSize = true;
+            lblInfo.BackColor = Color.Gold;
+            lblInfo.BorderStyle = BorderStyle.FixedSingle;
+            lblInfo.Font = new Font("Showcard Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblInfo.ForeColor = SystemColors.ControlText;
+            lblInfo.Location = new Point(12, 58);
+            lblInfo.Name = "lblInfo";
+            lblInfo.Size = new Size(64, 22);
+            lblInfo.TabIndex = 15;
+            lblInfo.Text = "label1";
+            // 
             // Frm_Ventas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -254,6 +279,8 @@
             BackColor = Color.Wheat;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(654, 457);
+            Controls.Add(lblInfo);
+            Controls.Add(lblCartel);
             Controls.Add(btnComprar);
             Controls.Add(txtNombreCliente);
             Controls.Add(lblCliente);
@@ -299,5 +326,7 @@
         private DataGridViewTextBoxColumn detalle;
         private DataGridViewTextBoxColumn tipoDeCorte;
         private DataGridViewTextBoxColumn cantidadComprada;
+        private Label lblCartel;
+        private Label lblInfo;
     }
 }

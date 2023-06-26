@@ -23,7 +23,7 @@ namespace BibliotecaDeClases
             listaVendedores = new List<Vendedor>();
             CargarDgv();
             CargarClientes();
-            //CargarVendedores();
+            CargarVendedores();
         }
         //metodos
         /// <summary>
@@ -31,15 +31,7 @@ namespace BibliotecaDeClases
         /// </summary>
         private static void CargarDgv()
         {
-            //nombre stock precioxkilo detalle tipodecorte
-            listaOriginal.Add(new Producto("Milanesas.01", 15, 2500, "Milanesas de carne vacuna", "Peceto", 0));
-            listaOriginal.Add(new Producto("Milanesas.02", 15, 1800, "Milanesas de carne avicola", "Pechuga", 0));
-            listaOriginal.Add(new Producto("Milanesas.03", 12, 1900, "Milanesas de carne porcina", "Bondiola", 0));
-            listaOriginal.Add(new Producto("Milanesas.04", 15, 2000, "Milanesas de carne vacuna", "Bola de lomo", 0));
-            listaOriginal.Add(new Producto("Hamburguesas.01", 20, 1500, "Hamburguesas de carne avicola", "Pechuga", 0));
-            listaOriginal.Add(new Producto("Bife", 25, 2800, "Bifes de carne vacuna", "Bife de chorizo", 0));
-            listaOriginal.Add(new Producto("Hamburguesas.02", 25, 1850, "Hamburguesas de carne vacuna", "Peceto", 0));
-            listaOriginal.Add(new Producto("Bife.02", 30, 1950, "Bifes de carne porcina", "Bife de bondiola", 0));
+            listaOriginal = ProductosDAO.Leer();
         }
         /// <summary>
         /// metodo que se encarga de retorna la lista con los productos ya cargados 
@@ -47,16 +39,7 @@ namespace BibliotecaDeClases
         /// <returns>retorna una lista de tipo producto</returns>
         public static List<Producto> RetornarProductos()
         {
-            List<Producto> listaCopia = new List<Producto>(listaOriginal);
-            return listaCopia;
-        }
-
-        public static void ValidarLista(List<Producto> listaProductosCopia)
-        {
-            if (listaProductosCopia != null) 
-            {
-                listaOriginal = listaProductosCopia;
-            }
+            return listaOriginal;
         }
         /// <summary>
         /// metodo que añade una venta que recibe por parametro a la lista de ventas
@@ -75,36 +58,11 @@ namespace BibliotecaDeClases
             return listaVentas;
         }
         /// <summary>
-        /// metodo que permite buscar un corte que recibe por parametro en la lista de productos y retorna solo los
-        /// productos filtrados 
-        /// </summary>
-        /// <param name="corteBusqueda">parametro de tipo string que sirve para filtrar la lista</param>
-        /// <returns>retorna una lista de tipo producto con los productos que coincidan con el tipo buscado</returns>
-        public static List<Producto> BuscarPorCorte(string corteBusqueda)
-        {
-            List<Producto> listaCopia = Negocio.RetornarProductos();
-            List<Producto> listaFiltrada = new List<Producto>();
-
-            foreach (Producto producto in listaCopia)
-            {
-                if (producto.GetTipoDeCorte.ToLower().Contains(corteBusqueda.ToLower()))
-                {
-                    listaFiltrada.Add(producto);
-                }
-            }
-            return listaFiltrada;
-        }
-        /// <summary>
         /// metodo que agrega clientes a la lista de clientes
         /// </summary>
         private static void CargarClientes()
         {
-            listaCliente.Add(new Cliente("Lionel Messi","leomessi@gmail.com","contraseña123", 25000, eMetodoPago.Tarjeta_de_credito));
-            listaCliente.Add(new Cliente("Angel DiMaria", "angelito@gmail.com", "contraseña456", 20000, eMetodoPago.Tarjeta_de_debito));
-            listaCliente.Add(new Cliente("Maria Lopez", "marilopez@gmail.com", "contraseña496", 10000, eMetodoPago.Mercado_pago));
-            listaCliente.Add(new Cliente("Julian Alvarez", "julialvarez@gmail.com", "contraseña789", 23000, eMetodoPago.Efectivo));
-            listaCliente.Add(new Cliente("Juana Fernandez", "juana@gmail.com", "contraseña636", 13000, eMetodoPago.Efectivo));
-            listaCliente.Add(new Cliente("Susana Gimenez", "susanita@gmail.com", "contraseña937", 15500, eMetodoPago.Tarjeta_de_credito));
+            listaCliente = UsuariosDAO.LeerClientes();
         }
         /// <summary>
         /// metodo que retorna la lista de clientes con los clientes cargados
@@ -121,23 +79,36 @@ namespace BibliotecaDeClases
             }
             return clientesDatosSeguros;
         }
-        /*private static void CargarVendedores() 
+        public static void CargarVendedores() 
         {
-            listaVendedores.Add(new Vendedor("vendedor1@gmail.com", "contraseñaVendedor1", 123456, "Juan Perez"));
-            listaVendedores.Add(new Vendedor("vendedor2@gmail.com", "contraseñaVendedor2", 789012, "Adriana Davalos"));
-            listaVendedores.Add(new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez")); 
-        }*/
+            listaVendedores = UsuariosDAO.LeerVendedores();
+        }
         public static Vendedor RetornarVendedor()
         {
-            listaVendedores.Add(new Vendedor("vendedor1@gmail.com", "contraseñaVendedor1", 123456, "Juan Perez"));
-            listaVendedores.Add(new Vendedor("vendedor2@gmail.com", "contraseñaVendedor2", 789012, "Adriana Davalos"));
-            listaVendedores.Add(new Vendedor("vendedor3@gmail.com", "contraseñaVendedor3", 345678, "Jorge Fernandez"));
+
             Random random = new Random();
             int indiceRandom = random.Next(0, listaVendedores.Count);
 
             Vendedor vendedorAleatorio = listaVendedores[indiceRandom];
 
             return vendedorAleatorio;
+        }
+
+        public static void CargarDBProductos() 
+        {
+            Producto.CargarDB(listaOriginal);
+        }
+        public static void CargarDBClientes() 
+        {
+            Cliente.CargarDBCliente(listaCliente);
+        }
+        public static void CargarDBVendedores() 
+        {
+            Vendedor.CargarDBVendedor(listaVendedores);
+        }
+        public static void CargarDBHistorial()
+        {
+            Venta.CargarDB(listaVentas);
         }
     }
 }

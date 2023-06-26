@@ -24,7 +24,7 @@ namespace Frm_VendedorCliente
         {
             foreach (Producto producto in listaDeProductos)
             {
-                dgv.Rows.Add(producto.GetNombre, producto.GetStock, producto.GetPrecio, producto.GetDetalle, producto.GetTipoDeCorte);
+                dgv.Rows.Add(producto.GetId, producto.GetNombre, producto.GetStock, producto.GetPrecio, producto.GetDetalle, producto.GetTipoDeCorte); ;
             }
         }
         private void Frm_Heladera_Load(object sender, EventArgs e)
@@ -47,6 +47,7 @@ namespace Frm_VendedorCliente
         }
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            DialogResult confirmarOp;
             //obtengo los valores que ingresa el usuario
             float precioModificado;
             if (!float.TryParse(txtPrecio.Text, out precioModificado) || (precioModificado < 0))
@@ -65,19 +66,45 @@ namespace Frm_VendedorCliente
             {
                 MessageBox.Show("Ingrese un tipo de corte.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            string nombreModificado = txtNombre.Text;
+            if (string.IsNullOrEmpty(nombreModificado))
+            {
+                MessageBox.Show("Ingrese un nombre.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            string detalleModificado = txtDetalle.Text;
+            if (string.IsNullOrEmpty(detalleModificado))
+            {
+                MessageBox.Show("Ingrese un detalle para el producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             //obtengo la fila seleccionada en el indice que corresponde 
             DataGridViewRow filaSelec = dgv.CurrentRow;
             int indiceFilaSeleccionada = filaSelec.Index;
-            //cargo los nuevos datos que se ingresaron en el producto
-            Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
-            productoSeleccionado.SetPrecio = precioModificado;
-            productoSeleccionado.SetTipoDeCorte = corteModificado;
-            productoSeleccionado.SetStock = stockModificado;
+            confirmarOp = MessageBox.Show("¿Desea modificar el producto de forma permanente?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmarOp == DialogResult.Yes)
+            {
+                //cargo los nuevos datos que se ingresaron en el producto
+                Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
+                productoSeleccionado.SetPrecio = precioModificado;
+                productoSeleccionado.SetTipoDeCorte = corteModificado;
+                productoSeleccionado.SetStock = stockModificado;
+                productoSeleccionado.SetNombre = nombreModificado;
+                productoSeleccionado.SetDetalle = detalleModificado;
+                //actualizo el dgv
+                filaSelec.Cells["stock"].Value = stockModificado;
+                filaSelec.Cells["precio"].Value = precioModificado;
+                filaSelec.Cells["tipoCorte"].Value = corteModificado;
+                filaSelec.Cells["nombre"].Value = nombreModificado;
+                filaSelec.Cells["detalle"].Value = detalleModificado;
 
-            //actualizo el dgv
-            filaSelec.Cells["stock"].Value = stockModificado;
-            filaSelec.Cells["precio"].Value = precioModificado;
-            filaSelec.Cells["tipoCorte"].Value = corteModificado;
+                //lo cargo en la base de datos
+                ProductosDAO.Modificar(productoSeleccionado);
+            }
+            else
+            {
+                MessageBox.Show("No se modificó el producto", "Operación cancelada", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
+
             limpiarTxt();
         }
         private void dgv_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -85,11 +112,11 @@ namespace Frm_VendedorCliente
             //guardo la posicion de la fila en donde se hace click 
             posicion = dgv.CurrentRow.Index;
             //obtengo los valores de las celdas y los pongo en los txt
-            txtStock.Text = dgv[1, posicion].Value.ToString();
-            txtPrecio.Text = dgv[2, posicion].Value.ToString();
-            txtCorte.Text = dgv[4, posicion].Value.ToString();
-            txtNombre.Text = dgv[0, posicion].Value.ToString();
-            txtDetalle.Text = dgv[3, posicion].Value.ToString();
+            txtStock.Text = dgv[2, posicion].Value.ToString();
+            txtPrecio.Text = dgv[3, posicion].Value.ToString();
+            txtCorte.Text = dgv[5, posicion].Value.ToString();
+            txtNombre.Text = dgv[1, posicion].Value.ToString();
+            txtDetalle.Text = dgv[4, posicion].Value.ToString();
             //habilito los botones
             btnModificar.Enabled = true;
             txtStock.Focus();
@@ -104,6 +131,7 @@ namespace Frm_VendedorCliente
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            DialogResult confirmarOp;
             //obtengo los valores que ingresa el usuario
             float precioNuevo;
             if (!float.TryParse(txtPrecio.Text, out precioNuevo) || (precioNuevo < 0))
@@ -135,19 +163,31 @@ namespace Frm_VendedorCliente
             //obtengo la fila seleccionada en el indice que corresponde 
             DataGridViewRow filaSelec = dgv.CurrentRow;
             int indiceFilaSeleccionada = filaSelec.Index;
-            //cargo los nuevos datos que se ingresaron en el producto
-            Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
-            productoSeleccionado.SetPrecio = precioNuevo;
-            productoSeleccionado.SetTipoDeCorte = corteNuevo;
-            productoSeleccionado.SetStock = stockNuevo;
-            productoSeleccionado.SetNombre = nombreNuevo;
-            productoSeleccionado.SetDetalle = detalleNuevo;
-            //actualizo el dgv
-            filaSelec.Cells["stock"].Value = stockNuevo;
-            filaSelec.Cells["precio"].Value = precioNuevo;
-            filaSelec.Cells["tipoCorte"].Value = corteNuevo;
-            filaSelec.Cells["nombre"].Value = nombreNuevo;
-            filaSelec.Cells["detalle"].Value = detalleNuevo;
+            confirmarOp = MessageBox.Show("¿Desea agregar el nuevo producto?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmarOp == DialogResult.Yes)
+            {
+                //cargo los nuevos datos que se ingresaron en el producto
+                Producto productoSeleccionado = listaDeProductos[indiceFilaSeleccionada];
+                productoSeleccionado.SetPrecio = precioNuevo;
+                productoSeleccionado.SetTipoDeCorte = corteNuevo;
+                productoSeleccionado.SetStock = stockNuevo;
+                productoSeleccionado.SetNombre = nombreNuevo;
+                productoSeleccionado.SetDetalle = detalleNuevo;
+                //actualizo el dgv
+                filaSelec.Cells["stock"].Value = stockNuevo;
+                filaSelec.Cells["precio"].Value = precioNuevo;
+                filaSelec.Cells["tipoCorte"].Value = corteNuevo;
+                filaSelec.Cells["nombre"].Value = nombreNuevo;
+                filaSelec.Cells["detalle"].Value = detalleNuevo;
+                listaDeProductos.Add(productoSeleccionado);
+                //lo cargo en la base de datos 
+                ProductosDAO.GuardarNuevoProducto(productoSeleccionado);
+            }
+            else
+            {
+                MessageBox.Show("No se agregó el producto", "Operación cancelada", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+
 
             limpiarTxt();
         }
@@ -158,15 +198,25 @@ namespace Frm_VendedorCliente
             {
                 DataGridViewRow selectedRow = dgv.SelectedRows[0];
                 //valores de las celdas en la fila seleccionada
-                string nombre = selectedRow.Cells["nombre"].Value.ToString();
-                //actualizo la lista de productos eliminando el producto correspondiente
-                Producto productoAEliminar = listaDeProductos.FirstOrDefault(p => p.GetNombre == nombre);
-                listaDeProductos.Remove(productoAEliminar);
+                DialogResult confirmarOp;
+                int id = Convert.ToInt32(selectedRow.Cells["idProducto"].Value);
 
-                //elimino la fila seleccionada del DataGridView
-                dgv.Rows.Remove(dgv.CurrentRow);
 
-                Negocio.ValidarLista(listaDeProductos);
+                confirmarOp = MessageBox.Show("¿Desea eliminar el producto de forma permanente?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (confirmarOp == DialogResult.Yes)
+                {
+                    ProductosDAO.Eliminar(id);
+                    //actualizo la lista de productos eliminando el producto correspondiente
+                    Producto productoAEliminar = listaDeProductos.FirstOrDefault(p => p.GetId == id);
+                    listaDeProductos.Remove(productoAEliminar);
+                    //elimino la fila seleccionada del DataGridView
+                    dgv.Rows.Remove(dgv.CurrentRow);
+                }
+                else
+                {
+                    MessageBox.Show("No se eliminó el producto", "Operación cancelada", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
             else
             {

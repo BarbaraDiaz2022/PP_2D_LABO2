@@ -15,25 +15,29 @@ namespace Frm_VendedorCliente
 {
     public partial class Frm_LoginCliente : Form
     {
-        private const string ususarioClienteReal = "cliente@gmail.com";
-        private const string passwordClienteReal = "cliente123";
         public Frm_LoginCliente()
         {
             InitializeComponent();
         }
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            string usuario = this.textBox1.Text;
+            string mail = this.textBox1.Text;
             string password = this.textBox2.Text;
 
             SoundPlayer sonidoLogueo = new SoundPlayer();
             sonidoLogueo.SoundLocation = "C:/Users/GAMER ASUS/Downloads/logueo_1.wav";
             sonidoLogueo.Play();
             this.Hide();
-            if (usuario == ususarioClienteReal && password == passwordClienteReal)
+
+            bool clienteReal = UsuariosDAO.ValidarClientes(mail,password);
+
+            if (clienteReal)
             {
-                Frm_Ventas frm = new Frm_Ventas();
+                string nombreCliente = UsuariosDAO.RetornarNombre(mail);
+                Frm_Ventas frm = new Frm_Ventas(nombreCliente);
                 frm.Show();
+                //string mensaje = Cliente.RetornarSaludo();
+                //MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
                 this.Hide();
             }
             else
@@ -43,8 +47,8 @@ namespace Frm_VendedorCliente
                 frm.Show();
                 if (rbAutocompletar.Checked)
                 {
-                    textBox1.Text = ususarioClienteReal;
-                    textBox2.Text = passwordClienteReal;
+                    textBox1.Text = mail;  
+                    textBox2.Text = password;
                 }
                 else
                 {
@@ -62,10 +66,8 @@ namespace Frm_VendedorCliente
         }
         private void rbAutocompletar_CheckedChanged(object sender, EventArgs e)
         {
-            textBox1.Text = ususarioClienteReal;
-            textBox2.Text = passwordClienteReal;
-            string mensaje = Cliente.RetornarSaludo();
-            MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
+            textBox1.Text = "angelito@gmail.com";
+            textBox2.Text = "contraseña456";
         }
     }
 }

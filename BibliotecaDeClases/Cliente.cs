@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace BibliotecaDeClases
 {
@@ -20,6 +22,7 @@ namespace BibliotecaDeClases
         private string nombre;
         private float montoDisponible;
         private eMetodoPago metodoPago;
+        private string metodoDePago;
         //constructor
         public Cliente(string nombre,string mail, string password, float montoDisponible,eMetodoPago metodoPago)
         : base(mail, password)
@@ -28,19 +31,18 @@ namespace BibliotecaDeClases
             this.montoDisponible = montoDisponible;
             this.metodoPago = metodoPago;
         }
+        //sobrecargo el ctor
+        public Cliente(string nombre, string mail, string password,float montoDisponible,string metodoDePago) 
+            : base(mail,password)
+        {
+            this.nombre = nombre;
+            this.montoDisponible = montoDisponible;
+            this.metodoDePago = metodoDePago;
+        }
         //propiedad
-        public string GetNombre
-        { 
-            get { return nombre; }
-        }
-        public string SetNombe
-        {
-            set { this.nombre = value; }
-        }
-        public float GetMontoDisponible
-        {
-            get { return montoDisponible; }
-        }
+        public string GetNombre { get { return nombre; } }
+        public string SetNombe { set { this.nombre = value; } }
+        public float GetMontoDisponible { get { return montoDisponible; } }
         public float SetMontoDisponible
         {
             set
@@ -59,6 +61,7 @@ namespace BibliotecaDeClases
         {
             get { return this.metodoPago; } 
         }
+        public string GetMetodoDePago { get { return this.metodoDePago; } }
         //metodo
         /// <summary>
         /// valida el valor q ingreso el cliente
@@ -78,18 +81,10 @@ namespace BibliotecaDeClases
         {
             return "Usted ingresó como: Cliente" + base.Saludar(nombre);
         }
-        public static string RetornarSaludo()
+
+        public static void CargarDBCliente(List <Cliente> listaClientes) 
         {
-            List<Cliente> listaClientes = Negocio.RetornarClientes();
-            Random random = new Random();
-            int indiceRandom = random.Next(0, listaClientes.Count);
-
-            Cliente clienteAleatorio = listaClientes[indiceRandom];
-            string nombre = clienteAleatorio.GetNombre;
-
-            string mensaje = clienteAleatorio.Saludar(nombre);
-
-            return mensaje;
+            UsuariosDAO.GuardarClientes(listaClientes);
         }
     }
 }

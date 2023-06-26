@@ -36,7 +36,6 @@ namespace Frm_VendedorCliente
             {
                 //primero cargo la lista 
                 List<Cliente> clientes = Negocio.RetornarClientes();
-
                 //verifico si el cmb esta vacio 
                 if (cbClientes.Items.Count == 0)
                 {
@@ -70,7 +69,7 @@ namespace Frm_VendedorCliente
             {   //obtengo el valor de la celda como cadena de texto 
                 int rowIndex = e.RowIndex;
                 string nuevoValorString = dgv.Rows[rowIndex].Cells["cantidadComprada"].Value.ToString();
-                if (float.TryParse(nuevoValorString, out float nuevoValor) && nuevoValor >= 0)
+                if (float.TryParse(nuevoValorString, out float nuevoValor) && nuevoValor > 0)
                 {   //actualiza el valor de la lista de productos correspondientes
                     listaDeProductos[rowIndex].SetCantidadSeleccionada = nuevoValor;
                     //busca el producto en productosSeleccionados por su nombre
@@ -79,6 +78,7 @@ namespace Frm_VendedorCliente
                     if (productoSeleccionado != null)
                     {
                         productoSeleccionado.SetCantidadSeleccionada = nuevoValor;
+
                     }
                 }
                 else
@@ -140,7 +140,6 @@ namespace Frm_VendedorCliente
             if (cbClientes.SelectedIndex != -1)
             {
                 Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
-                txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
                 string clienteSelecString = clienteSeleccionado.GetNombre;
                 float precioTotal = Vendedor.CalcularMonto(listaCompra);
                 confirmarVenta = MessageBox.Show("¿Desea confirmar la venta?", "Confirme la operación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -152,7 +151,7 @@ namespace Frm_VendedorCliente
                         if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
                         {
                             //verifico si el cliente tiene el dinero suficiente
-                            if (precioTotal <= clienteSeleccionado.GetMontoDisponible && precioTotal > 0)
+                            if(ExtensionCliente.PuedeComprar(clienteSeleccionado,precioTotal) && precioTotal > 0)
                             {
                                 if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
                                 {
@@ -175,13 +174,15 @@ namespace Frm_VendedorCliente
                                     Venta venta = new Venta(listaCompra, clienteSelecString, precioTotal, vendedor.GetNombreVendedor, clienteSeleccionado.GetMetodoPago);
                                     Negocio.CargarVentas(venta);
                                 }
-
                                 //actualizo el stock
                                 Producto productoEnLista = listaDeProductos.Find(p => p.GetNombre == producto.GetNombre && p.GetCantidadSeleccionada == producto.GetCantidadSeleccionada);
                                 productoEnLista.SetStock -= producto.GetCantidadSeleccionada;
                                 int rowIndex = listaDeProductos.IndexOf(productoEnLista);
                                 dgv.Rows[rowIndex].Cells["stock"].Value = productoEnLista.GetStock;
                                 dgv.Refresh();
+                                //guardo el stock nuevo en la base de datos 
+                                ProductosDAO.ActualizarListaComprada(productoEnLista);
+                                Negocio.CargarDBHistorial();
                             }
                             else
                             {
@@ -194,11 +195,10 @@ namespace Frm_VendedorCliente
                             MessageBox.Show("No hay suficiente stock para realizar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
-
-                foreach (Producto producto in listaCompra)
-                {
-                    producto.SetCantidadSeleccionada = 0;
+                    foreach (Producto producto in listaCompra)
+                    {
+                        producto.SetCantidadSeleccionada = 0;
+                    }
                 }
             }
             else
@@ -211,6 +211,15 @@ namespace Frm_VendedorCliente
             Frm_SelecVendedor frmMenuSelec = new Frm_SelecVendedor();
             frmMenuSelec.Show();
             this.Close();
+        }
+
+        private void cbClientes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbClientes.SelectedIndex != -1)
+            {
+                Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
+                txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
+            }
         }
     }
 }
