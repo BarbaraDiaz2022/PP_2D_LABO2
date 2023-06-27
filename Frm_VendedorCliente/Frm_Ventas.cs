@@ -256,7 +256,7 @@ namespace Frm_VendedorCliente
         {
             while (true)
             {
-                Thread.Sleep(5000); // Esperar 5 segundos
+                Thread.Sleep(5000); //espera 5 segundos
                 ActualizarCartelEvent?.Invoke("¡¡¡Recordar!!!:si paga con 'Tarjeta de crédito' tiene un 5% de recargo");
             }
         }
