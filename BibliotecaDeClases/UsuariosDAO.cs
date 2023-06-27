@@ -84,9 +84,9 @@ namespace BibliotecaDeClases
                 command.Parameters.AddWithValue("@mail",mail);
                 command.Parameters.AddWithValue("@password",password);
 
-                int count = Convert.ToInt32(command.ExecuteScalar());
+                int cantClientes = Convert.ToInt32(command.ExecuteScalar());
 
-                return count > 0;
+                return cantClientes > 0;
             } 
             catch (MiExcepcion ex)
             { 
