@@ -56,11 +56,11 @@ namespace Frm_VendedorCliente
             {
                 if (!Directory.Exists(ruta)) //si la ruta no existe 
                 {
-                    throw new MiExcepcion("Se produjo una excepción personalizada.");
+                    throw new MiExcepcion("Se produjo una excepción en la ruta del archivo.");
                 }
                 else
                 {
-                    using (StreamWriter sw = new StreamWriter(rutaCompleta, true)) //el parametro true indica q se tiene que agregar al final y no sobreescribirse
+                    using (StreamWriter sw = new StreamWriter(rutaCompleta, true)) //el parametro true indica q se tiene que agregar al final
                     {
                         foreach (Venta venta in ventas)
                         {

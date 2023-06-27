@@ -29,7 +29,7 @@ namespace BibliotecaDeClases
                 connection.Open();
                 foreach (Venta venta in listaDeVentas)
                 {
-                    foreach (Producto producto in venta.listaProductos) 
+                    foreach (Producto producto in venta.listaProductos)
                     {
                         command.Parameters.Clear();//limpio el buffer de los parametros
                         command.CommandText = $"INSERT INTO HISTORIAL (productos,cliente,montoTotal,vendedor) VALUES (@productos,@cliente,@montoTotal,@vendedor)";

@@ -43,7 +43,7 @@ namespace Frm_VendedorCliente
             cbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
             cbBuscarCorte.DropDownStyle = ComboBoxStyle.DropDownList;
             DateTime fecha = DateTime.Now;
-            lblInfo.Text = fecha.ToString();
+            lblInfo.Text = fecha.ToShortDateString();
             // suscribo el metodo al evento 
             ActualizarCartelEvent += ActualizarCartelEventHandler;
 
@@ -203,11 +203,11 @@ namespace Frm_VendedorCliente
                                             Negocio.CargarVentas(venta);
                                         }
                                         //actualizo el stock
-                                        Producto productoEnLista = ExtensionProducto.ActualizarStock(listaDeProductos,productoCompra);
+                                        Producto productoEnLista = ExtensionProducto.ActualizarStock(listaDeProductos, productoCompra);
                                         int rowIndex = listaDeProductos.IndexOf(productoEnLista);
                                         dgv.Rows[rowIndex].Cells["stockProducto"].Value = productoEnLista.GetStock;
                                         dgv.Refresh();
-                                       
+
                                         //calculo y actualizo el txt con el nuevo monto 
                                         montoMax -= montoTotal;
                                         txtMonto.Text = montoMax.ToString("N2");
@@ -238,7 +238,7 @@ namespace Frm_VendedorCliente
                 }
             }
         }
-        //suscribo un metodo al evento
+        //suscribo el metodo al evento
         private void ActualizarCartelEventHandler(string mensaje)
         {
             //actualizo el cartel con el mensaje recibido
@@ -256,8 +256,22 @@ namespace Frm_VendedorCliente
         {
             while (true)
             {
-                Thread.Sleep(5000); // Esperar 10 segundos
+                Thread.Sleep(5000); // Esperar 5 segundos
                 ActualizarCartelEvent?.Invoke("¡¡¡Recordar!!!:si paga con 'Tarjeta de crédito' tiene un 5% de recargo");
+            }
+        }
+
+        private void dgv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dgv.Columns[e.ColumnIndex].Name == "cantidadComprada")
+            {
+                string cant = e.FormattedValue.ToString();
+                float cantidadComprada;
+                if (!float.TryParse(cant, out cantidadComprada) || cantidadComprada < 0)
+                {
+                    MessageBox.Show("No puede dejar la celda vacía", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    e.Cancel = true;
+                }
             }
         }
     }

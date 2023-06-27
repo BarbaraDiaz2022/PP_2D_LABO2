@@ -54,13 +54,6 @@ namespace BibliotecaDeClases
         { 
             return "Usted ingresó como: Vendedor" + base.Saludar(nombre); 
         }
-        public static string RetornarSaludo() 
-        {
-            Vendedor vendedor = Negocio.RetornarVendedor();
-            string mensaje = vendedor.Saludar(vendedor.GetNombreVendedor);
-
-            return mensaje;
-        }
         public static void CargarDBVendedor(List<Vendedor> listaVendedores)
         {
             UsuariosDAO.GuardarVendedores(listaVendedores);

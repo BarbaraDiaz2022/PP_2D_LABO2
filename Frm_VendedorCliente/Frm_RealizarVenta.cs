@@ -151,7 +151,7 @@ namespace Frm_VendedorCliente
                         if (producto.GetStock > 0 && producto.GetCantidadSeleccionada < producto.GetStock)
                         {
                             //verifico si el cliente tiene el dinero suficiente
-                            if(ExtensionCliente.PuedeComprar(clienteSeleccionado,precioTotal) && precioTotal > 0)
+                            if (ExtensionCliente.PuedeComprar(clienteSeleccionado, precioTotal) && precioTotal > 0)
                             {
                                 if (clienteSeleccionado.GetMetodoPago == eMetodoPago.Tarjeta_de_credito)
                                 {
@@ -219,6 +219,20 @@ namespace Frm_VendedorCliente
             {
                 Cliente clienteSeleccionado = Negocio.RetornarClientes()[cbClientes.SelectedIndex];
                 txtInfoMonto.Text = clienteSeleccionado.GetMontoDisponible.ToString();
+            }
+        }
+
+        private void dgv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dgv.Columns[e.ColumnIndex].Name == "cantidadComprada") 
+            {
+                string cant = e.FormattedValue.ToString();
+                float cantidadComprada;
+                if (!float.TryParse(cant, out cantidadComprada) || cantidadComprada < 0) 
+                {
+                    MessageBox.Show("No puede dejar la celda vacía","Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    e.Cancel = true;
+                }
             }
         }
     }

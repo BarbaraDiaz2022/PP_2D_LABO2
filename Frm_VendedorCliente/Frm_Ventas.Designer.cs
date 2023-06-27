@@ -158,6 +158,7 @@
             dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick_1;
             dgv.CellEndEdit += dgv_CellEndEdit;
+            dgv.CellValidating += dgv_CellValidating;
             // 
             // nombreProducto
             // 

@@ -61,6 +61,7 @@
             dgv.CellBeginEdit += dgv_CellBeginEdit;
             dgv.CellClick += dgv_CellClick;
             dgv.CellEndEdit += dgv_CellEndEdit;
+            dgv.CellValidating += dgv_CellValidating;
             // 
             // nombre
             // 
