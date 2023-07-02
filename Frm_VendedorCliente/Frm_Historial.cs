@@ -26,10 +26,7 @@ namespace Frm_VendedorCliente
             {
                 dgv.Rows.Add(venta.GetNombre, venta.GetVendedor, venta.GetCliente, venta.GetMonto);
             }
-            btnDeserializarJson.Enabled = false;
-            btnDeserializarXml.Enabled = false;
-            btnDeserializarVentaJson.Enabled = false;
-            btnDeserializarVentaXml.Enabled = false; 
+
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
@@ -56,7 +53,7 @@ namespace Frm_VendedorCliente
             {
                 if (!Directory.Exists(ruta)) //si la ruta no existe 
                 {
-                    throw new MiExcepcion("Se produjo una excepción en la ruta del archivo.");
+                    throw new MiExcepcion("Se produjo una error en la ruta del archivo.");
                 }
                 else
                 {
@@ -64,12 +61,9 @@ namespace Frm_VendedorCliente
                     {
                         foreach (Venta venta in ventas)
                         {
-                            //foreach (Producto producto in venta.listaProductos)
-                            //{
-                                sw.WriteLine($"Fecha: {DateTime.Now.ToString()}");
-                                sw.WriteLine($"Producto: {venta.GetNombre} | Cliente: {venta.GetCliente} | Vendedor: {venta.GetVendedor}");
-                                sw.WriteLine("********************************************************************************************************************************************");
-                            //}
+                            sw.WriteLine($"Fecha: {DateTime.Now.ToString()}");
+                            sw.WriteLine($"Producto: {venta.GetNombre} | Cliente: {venta.GetCliente} | Vendedor: {venta.GetVendedor}");
+                            sw.WriteLine("********************************************************************************************************************************************");
                         }
                     }
                     MessageBox.Show("Archivo generado con éxito", "Operación realizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -86,7 +80,7 @@ namespace Frm_VendedorCliente
             List<Producto> listaDeProductos = Negocio.RetornarProductos();
             Producto serializer = new Producto();
             serializer.SerializeJson(listaDeProductos);
-            btnDeserializarJson.Enabled = true;
+
             MessageBox.Show("La lista de productos se ha serializado correctamente (en json).", "Serialización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -95,24 +89,49 @@ namespace Frm_VendedorCliente
             List<Producto> listaDeProductos = Negocio.RetornarProductos();
             Producto serializer = new Producto();
             serializer.SerializeXml(listaDeProductos);
-            MessageBox.Show("La lista de productos se ha serializado correctamente (en xml).", "Serialización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            btnDeserializarXml.Enabled = true;
+
+            MessageBox.Show("La lista de productos se ha serializado correctamente (en xml).", "Serialización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information); 
         }
 
         private void btnDeserializarJson_Click(object sender, EventArgs e)
         {
-            Producto producto = new Producto(); //creo una instancia de la clase producto para llamarlo ya q
-            string resultado = producto.DeserializeJson(); //este metodo no es estatico 
+            try 
+            {
+                string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializados.json";
+                if (!File.Exists(filePath))
+                {
+                    throw new MiExcepcion("Debe serializar los productos en JSON antes de deserializarlos.");
+                }
+                Producto producto = new Producto(); //creo una instancia de la clase producto para llamarlo ya q
+                string resultado = producto.DeserializeJson(); //este metodo no es estatico 
 
-            MessageBox.Show(resultado, "JSON Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(resultado, "JSON Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+            } 
+            catch (MiExcepcion ex) 
+            {
+                MessageBox.Show($"Error generado: {ex.Message}", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
         }
 
         private void btnDeserializarXml_Click(object sender, EventArgs e)
         {
-            Producto producto = new Producto();
-            string resultado = producto.DeserializeXml();
+            try 
+            {
+                string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializadosXml.xml";
+                if (!File.Exists(filePath))
+                {
+                    throw new MiExcepcion("Debe serializar los productos en XML antes de deserializarlos.");
+                }
+                Producto producto = new Producto();
+                string resultado = producto.DeserializeXml();
 
-            MessageBox.Show(resultado, "XML Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(resultado, "XML Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } 
+            catch (MiExcepcion ex)
+            {
+                MessageBox.Show($"Error generado: {ex.Message}", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
         }
 
         private void btnSerializarVentasJson_Click(object sender, EventArgs e)
@@ -120,7 +139,7 @@ namespace Frm_VendedorCliente
             List<Venta> listaDeVentas = Negocio.RetornarVentas();
             Venta serializer = new Venta();
             serializer.SerializeJson(listaDeVentas);
-            btnDeserializarVentaJson.Enabled = true;
+            
             MessageBox.Show("La lista de ventas se ha serializado correctamente (en json).", "Serialización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void btnSerializarVentasXml_Click(object sender, EventArgs e)
@@ -128,24 +147,49 @@ namespace Frm_VendedorCliente
             List<Venta> listaDeVentas = Negocio.RetornarVentas();
             Venta serializer = new Venta();
             serializer.SerializeXml(listaDeVentas);
-            btnDeserializarVentaXml.Enabled = true;
+            
             MessageBox.Show("La lista de ventas se ha serializado correctamente (en xml).", "Serialización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnDeserializarVentaJson_Click(object sender, EventArgs e)
         {
-            Venta venta = new Venta(); //creo una instancia de la clase producto para llamarlo ya q
-            string resultado = venta.DeserializeJson(); //este metodo no es estatico 
+            try
+            {
+                string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ventasSerializadasJSON.json";
+                if (!File.Exists(filePath))
+                {
+                    throw new MiExcepcion("Debe serializar las ventas en JSON antes de deserializarlas.");
+                }
 
-            MessageBox.Show(resultado, "JSON Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Venta venta = new Venta(); //creo una instancia de la clase producto para llamarlo ya q
+                string resultado = venta.DeserializeJson(); //este metodo no es estatico 
+
+                MessageBox.Show(resultado, "JSON Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (MiExcepcion ex) 
+            {
+                MessageBox.Show($"Error generado: {ex.Message}", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
         }
 
         private void btnDeserializarVentaXml_Click(object sender, EventArgs e)
         {
-            Venta venta = new Venta();
-            string resultado = venta.DeserializeXml();
+            try
+            {
+                string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ventasSerializadasXML.xml";
+                if (!File.Exists(filePath)) 
+                {
+                    throw new MiExcepcion("Debe serializar las ventas en XML antes de deserializarlas.");
+                }
+                Venta venta = new Venta();
+                string resultado = venta.DeserializeXml();
 
-            MessageBox.Show(resultado, "XML Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(resultado, "XML Deserializado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (MiExcepcion ex)
+            {
+                MessageBox.Show($"Error generado: {ex.Message}", "ATENCIÓN", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace BibliotecaDeClases
 {
-    public class Producto : ISerializable<Producto>
+    public class Producto : Serializaciones<Producto>
     {
         //atributos
         private string nombre;
@@ -103,7 +103,7 @@ namespace BibliotecaDeClases
             ProductosDAO.Guardar(listaDeProductos);
         }
 
-        public void SerializeJson(List<Producto> listaASerializar) 
+        public override void SerializeJson(List<Producto> listaASerializar) 
         {
             using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializados.json")) 
             {
@@ -111,7 +111,7 @@ namespace BibliotecaDeClases
                 sw.WriteLine(jsonString);
             }
         }
-        public void SerializeXml(List<Producto> listaASerializar) 
+        public override void SerializeXml(List<Producto> listaASerializar) 
         {
             using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializadosXml.xml")) 
             {
@@ -120,7 +120,7 @@ namespace BibliotecaDeClases
             }
         }
 
-        public string DeserializeJson() 
+        public override string DeserializeJson() 
         {
             using (StreamReader sr = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializados.json")) 
             { 
@@ -144,7 +144,7 @@ namespace BibliotecaDeClases
                 return sb.ToString();
             }
         }
-        public string DeserializeXml()
+        public override string DeserializeXml()
         {
             using (StreamReader sr = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\productosSerializadosXml.xml"))
             {

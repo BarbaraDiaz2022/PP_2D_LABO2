@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace BibliotecaDeClases
 {
-    public class Venta: ISerializable<Venta>
+    public class Venta: Serializaciones<Venta>
     {
         public Venta(List<Producto> productos,string cliente,float montoTotal,string vendedor) 
         {
@@ -43,7 +43,7 @@ namespace BibliotecaDeClases
         public string GetVendedor { get; set; }
         public eMetodoPago GetMetodoDePago { get; set; }
 
-        public void SerializeJson(List<Venta> listaASerializar)
+        public override void SerializeJson(List<Venta> listaASerializar)
         {
             using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ventasSerializadasJSON.json"))
             {
@@ -51,7 +51,7 @@ namespace BibliotecaDeClases
                 sw.WriteLine(jsonString);
             }
         }
-        public void SerializeXml(List<Venta> listaASerializar)
+        public override void SerializeXml(List<Venta> listaASerializar)
         {
             using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ventasSerializadasXML.xml"))
             {
@@ -60,7 +60,7 @@ namespace BibliotecaDeClases
             }
         }
 
-        public string DeserializeJson()
+        public override string DeserializeJson()
         {
             using (StreamReader sr = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ventasSerializadasJSON.json"))
             {
@@ -83,7 +83,7 @@ namespace BibliotecaDeClases
                 return sb.ToString();
             }
         }
-        public string DeserializeXml()
+        public override string DeserializeXml()
         {
             using (StreamReader sr = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\ventasSerializadasXML.xml"))
             {

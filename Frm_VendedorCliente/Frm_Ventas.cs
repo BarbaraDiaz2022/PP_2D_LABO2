@@ -23,11 +23,18 @@ namespace Frm_VendedorCliente
         private string nombreCliente;
         public Frm_Ventas(string nombre)
         {
-            InitializeComponent();
-            this.listaDeProductos = Negocio.RetornarProductos();//productos disponibles en la tienda 
-            this.productosSeleccionados = new List<Producto>();//productos que el cliente selecciona para comprar
-            this.nombreCliente = nombre;
-            txtNombreCliente.Text = nombre;
+            try 
+            {
+                InitializeComponent();
+                this.listaDeProductos = Negocio.RetornarProductos();//productos disponibles en la tienda 
+                this.productosSeleccionados = new List<Producto>();//productos que el cliente selecciona para comprar
+                this.nombreCliente = nombre;
+                txtNombreCliente.Text = nombre;            
+            }
+            catch (MiExcepcion ex)
+            { 
+                MessageBox.Show($"Error al iniciar el formulario...\nExcepcion:{ex.Message}","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
         }
         public void CargarDataGridView(List<Producto> listaDeProductos)
         {
@@ -38,19 +45,26 @@ namespace Frm_VendedorCliente
         }
         private void Frm_Ventas_Load(object sender, EventArgs e)
         {
-            CargarDataGridView(Negocio.RetornarProductos());
-            //valido que no modifiquen los combobox
-            cbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbBuscarCorte.DropDownStyle = ComboBoxStyle.DropDownList;
-            DateTime fecha = DateTime.Now;
-            lblInfo.Text = fecha.ToShortDateString();
-            // suscribo el metodo al evento 
-            ActualizarCartelEvent += ActualizarCartelEventHandler;
+            try
+            {
+                CargarDataGridView(Negocio.RetornarProductos());
+                //valido que no modifiquen los combobox
+                cbMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
+                cbBuscarCorte.DropDownStyle = ComboBoxStyle.DropDownList;
+                DateTime fecha = DateTime.Now;
+                lblInfo.Text = fecha.ToShortDateString();
+                // suscribo el metodo al evento 
+                ActualizarCartelEvent += ActualizarCartelEventHandler;
 
-            //inicio el hilo que actualiza el cartel
-            Thread cartelThread = new Thread(ActualizarCartel);
-            cartelThread.IsBackground = true;
-            cartelThread.Start();
+                //inicio el hilo que actualiza el cartel
+                Thread cartelThread = new Thread(ActualizarCartel);
+                cartelThread.IsBackground = true;
+                cartelThread.Start();    
+            }
+            catch(MiExcepcion ex)
+            {
+                MessageBox.Show($"Error al cargar el formulario\nError:{ex.Message}","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
         }
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
@@ -92,31 +106,38 @@ namespace Frm_VendedorCliente
         private void dgv_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             int n = e.RowIndex;
-
-            if (n != -1 && e.ColumnIndex != -1)
+            try
             {
-                DataGridViewRow row = dgv.Rows[e.RowIndex];
-                //obtengo el producto seleccionado
-                Producto producto = new Producto(row.Cells["nombreProducto"].Value.ToString(),
-                    Convert.ToInt32(row.Cells["stockProducto"].Value),
-                    Convert.ToSingle(row.Cells["precio"].Value),
-                    row.Cells["detalle"].Value.ToString(),
-                    row.Cells["tipoDeCorte"].Value.ToString(),
-                    Cliente.ObtenerCeldaAValidar(row.Cells["cantidadComprada"].Value));
-                //verifico si fue la celda cantidad comprada la q se selecciono y edito
-                if (dgv.CurrentCell.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
+
+                if (n != -1 && e.ColumnIndex != -1)
                 {
-                    //si estoy editando la celda que salga y no haga nada
-                    if (dgv.IsCurrentCellInEditMode)
+                    DataGridViewRow row = dgv.Rows[e.RowIndex];
+                    //obtengo el producto seleccionado
+                    Producto producto = new Producto(row.Cells["nombreProducto"].Value.ToString(),
+                        Convert.ToInt32(row.Cells["stockProducto"].Value),
+                        Convert.ToSingle(row.Cells["precio"].Value),
+                        row.Cells["detalle"].Value.ToString(),
+                        row.Cells["tipoDeCorte"].Value.ToString(),
+                        Cliente.ObtenerCeldaAValidar(row.Cells["cantidadComprada"].Value));
+                    //verifico si fue la celda cantidad comprada la q se selecciono y edito
+                    if (dgv.CurrentCell.ColumnIndex == dgv.Columns["cantidadComprada"].Index)
                     {
-                        return;
+                        //si estoy editando la celda que salga y no haga nada
+                        if (dgv.IsCurrentCellInEditMode)
+                        {
+                            return;
+                        }
+                    }
+                    //agrego el producto si no esta en la lista o lo elimino si ya esta para q no se duplique 
+                    if (row.Selected)
+                    {
+                        productosSeleccionados.Add(producto);
                     }
                 }
-                //agrego el producto si no esta en la lista o lo elimino si ya esta para q no se duplique 
-                if (row.Selected)
-                {
-                    productosSeleccionados.Add(producto);
-                }
+            }
+            catch (MiExcepcion ex) 
+            {
+                MessageBox.Show($"Error en el click de una celda\nExcepcion:{ex.Message}","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
         private void btnVolver_Click(object sender, EventArgs e)
@@ -238,26 +259,39 @@ namespace Frm_VendedorCliente
                 }
             }
         }
-        //suscribo el metodo al evento
         private void ActualizarCartelEventHandler(string mensaje)
         {
-            //actualizo el cartel con el mensaje recibido
-            if (lblInfo.InvokeRequired)
+            try
             {
-                lblInfo.Invoke(new Action(() => lblInfo.Text = mensaje));
+                //actualizo el cartel con el mensaje recibido
+                if (lblInfo.InvokeRequired)
+                {
+                    lblInfo.Invoke(new Action(() => lblInfo.Text = mensaje));
+                }
+                else
+                {
+                    lblInfo.Text = mensaje;
+                }            
             }
-            else
+            catch (MiExcepcion ex) 
             {
-                lblInfo.Text = mensaje;
+                MessageBox.Show($"Error al actualizar el cartel...\n{ex.Message}","Error",MessageBoxButtons.OK);
             }
         }
         //metodo que ejecuto en segundo plano y muestra la info 
         private void ActualizarCartel()
         {
-            while (true)
+            try
             {
-                Thread.Sleep(5000); //espera 5 segundos
-                ActualizarCartelEvent?.Invoke("¡¡¡Recordar!!!:si paga con 'Tarjeta de crédito' tiene un 5% de recargo");
+                while (true)
+                {
+                    Thread.Sleep(5000); //espera 5 segundos
+                    ActualizarCartelEvent?.Invoke("¡¡¡Recordar!!!:si paga con 'Tarjeta de crédito' tiene un 5% de recargo");
+                }
+            }
+            catch (MiExcepcion ex) 
+            {
+                MessageBox.Show($"Error al acutalizar el cartel\nExcepcion:{ex.Message}","Error",MessageBoxButtons.OK);
             }
         }
 
