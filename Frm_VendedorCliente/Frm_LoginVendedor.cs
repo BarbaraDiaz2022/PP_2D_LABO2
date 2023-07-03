@@ -25,14 +25,14 @@ namespace Frm_VendedorCliente
             sonidoLogueo.Play();
             string mail = this.txtMail.Text;
             string password = this.txtPassword.Text;
-            bool vendedorReal = UsuariosDAO.ValidarVendedores(mail,password);
+
+            VendedoresDAO vendedoresDAO = new VendedoresDAO();
+            bool vendedorReal = vendedoresDAO.ValidarUsuarios(mail,password);
 
             if (vendedorReal)
             {
                 Frm_SelecVendedor frmSeleccionarOpcion = new Frm_SelecVendedor();
                 frmSeleccionarOpcion.Show();
-                //string mensaje = Vendedor.RetornarSaludo();
-                //MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
                 this.Hide();
             }
             else

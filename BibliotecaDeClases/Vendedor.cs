@@ -56,7 +56,8 @@ namespace BibliotecaDeClases
         }
         public static void CargarDBVendedor(List<Vendedor> listaVendedores)
         {
-            UsuariosDAO.GuardarVendedores(listaVendedores);
+            VendedoresDAO vendedoresDAO = new VendedoresDAO();
+            vendedoresDAO.GuardarUsuarios(listaVendedores);
         }
     }
 }

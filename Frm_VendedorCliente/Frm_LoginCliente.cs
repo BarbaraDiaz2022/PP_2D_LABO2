@@ -29,15 +29,15 @@ namespace Frm_VendedorCliente
             sonidoLogueo.Play();
             this.Hide();
 
-            bool clienteReal = UsuariosDAO.ValidarClientes(mail,password);
+            ClientesDAO clientesDAO = new ClientesDAO();
+            bool clienteReal = clientesDAO.ValidarUsuarios(mail, password);
+
 
             if (clienteReal)
             {
-                string nombreCliente = UsuariosDAO.RetornarNombre(mail);
+                string nombreCliente = ClientesDAO.RetornarNombre(mail);
                 Frm_Ventas frm = new Frm_Ventas(nombreCliente);
                 frm.Show();
-                //string mensaje = Cliente.RetornarSaludo();
-                //MessageBox.Show(mensaje, "Bienvenido", MessageBoxButtons.OK);
                 this.Hide();
             }
             else

@@ -20,11 +20,11 @@ namespace PruebaDB
                 Console.WriteLine(item.GetMetodoDePago+" - "+item.GetMail+" - "+item.GetNombre);
             }*/
             //Negocio.CargarDBVendedores();
-            List<Vendedor> vendedores = UsuariosDAO.LeerVendedores();
+            /*List<Vendedor> vendedores = UsuariosDAO.LeerVendedores();
             foreach (Vendedor item in vendedores)
             {
                 Console.WriteLine(item.GetCodigo+" - "+item.GetNombreVendedor+" - "+item.GetMail);
-            }
+            }*/
            
 
 

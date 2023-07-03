@@ -84,7 +84,8 @@ namespace BibliotecaDeClases
 
         public static void CargarDBCliente(List <Cliente> listaClientes) 
         {
-            UsuariosDAO.GuardarClientes(listaClientes);
+            ClientesDAO clientesDAO = new ClientesDAO();
+            clientesDAO.GuardarUsuarios(listaClientes);
         }
     }
 }

@@ -62,7 +62,8 @@ namespace BibliotecaDeClases
         /// </summary>
         private static void CargarClientes()
         {
-            listaCliente = UsuariosDAO.LeerClientes();
+            ClientesDAO clientesDAO = new ClientesDAO();
+            listaCliente = clientesDAO.LeerUsuarios();
         }
         /// <summary>
         /// metodo que retorna la lista de clientes con los clientes cargados
@@ -81,7 +82,8 @@ namespace BibliotecaDeClases
         }
         public static void CargarVendedores() 
         {
-            listaVendedores = UsuariosDAO.LeerVendedores();
+            VendedoresDAO vendedoresDAO = new VendedoresDAO();
+            listaVendedores = vendedoresDAO.LeerUsuarios();
         }
         public static Vendedor RetornarVendedor()
         {
